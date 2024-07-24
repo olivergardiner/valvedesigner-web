@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="designer.css"></link>
 </head>
 <body>
+	<section id="container">
 	<div id="designer">
 	<div style="width: 600px; height: 500px;">
 		<canvas id="myChart"></canvas>
@@ -67,6 +68,8 @@
 		</tr>
 	</table>
 	</div>
+	<div id="description"><h1>The Triode Common Cathode Amplifier</h1></div>
+	</section>
 	<script>
 		const ctx = document.getElementById('myChart');		
 		circuit = new TriodeCC(ctx);

@@ -17,7 +17,15 @@ table th {
     background-color: #4CAF50;
     color: white;
 }
+#container {
+	 width: 80%;
+	 margin: auto;
+	 padding: 10px;
+}
 #designer {
     width: 600px;
-    margin-left: 200px;
+  	float: left;
+}
+#description {
+	margin-left: 650px;
 }
