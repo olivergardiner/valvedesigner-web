@@ -1,0 +1,77 @@
+<html>
+<head>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="designer.js"></script>
+	<script src="triodecc.js"></script>
+	<link rel="stylesheet" href="designer.css"></link>
+</head>
+<body>
+	<div id="designer">
+	<div style="width: 600px; height: 500px;">
+		<canvas id="myChart"></canvas>
+	</div>
+	<div style="height: 10px;"></div>
+	<table>
+		<tr>
+			<th colspan="2">Circuit Parameter</th>
+			<th colspan="2">Operating Point</th>
+		</tr>
+		<tr>
+			<td width="25%"><span id="fLabel1">Field 1</span></td>
+			<td width="25%"><input type="text" id="field1" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td width="25%"><span id="vLabel1">Value 1</span></td>
+			<td width="25%"><span id="value1"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel2">Field 2</span></td>
+			<td><input type="text" id="field2" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel2">Value 2</span></td>
+			<td><span id="value2"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel3">Field 3</span></td>
+			<td><input type="text" id="field3" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel3">Value 3</span></td>
+			<td><span id="value3"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel4">Field 4</span></td>
+			<td><input type="text" id="field4" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel4">Value 4</span></td>
+			<td><span id="value4"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel5">Field 5</span></td>
+			<td><input type="text" id="field5" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel5">Value 5</span></td>
+			<td><span id="value5"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel6">Field 6</span></td>
+			<td><input type="text" id="field6" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel6">Value 6</span></td>
+			<td><span id="value6"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel7">Field 7</span></td>
+			<td><input type="text" id="field7" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel7">Value 7</span></td>
+			<td><span id="value7"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel8">Field 8</span></td>
+			<td><input type="text" id="field8" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel8">Value 8</span></td>
+			<td><span id="value8"></span></td>
+		</tr>
+	</table>
+	</div>
+	<script>
+		const ctx = document.getElementById('myChart');		
+		circuit = new TriodeCC(ctx);
+		circuit.configureParameters();
+		circuit.loadDevice('12AX7.json');
+	</script>
+</body>
+</html>

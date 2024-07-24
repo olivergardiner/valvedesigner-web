@@ -1,0 +1,23 @@
+table {
+    width: 100%;
+}
+table, th, td {
+    border: none;
+    border-collapse: collapse;
+}
+th {
+    padding: 5px;
+	text-align: center;
+}
+td {
+    padding: 5px;
+    text-align: left;
+}
+table th {
+    background-color: #4CAF50;
+    color: white;
+}
+#designer {
+    width: 600px;
+    margin-left: 200px;
+}
