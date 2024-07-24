@@ -15,7 +15,7 @@ class TriodeCC extends Circuit {
 				'Bias point Vk (V)',
 				'Anode voltage (V)',
 				'Anode current (mA)',
-				'Gain',
+				'Gain (unbypassed)',
 				'Gain (bypassed)'
 			]
 		};
