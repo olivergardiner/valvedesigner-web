@@ -1,82 +1,16 @@
 <html>
 <head>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-	<script src="designer.js"></script>
-	<script src="triodecc.js"></script>
-	<link rel="stylesheet" href="designer.css"></link>
 </head>
 <body>
-	<section id="container">
-	<div id="designer">
-	<div style="width: 600px; height: 500px;">
-		<canvas id="myChart"></canvas>
-	</div>
-	<div style="height: 10px;"></div>
-	<table>
-		<tr>
-			<th colspan="2">Circuit Parameter</th>
-			<th colspan="2">Operating Point</th>
-		</tr>
-		<tr>
-			<td width="25%"><span id="fLabel1">Field 1</span></td>
-			<td width="25%"><input type="text" id="field1" onclick="circuit.updateParameters()" style="width: 100px"></td>
-			<td width="25%"><span id="vLabel1">Value 1</span></td>
-			<td width="25%"><span id="value1"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel2">Field 2</span></td>
-			<td><input type="text" id="field2" onclick="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel2">Value 2</span></td>
-			<td><span id="value2"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel3">Field 3</span></td>
-			<td><input type="text" id="field3" onclick="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel3">Value 3</span></td>
-			<td><span id="value3"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel4">Field 4</span></td>
-			<td><input type="text" id="field4" onclick="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel4">Value 4</span></td>
-			<td><span id="value4"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel5">Field 5</span></td>
-			<td><input type="text" id="field5" onclick="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel5">Value 5</span></td>
-			<td><span id="value5"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel6">Field 6</span></td>
-			<td><input type="text" id="field6" onclick="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel6">Value 6</span></td>
-			<td><span id="value6"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel7">Field 7</span></td>
-			<td><input type="text" id="field7" onclick="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel7">Value 7</span></td>
-			<td><span id="value7"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel8">Field 8</span></td>
-			<td><input type="text" id="field8" onclick="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel8">Value 8</span></td>
-			<td><span id="value8"></span></td>
-		</tr>
-	</table>
-	</div>
-	<div id="description">
-	<h1>The Triode Common Cathode Amplifier</h1>
-	</div>
-	</section>
-	<script>
-		const ctx = document.getElementById('myChart');		
-		circuit = new TriodeCC(ctx);
-		circuit.configureParameters();
-		circuit.loadDevice('12AX7.json');
-	</script>
+<h1>The valve design calculators</h1>
+<p>Conceptually, these design calculators are similar to the excellent work of Giuseppe Amato but have a slightly different philosophy:</p>
+<ul>
+<li>Rather than setting bias voltages, each circuit is based on actual component values and the operating point is then shown</li>
+<li>A variety of different circuits can be offered based on a single underlying device model</li>
+</ul>
+<p>The javascript to model the valves allows a variety of different model types to be supported - the API simply requires you to be able to determine anode (and screen current) for a given anode voltage and grid voltage. By default, I use a Cohen Helie model for triodes and a modified Reefman (Koren derivative) model for pentodes, but support may be added for others (e.g. Immler) in due course. In general, the operating point is found by finding the intersection of the true load lines, noting that cathode load lines are not actually linear.</p>
+<p>To use the calculators, simply choose the valve you want to work with and edit the default component values to suit your needs. Any change will cause the operating point to be recalculated and displayed.</p>
+<p>The following design calculators are provided:</p>
+<a href="triodecc.html">Triode Common Cathode Amplifier</a>
 </body>
 </html>
