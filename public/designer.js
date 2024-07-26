@@ -119,20 +119,22 @@ class Circuit {
 		
 		this.anodeCurves = [];
 		this.operatingPointCurves = [];
-		let datasets = [];
+		this.anodePowerCurve = [];
 
-		this.loadLines(datasets);
+		this.loadLines();
 		
-		this.anodePlot(datasets);
-		
-		this.drawChart(datasets);
+		this.anodePlot();
+
+		this.anodePowerPlot();
+
+		this.drawChart();
 	}
 		
-	drawChart(datasets) {
+	drawChart() {
 		let chart = {
 			type : 'line',
 			indexAxis : 'x',
-			data : { datasets: this.operatingPointCurves.concat(this.anodeCurves) },
+			data : { datasets: this.operatingPointCurves.concat(this.anodePowerCurve).concat(this.anodeCurves) },
 			options : {
 				animation: false,
 				responsive : true,
@@ -173,10 +175,13 @@ class Circuit {
 		this.chart = new Chart(this.ctx, chart);
 	}
 	
-	anodePlot(datasets) {
+	anodePlot() {
 	}
 	
-	loadLines(datasets) {
+	loadLines() {
+	}
+	
+	anodePlot() {
 	}
 }
 

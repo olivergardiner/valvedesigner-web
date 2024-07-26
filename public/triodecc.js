@@ -21,6 +21,29 @@ class TriodeCC extends Circuit {
 		};
 	}
 	
+	anodePowerPlot() {
+		let paMax = this.device.definition.paMax;
+		let iaMax = this.device.definition.iaMax;
+		let vaMax = this.device.definition.vaMax;
+		
+		let powerCurve = [];
+		if (paMax > 0.0) {
+		    let startVa = 1000 * paMax / iaMax;
+		    for (let i=0; i < 100; i++) {
+		        let va = startVa + (vaMax - startVa) * i / 100.0;
+		        powerCurve.push({x: va, y: 1000 * paMax / va});
+		    }
+			
+			let dataset = {
+				data: powerCurve,
+				label: 'Anode power limit(' + paMax.toFixed(3) + 'W)',
+				borderColor: 'rgba(191, 0, 0, 1)'
+			};
+			
+			this.anodePowerCurve.push(dataset);
+		}
+	}
+	
 	anodePlot() {
 		let vg1Step = this.device.definition.vg1Step;
 		let vg1Max = this.device.definition.vg1Max;
@@ -76,7 +99,8 @@ class TriodeCC extends Circuit {
 
 		let aLLDataset = {
 			data: anodeLoadLine,
-			borderColor: 'rgba(127, 0, 0, 1)'
+			label: 'Anode load line',
+			borderColor: 'rgba(0, 127, 0, 1)'
 		};
 				
 		let cathodeLoadLine = [];
@@ -89,6 +113,7 @@ class TriodeCC extends Circuit {
 
 		let cLLDataset = {
 			data: cathodeLoadLine,
+			label: 'Cathode load line',
 			borderColor: 'rgba(0, 0, 127, 1)'
 		};
 				
