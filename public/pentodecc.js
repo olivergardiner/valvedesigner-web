@@ -5,10 +5,10 @@ class PentodeCC extends Circuit {
 		this.parameters = {
 			nFields: 5,
 			field: [
-				{ name: 'Supply voltage', value: 300 },
-				{ name: 'Cathode resistor Rk', value: 1000 },
-				{ name: 'Anode resistor Ra', value: 100000 },
-				{ name: 'Screen resistor Rs', value: 390000 },
+				{ name: 'Supply voltage', value: 280 },
+				{ name: 'Cathode resistor Rk', value: 680 },
+				{ name: 'Anode resistor Ra', value: 82000 },
+				{ name: 'Screen resistor Rs', value: 300000 },
 				{ name: 'Load impedance Rl', value: 1000000 }
 			],
 			nValues: 8,
