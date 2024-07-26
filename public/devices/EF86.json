@@ -2,6 +2,7 @@
 	"name": "EF86",
 	"vaMax": 300.0,
 	"vg1Max": 5.0,
+	"vg1Step": 0.5,
 	"vg2Max": 200.0,
 	"iaMax": 8.0,
 	"paMax": 1.0,

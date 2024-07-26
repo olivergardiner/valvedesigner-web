@@ -181,7 +181,7 @@ class Circuit {
 	loadLines() {
 	}
 	
-	anodePlot() {
+	anodePowerPlot() {
 	}
 }
 
@@ -193,15 +193,11 @@ class Device {
 			if (definition.model.type === "cohenHelie") {
 				this.model = new CohenHelieTriode(definition.model);
 			}
+		} else if (this.definition.model.device === "pentode") {
+			if (definition.model.type === "gardiner") {
+				this.model = new GardinerPentode(definition.model);
+			}
 		}
-	}
-
-	getDefinition()	{
-		return this.definition;
-	}
-
-	getModel()	{
-		return this.model;
 	}
 }
 
@@ -210,14 +206,18 @@ class Model {
 		this.model = model;
 	}
 	
-	anodeCurrent(anodeVoltage, gridVoltage, screenVoltage = 0, secondaryEmission = true) {
+	anodeCurrent(va, vg1, vg2 = 0, secondaryEmission = true) {
 		return 0;
 	}
 	
-	anodeVoltage(cathodeCurrent, gridVoltage, screenVoltage = 0, secondaryEmission = true) {
+	screenCurrent(va, vg1, vg2, secondaryEmission = true) {
 		return 0;
 	}
-
+	
+	cathodeCurrent(va, vg1, vg2, secondaryEmission = true) {
+		return this.anodeCurrent(va, vg1, vg2, secondaryEmission) + this.screenCurrent(va, vg1, vg2, secondaryEmission);
+	}
+	
 	anodeVoltage(ia, vg1, vg2 = 0, secondaryEmission = true) {
 		let va = 100.0;
 		let tolerance = 1.2;
@@ -250,6 +250,39 @@ class Model {
 	
 		return va;
 	}
+	
+	screenVoltage(ik, va, vg1, secondaryEmission = true) {
+		let vg2 = 100.0;
+		let tolerance = 1.2;
+
+		let ikTest = 1000.0 * this.cathodeCurrent(va, vg1, vg2, secondaryEmission);
+		let gradient = 100.0 * (1000.0 * this.cathodeCurrent(va, vg1, vg2 + 0.01, secondaryEmission) - ikTest);
+		let ikErr = ik - ikTest;
+
+		let count = 0;
+		while (Math.abs(ikErr) > 0.005 && count++ < 1000) {
+			if (gradient != 0.0) {
+				let vg2Next = vg2 + ikErr / gradient;
+				if (vg2Next < 0.0) {
+					vg2Next = 0.0;
+				}
+				if (vg2Next < vg2 / tolerance) { // use the gradient but limit step to tolerance
+					vg2Next = vg2 / tolerance;
+				}
+				if (vg2Next > tolerance * vg2) { // use the gradient but limit step to tolerance
+					vg2Next = tolerance * vg2;
+				}
+				vg2 = vg2Next;
+			} else {
+				break;
+			}
+			ikTest = 1000.0 * this.cathodeCurrent(va, vg1, vg2, secondaryEmission);
+			gradient = 100.0 * (1000.0 * this.cathodeCurrent(va, vg1, vg2 + 0.01, secondaryEmission) - ikTest);
+			ikErr = ik - ikTest;
+		}
+
+		return vg2;
+	}
 }
 
 class CohenHelieTriode extends Model {
@@ -258,10 +291,6 @@ class CohenHelieTriode extends Model {
 	}
 
 	anodeCurrent(anodeVoltage, gridVoltage, screenVoltage = 0, secondaryEmission = true) {
-		return this.cohenHelieCurrent(anodeVoltage, gridVoltage);
-	}
-	
-	cohenHelieCurrent(anodeVoltage, gridVoltage) {
 		return this.cohenHelieEpk(anodeVoltage, gridVoltage) / this.model.kg1;
 	}
 	
@@ -270,5 +299,43 @@ class CohenHelieTriode extends Model {
 		let y = this.model.kp * (1.0 / this.model.mu + (gridVoltage + this.model.vct) / f);
 		let ep = voltage / this.model.kp * Math.log(1.0 + Math.exp(y));
 		return Math.pow(ep, this.model.x);
+	}
+}
+
+class GardinerPentode extends CohenHelieTriode {
+	constructor(model) {
+		super(model);
+	}
+
+	anodeCurrent(va, vg1, vg2 = 0, secondaryEmission = true) {
+		let epk = this.cohenHelieEpk(vg2, vg1);
+		let k = 1.0 / this.model.kg1 - 1.0 / this.model.kg2;
+		let shift = this.model.beta * (1.0 - this.model.alpha * vg1);
+		let g = Math.exp(-Math.pow(shift * va, this.model.gamma));
+		let scale = 1.0 - g;
+		let vco = vg2 / this.model.lambda - vg1 * this.model.nu - this.model.omega;
+		let psec = this.model.s * va * (1.0 + Math.tanh(-this.model.ap * (va - vco)));
+		let ia = epk * (k * scale + this.model.a * va / this.model.kg2) + this.model.os * vg2;
+
+		if(secondaryEmission) {
+		    ia = ia - epk * psec / this.model.kg2;
+		}
+
+		return ia;
+	}
+
+	screenCurrent(va, vg1, vg2, secondaryEmission = true) {
+		let epk = this.cohenHelieEpk(vg2, vg1);
+		let shift = this.model.rho * (1.0 - this.model.tau * vg1);
+		let h = Math.exp(-Math.pow(shift * va, this.model.theta * 0.9));
+		let vco = vg2 / this.model.lambda - vg1 * this.model.nu - this.model.omega;
+		let psec = this.model.s * va * (1.0 + Math.tanh(-this.model.ap * (va - vco)));
+		let ig2 = epk * (1.0 + this.model.psi * h) / this.model.kg2a - epk * this.model.a * va / this.model.kg2a;
+
+		if(secondaryEmission) {
+		    ig2 = ig2 + epk * psec / this.model.kg2a;
+		}
+
+		return ig2;
 	}
 }

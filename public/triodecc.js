@@ -57,6 +57,7 @@ class TriodeCC extends Circuit {
 				}
 			}
 			let anodeCurve = [];
+			anodeCurve.push({x: 0, y: 0});
 		    for (let i = 1; i < 101; i++) {
 		        let va = this.device.definition.vaMax * i / 100.0;
 				let ia = this.device.model.anodeCurrent(va, -vg1) * 1000.0;
@@ -84,8 +85,6 @@ class TriodeCC extends Circuit {
 	}
 	
 	loadLines() {
-		let anodeLoadLine = [];
-		
 		let vb = this.parameters.field[0].value;
 		let rk = this.parameters.field[1].value;
 		let ra = this.parameters.field[2].value;
@@ -93,6 +92,8 @@ class TriodeCC extends Circuit {
 		let vgMax = this.device.definition.vg1Max;
 		let mu = this.device.model.model.mu;
 		
+		let anodeLoadLine = [];
+
 		let ia = vb / (ra + rk) * 1000.0;
 		anodeLoadLine.push({x: 0, y: ia});
 		anodeLoadLine.push({x: vb, y: 0});
