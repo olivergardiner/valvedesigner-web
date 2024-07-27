@@ -134,7 +134,7 @@ class PentodeCC extends Circuit {
 		cathodeLoadLine = [];
 
 		for (let j = 1; j < 101; j++) {
-		    let va = vb * j / 100.0;
+		    let va = vaMax * j / 100.0;
 		    let ia = 1000.0 * this.device.model.anodeCurrent(va, -vg1Test, this.vg2);
 		    cathodeLoadLine.push({x: va, y: ia});
 		}
