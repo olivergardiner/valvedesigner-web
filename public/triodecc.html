@@ -4,6 +4,7 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<script src="designer.js"></script>
 	<script src="triodecc.js"></script>
+	<script src="tubes.js"></script>
 	<link rel="stylesheet" href="designer.css"></link>
 </head>
 <body>
@@ -12,6 +13,8 @@
 	<div style="width: 600px; height: 500px;">
 		<canvas id="myChart"></canvas>
 	</div>
+	<div style="height: 10px;"></div>
+	<div>Select a tube: <select name="tubes" id="tubeSelect" style="margin-left: 40px;" onchange="circuit.loadDevice(smallSignalTriodes, this.selectedIndex);"></select></div>
 	<div style="height: 10px;"></div>
 	<table>
 		<tr>
@@ -72,14 +75,15 @@
 	<h1>The Triode Common Cathode Amplifier</h1>
 	<p>The Triode Common Cathode Amplifier is the workhorse of an valve amplifier and is comparable to its solid state cousins, whether based on FETs or BJTs. As the control grid needs to be biased negative with regard to the cathode, in small signal circuits this is universally achieved by using a cathode resistor (output tubes may use either cathode bias or fixed bias). Without attempting to provide a full analysis of the circuit (this has been done many times elsewhere), the basic principle is that the quiescent current (i.e. the current at the operating point) flowing from anode to cathode develops a voltage across the cathode resistor which means that the cathode sits at a positive voltage relative to ground. With the control grid referenced to ground this means that, at the operating point, the grid is negative with respect to the cathode.</p>
 	<img src="triodecc.png" style="display: block; margin-left: auto; margin-right: auto;"></img>
-	<p>One of the features of the cathode bias is that it creates a degree of local negative feedback - this is helpful as makes the circuit very tolerant to variations in component values. Given that vintage components tend to have wide tolerances and age badly, this is a distinct advantage. However, another effect of local negative feedback is to reduce gain. Fortunately, this is easily countered (if gain is what you need) by bypassing the cathode resistor with a suitably large capacitor which ensures that the cathode AC impedance is essentially zero.</p>
+	<p>One of the features of the cathode bias is that it creates a degree of local negative feedback - this is helpful as it makes the circuit very tolerant to variations in component values. Given that vintage components tend to have wide tolerances and age badly, this is a distinct advantage. However, another effect of local negative feedback is to reduce gain. Fortunately, this is easily countered (if gain is what you need) by bypassing the cathode resistor with a suitably large capacitor which ensures that the cathode AC impedance is essentially zero.</p>
 	</div>
 	</section>
 	<script>
 		const ctx = document.getElementById('myChart');		
 		circuit = new TriodeCC(ctx);
 		circuit.configureParameters();
-		circuit.loadDevice('12AX7.json');
+		circuit.buildTubeList(smallSignalTriodes);
+		circuit.loadDevice(smallSignalTriodes, 0);
 	</script>
 </body>
 </html>

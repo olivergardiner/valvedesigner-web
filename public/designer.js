@@ -45,17 +45,17 @@ class Circuit {
 		};
 	}
 	
-	loadDevice(device) {
-		let thisCircuit = this;
-		jQuery.ajax({
-		    type: "get",
-		    url: "devices/" + device,
-		    contentType: 'application/json'
-		}).then(function(data, status, jqxhr){
-		    if (data != null) {
-				thisCircuit.setDevice(data);
-		    }
-		});
+	loadDevice(tubeList, index) {
+		
+		this.device = new Device(structuredClone(tubeList[index]));
+
+		this.showPlots(); 
+	}
+	
+	buildTubeList(tubeList) {
+		for (let i = 0; i < tubeList.length; i++) {
+			$('#tubeSelect').append('<option value="' + i + '">' + tubeList[i].name + '</option>');
+		}
 	}
 	
 	configureParameters() {
@@ -91,13 +91,7 @@ class Circuit {
 		
 		this.showPlots();
 	}
-		
-	setDevice(device) {
-		this.device = new Device(structuredClone(device));
-
-		this.showPlots(); 
-	}
-	
+			
 	showPoint(x, y, color, label = null) {
 		let point = { x: x, y: y };
 		let dataset = {
@@ -110,6 +104,17 @@ class Circuit {
 		};
 		
 		return dataset;
+	}
+	
+	drawLoadLine(vb, iaMax) {
+		let loadLine = [];
+		for (let i = 0; i < 101; i++) {
+			let va = i * vb / 100;
+			let ia = iaMax * (1.0 - i / 100);
+			loadLine.push({ x: va, y: ia });
+		}
+		
+		return loadLine;
 	}
 	
 	showPlots() {
@@ -149,7 +154,7 @@ class Circuit {
 				plugins: {
 					title : {
 						display : true,
-						text : 'Anode Characteristic Graph',
+						text : 'Anode Characteristic Graph: ' + this.device.definition.name,
 					},
 					legend : {
 						display : false,

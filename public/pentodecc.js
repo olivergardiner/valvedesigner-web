@@ -152,7 +152,7 @@ class PentodeCC extends Circuit {
 		anodeLoadLine.push({x: vb, y: 0});
 
 		let aLLDataset = {
-			data: anodeLoadLine,
+			data: this.drawLoadLine(vb, ia),
 			label: 'Anode load line',
 			borderColor: 'rgba(0, 127, 0, 1)'
 		};
