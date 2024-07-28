@@ -3,7 +3,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<script src="designer.js"></script>
-	<script src="pentodecc.js"></script>
+	<script src="accathodefollower.js"></script>
 	<script src="tubes.js"></script>
 	<link rel="stylesheet" href="designer.css"></link>
 </head>
@@ -14,7 +14,7 @@
 		<canvas id="myChart"></canvas>
 	</div>
 	<div style="height: 10px;"></div>
-	<div>Select a tube: <select name="tubes" id="tubeSelect" style="margin-left: 40px;" onchange="circuit.loadDevice(smallSignalPentodes, this.selectedIndex);"></select></div>
+	<div>Select a tube: <select name="tubes" id="tubeSelect" style="margin-left: 40px;" onchange="circuit.loadDevice(smallSignalTriodes, this.selectedIndex);"></select></div>
 	<div style="height: 10px;"></div>
 	<table>
 		<tr>
@@ -72,19 +72,19 @@
 	</table>
 	</div>
 	<div id="description">
-	<h1>The Pentode Common Cathode Amplifier</h1>
-	<p>The Pentode Common Cathode Amplifier is similar in principle to the triode amplifier but the pentode version has the advantage of offering both higher gain and higher output swing. Because the anode is no longer a controlling element (its only job is to sit there collecting the electrons passing through the screen), the anode curves more closely resemble those of a transistor and the increase in available swing is easily seen by the fact that the anode curves cover far more of the anode load line than is the case for triodes.</p>
-	<p>In this circuit, the screen voltage (which controls the gain of the pentode) is set by the screen resistor and, at the bias point, means that the screen is at a voltage below the supply voltage determined by the quiescent screen current and the screen resistor. If the screen resistor is not bypassed then it will also introduce a degree of local negative feedback as the screen voltage will vary with signal. In some circuits, the screen is decoupled to ground but it should be decoupled to the cathode as it is the cathode to screen voltage that determines the anode current.</p>
-	<img src="pentodecc.png" style="display: block; margin-left: auto; margin-right: auto;"></img>
-	<p>In guitar amplifiers, a pentode gain stage can offer a couple of useful characteristics: 1) the markedly different anode curves (compared to a triode) offer a slightly different way of colouring the sound due to natural distortion, and 2) a suitable choice of screen capacitor leads to a level of natural compression determined by the time constant of the screen resistor and capacitor. For example, an EF86 with a screen resistor of 300k and a screen bypass capacitor of 47nF yields a time constant of 14mS, which is likely to suit most guitar players.</p>
+	<h1>The AC Cathode Follower</h1>
+	<p>The AC Cathode Follower, like all followers provides no gain (it actually introduces a very slight loss) but operates as a buffer that isolates a high impedance source from a low impedance drive. Because of the AC coupling on both the input and the output, the bias point is not affected by input DC voltage or output load but the AC load seen by the cathode is the cathode resistor in parallel with the load impedance. This means that the AC load line is rotated about the bias point and it is important understand the effect this has on output swing if the follower will be driving a heavy load. Remember that the grid to cathode voltage is <b>not</b> the input signal and it is the <b>maximum swing</b> (the input and output are the same) that is determined by the limits of the load line before the grid to cathode voltage becomes positive or the valve is cut off.</p>
+	<img src="accathodefollower.png" style="display: block; margin-left: auto; margin-right: auto;"></img>
+	<p>The load line is drawn in exactly the same way as for the Triode Common Cathode Amplifier as the voltage from anode to cathode is simply determined by the current flowing through the triode and the total resistance in the anode to cathode path. This means that the DC voltage on the cathode is actually the supply voltage minus the voltage across the triode. Remember to check whether heater elevation will be required to keep the valve within maximum ratings.</p>
+	<p>Note that the input of the AC Cathode Follower is bootstrapped because the AC voltage on either end of the grid resistor is essentially identical - this means that practically no signal current flows in the grid resistor and so the input impedance is much higher than the value of the grid resistor. In turn, this means that the input capacitor can be quite small without there being any effect on low frequencies.</p>
 	</div>
 	</section>
 	<script>
 		const ctx = document.getElementById('myChart');		
-		circuit = new PentodeCC(ctx);
+		circuit = new ACCathodeFollower(ctx);
 		circuit.configureParameters();
-		circuit.buildTubeList(smallSignalPentodes);
-		circuit.loadDevice(smallSignalPentodes, 0);
+		circuit.buildTubeList(smallSignalTriodes);
+		circuit.loadDevice(smallSignalTriodes, 0);
 	</script>
 </body>
 </html>
