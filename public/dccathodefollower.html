@@ -1,0 +1,90 @@
+<html>
+<head>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="designer.js"></script>
+	<script src="dccathodefollower.js"></script>
+	<script src="tubes.js"></script>
+	<link rel="stylesheet" href="designer.css"></link>
+</head>
+<body>
+	<section id="container">
+	<div id="designer">
+	<div style="width: 600px; height: 500px;">
+		<canvas id="myChart"></canvas>
+	</div>
+	<div style="height: 10px;"></div>
+	<div>Select a tube: <select name="tubes" id="tubeSelect" style="margin-left: 40px;" onchange="circuit.loadDevice(smallSignalTriodes, this.selectedIndex);"></select></div>
+	<div style="height: 10px;"></div>
+	<table>
+		<tr>
+			<th colspan="2">Circuit Parameter</th>
+			<th colspan="2">Operating Point</th>
+		</tr>
+		<tr>
+			<td width="30%"><span id="fLabel1">Field 1</span></td>
+			<td width="20%"><input type="text" id="field1" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td width="30%"><span id="vLabel1">Value 1</span></td>
+			<td width="20%"><span id="value1"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel2">Field 2</span></td>
+			<td><input type="text" id="field2" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel2">Value 2</span></td>
+			<td><span id="value2"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel3">Field 3</span></td>
+			<td><input type="text" id="field3" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel3">Value 3</span></td>
+			<td><span id="value3"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel4">Field 4</span></td>
+			<td><input type="text" id="field4" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel4">Value 4</span></td>
+			<td><span id="value4"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel5">Field 5</span></td>
+			<td><input type="text" id="field5" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel5">Value 5</span></td>
+			<td><span id="value5"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel6">Field 6</span></td>
+			<td><input type="text" id="field6" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel6">Value 6</span></td>
+			<td><span id="value6"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel7">Field 7</span></td>
+			<td><input type="text" id="field7" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel7">Value 7</span></td>
+			<td><span id="value7"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel8">Field 8</span></td>
+			<td><input type="text" id="field8" onclick="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel8">Value 8</span></td>
+			<td><span id="value8"></span></td>
+		</tr>
+	</table>
+	</div>
+	<div id="description">
+	<h1>The DC Cathode Follower</h1>
+	<p>For guitarists, the DC Cathode Follower is a very specific beast that is designed to introduce distortion (it is worth consulting the Valve Wizard for a complete explanation). When biased correctly, the stage introduces soft clipping to just one half of the signal swing. This leads to a distortion that contains mainly even harmonics - which are harmonically related (in musical terms) to the fundamental and so sound more musical than harsh odd harmonics.</p>
+	<p>The key to making this stage work is to set the follower load such that the follower is biased very hot - this actually causes the grid of the follower to start stealing current from the anode of the amplifier with higher signal levels. This is hard to achieve with devices designed to deliver plenty of anode current (e.g. the 12AU7) but works well with tubes that are less well suited to operation as a follower, and the "classic" circuit always uses a 12AX7 (although I have used this circuit effectively with a 6SL7).</p>
+	<img src="dccathodefollower.png" style="display: block; margin-left: auto; margin-right: auto;"></img>
+	<p>This circuit tends to set the cathode voltage of the follower (i.e., the anode voltage of the amplifier) quite high, so care needs to be taken with regard to heater cathode voltage limits and heater elevation is likely to be needed to stay within safe limits. Also note the Valve Wizard's advice regarding additional components to protect the follower during start up, and the effect of using a grid stopper.</p>
+	</div>
+	</section>
+	<script>
+		const ctx = document.getElementById('myChart');		
+		circuit = new DCCathodeFollower(ctx);
+		circuit.configureParameters();
+		circuit.buildTubeList(smallSignalTriodes);
+		circuit.loadDevice(smallSignalTriodes, 0);
+	</script>
+</body>
+</html>
