@@ -17,7 +17,7 @@ class DCCathodeFollower extends Circuit {
 				'Anode current (mA)',
 				'Gain',
 				'Follower voltage (V)',
-				'Followercurrent(mA)'
+				'Follower current(mA)'
 			]
 		};
 	}
