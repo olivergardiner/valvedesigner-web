@@ -76,13 +76,11 @@ class DCCathodeFollower extends Circuit {
 		}
 
 		let ra = this.parameters.field[2].value;
-		let rl = this.parameters.field[3].value;
-		let scale = rl / (ra + rl);
 		let gainPoint = intersection(this.anodeCurves[k].data, this.operatingPointCurves[1].data);
 		let deltaVa = this.va - gainPoint.point.x;
 		let deltaVg1 = this.vk - k * vg1Step;
-		let gain = scale * deltaVa / deltaVg1;
-		//$('#value4').text(gain.toFixed(3));
+		let gain = deltaVa / deltaVg1;
+		$('#value4').text(gain.toFixed(3));
 	}
 	
 	loadLines() {
