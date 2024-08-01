@@ -33,6 +33,14 @@ function intersection(series1, series2) {
 	return {point: {x: 0, y: 0}, i: -1 , j: -1};
 }
 
+function uramp(x) {
+	return x < 0.0 ? 0.0 : x;
+}
+
+function u(x) {
+	return x < 0.0 ? 0.0 : 1.0;
+}
+
 class Circuit {
 	constructor(ctx) {
 		this.ctx = ctx;
@@ -197,6 +205,8 @@ class Device {
 		if (this.definition.model.device === "triode") {
 			if (definition.model.type === "cohenHelie") {
 				this.model = new CohenHelieTriode(definition.model);
+			} else if (definition.model.type === "ayumi") {
+				this.model = new AyumiTriode(definition.model);
 			}
 		} else if (this.definition.model.device === "pentode") {
 			if (definition.model.type === "gardiner") {
@@ -224,7 +234,7 @@ class Model {
 	}
 	
 	anodeVoltage(ia, vg1, vg2 = 0, secondaryEmission = true) {
-		let va = 100.0;
+		let va = 300.0;
 		let tolerance = 1.2;
 	
 		let iaTest = 1000.0 * this.anodeCurrent(va, vg1, vg2, secondaryEmission);
@@ -304,6 +314,44 @@ class CohenHelieTriode extends Model {
 		let y = this.model.kp * (1.0 / this.model.mu + (gridVoltage + this.model.vct) / f);
 		let ep = voltage / this.model.kp * Math.log(1.0 + Math.exp(y));
 		return Math.pow(ep, this.model.x);
+	}
+}
+
+class AyumiTriode extends Model {
+	constructor(model) {
+		super(model);
+
+		this.a = 1.0 / (1.0 - this.model.alpha);
+		this.b = 1.5 - this.a;
+		this.c = 3.0 * this.model.alpha - 1.0;
+		this.mum = this.model.muc * 0.6666666666 * this.a;
+		this.model.mu = this.mum;
+	}
+
+	anodeCurrent(anodeVoltage, gridVoltage, screenVoltage = 0, secondaryEmission = true) {
+		let vgg = gridVoltage + this.model.vg0;
+		
+		let y1 = this.c / (2.0 * this.model.muc);
+		let m1 = Math.pow(y1 * uramp(anodeVoltage) + 1E-10, this.b);
+		
+		let y2 = 3.0 / (2.0 * this.a);
+		let m2 = Math.pow(y2 * uramp(vgg + uramp(anodeVoltage)/this.model.muc) + 1E-10, this.a);
+
+		let y3 = this.model.G * Math.pow(this.a * this.c / 3.0, this.b);
+		let ip = y3 * Math.pow(uramp(vgg + uramp(anodeVoltage)/this.mum) + 1E-10, 1.5);
+		
+		let ik = this.model.G * m1 * m2;
+		let ig = 0.0;
+		if (vgg > 0.0) {
+			ik = ip;
+			let y4 = this.model.xg * this.model.Glim;
+			ig = y4 * Math.pow(uramp(vgg), 1.5) * (uramp(gridVoltage) / (uramp(anodeVoltage) + uramp(gridVoltage)) * 1.2 + 0.4);
+		}
+		
+		let iplim = (1.0 - this.model.xg) * this.model.Glim * Math.pow(uramp(anodeVoltage), 1.5);
+		let ia = Math.min(ik - ig, iplim);
+		
+		return ia;
 	}
 }
 

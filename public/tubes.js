@@ -1,6 +1,6 @@
 let smallSignalTriodes = [
 	{
-		"name": "12AX7",
+		"name": "12AX7 (Cohen Helie)",
 		"vaMax": 300.0,
 		"vg1Max": 5.0,
 		"vg1Step": 0.5,
@@ -19,7 +19,7 @@ let smallSignalTriodes = [
 		}
 	},
 	{
-		"name": "12AT7",
+		"name": "12AT7 (Cohen Helie)",
 		"vaMax": 300.0,
 		"vg1Max": 5.0,
 		"vg1Step": 0.5,
@@ -36,12 +36,30 @@ let smallSignalTriodes = [
 			"kvb1": 76.0827,
 			"vct": 0.360132
 		}
+	},
+	{
+		"name": "6SL7 (Ayumi)",
+		"vaMax": 300.0,
+		"vg1Max": 5.0,
+		"vg1Step": 0.5,
+		"iaMax": 5.0,
+		"paMax": 1.00,
+		"model": {
+			"device": "triode",
+			"type": "ayumi",
+			"vg0": 0.34892993,
+			"muc": 65.496168,
+			"alpha": 0.37428038333,
+			"G": 0.00061341966,
+			"xg": 0.4894416362475,
+			"Glim": 0.00081896165
+		}
 	}
 ];
 
 let smallSignalPentodes = [
 	{
-		"name": "EF86",
+		"name": "EF86 (Gardiner)",
 		"vaMax": 300.0,
 		"vg1Max": 5.0,
 		"vg1Step": 0.5,

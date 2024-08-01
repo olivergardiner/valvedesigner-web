@@ -115,7 +115,9 @@ class DCCathodeFollower extends Circuit {
 		    let vg = vgMax * j / 100.0;
 		    let ia = vg * 1000.0 / rk;
 		    let va = this.device.model.anodeVoltage(ia, -vg);
-			cathodeLoadLine.push({x: va, y: ia});
+			if (va > 0.0001) {
+				cathodeLoadLine.push({x: va, y: ia});
+			}
 		}
 
 		let cLLDataset = {
