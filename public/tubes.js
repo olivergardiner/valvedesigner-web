@@ -38,10 +38,29 @@ let smallSignalTriodes = [
 		}
 	},
 	{
+		"name": "6SL7 (Cohen Helie)",
+		"vaMax": 500.0,
+		"vg1Max": 7.0,
+		"vg1Step": 1,
+		"iaMax": 5,
+		"paMax": 1.0,
+		"model": {
+			"device": "triode",
+			"type": "cohenHelie",
+			"kg1": 838.724670637758,
+			"kp": 836.5747555448868,
+			"kvb": 1019.3745138301402,
+			"kvb1": 39.32338286153801,
+			"mu": 71.51150378518423,
+			"vct": 0,
+			"x": 1.302954496063906
+		}
+	},
+	{
 		"name": "6SL7 (Ayumi)",
-		"vaMax": 300.0,
-		"vg1Max": 5.0,
-		"vg1Step": 0.5,
+		"vaMax": 500.0,
+		"vg1Max": 7.0,
+		"vg1Step": 1,
 		"iaMax": 5.0,
 		"paMax": 1.00,
 		"model": {

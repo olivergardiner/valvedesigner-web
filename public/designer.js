@@ -267,7 +267,7 @@ class Model {
 	}
 	
 	screenVoltage(ik, va, vg1, secondaryEmission = true) {
-		let vg2 = 100.0;
+		let vg2 = 500.0;
 		let tolerance = 1.2;
 
 		let ikTest = 1000.0 * this.cathodeCurrent(va, vg1, vg2, secondaryEmission);
