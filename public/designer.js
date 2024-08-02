@@ -44,7 +44,9 @@ function u(x) {
 class Circuit {
 	constructor(ctx) {
 		this.ctx = ctx;
+		this.pentodeCtx = null;
 		this.chart = null;
+		this.pentodeChart = null;
 		this.parameters = {
 			nFields: 0,
 			field: [],
@@ -130,9 +132,16 @@ class Circuit {
 			this.chart.destroy();
 		}
 		
+		if (this.pentodeChart != null) {
+			this.pentodeChart.destroy();
+			this.pentodeChart = null;
+		}
+		
 		this.anodeCurves = [];
 		this.operatingPointCurves = [];
 		this.anodePowerCurve = [];
+		this.pentodeCurves = [];
+		this.screenCurves = [];
 
 		this.loadLines();
 		
@@ -162,7 +171,7 @@ class Circuit {
 				plugins: {
 					title : {
 						display : true,
-						text : 'Anode Characteristic Graph: ' + this.device.definition.name,
+						text : 'Triode Characteristic Graph: ' + this.device.definition.name,
 					},
 					legend : {
 						display : false,
@@ -186,6 +195,57 @@ class Circuit {
 		};
 	
 		this.chart = new Chart(this.ctx, chart);
+		
+		if (this.pentodeCtx != null) {
+			this.showPentodeChart();
+		}
+	}
+	
+	showPentodeChart() {
+		if (this.device.model.model.device === "pentode") {
+			let pentodeChart = {
+				type : 'line',
+				indexAxis : 'x',
+				data : { datasets: this.pentodeCurves.concat(this.screenCurves) },
+				options : {
+					animation: false,
+					responsive : true,
+					maintainAspectRatio:false,
+					stacked : false,
+					hoverMode : 'index',
+					elements: {
+						point: {
+							pointStyle: false
+						}
+					},
+					plugins: {
+						title : {
+							display : true,
+							text : 'Pentode Characteristic Graph: ' + this.device.definition.name,
+						},
+						legend : {
+							display : false,
+							labels : {
+								fontColor : 'rgb(255, 99, 132)'
+							}
+						}
+					},
+					scales : {
+						x : {
+							type : 'linear',
+							max : this.device.definition.vaMax,
+							beginAtZero : true
+						},
+						y : {
+							max : this.device.definition.iaMax,
+							beginAtZero : true
+						}
+					}
+				}
+			};
+	
+			this.pentodeChart = new Chart(this.pentodeCtx, pentodeChart);
+		}
 	}
 	
 	anodePlot() {
@@ -195,6 +255,9 @@ class Circuit {
 	}
 	
 	anodePowerPlot() {
+	}
+	
+	downloadJSON() {
 	}
 }
 
