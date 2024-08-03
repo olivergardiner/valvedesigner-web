@@ -36,7 +36,7 @@ class Characteristics extends Circuit {
 		let vg2 = this.parameters.field[4].value;
 		while (vg1 < vg1Stop + 0.001) {
 			let anodeCurve = [];
-		    for (let i = 1; i < 101; i++) {
+		    for (let i = 0; i < 101; i++) {
 		        let va = vaMax * i / 100.0;
 				let ia = this.device.model.anodeCurrent(va, -vg1, va) * 1000.0;
 		        anodeCurve.push({x: va, y: ia, vg1: -vg1, vg2: 0, ig2: 0 });
@@ -55,7 +55,7 @@ class Characteristics extends Circuit {
 			if (this.device.model.model.device === "pentode") {
 				let pentodeCurve = [];
 				let screenCurve = [];
-				for (let i = 1; i < 101; i++) {
+				for (let i = 0; i < 101; i++) {
 					let va = vaMax * i / 100.0;
 					let ia = this.device.model.anodeCurrent(va, -vg1, vg2) * 1000.0;
 					let ig2 = this.device.model.screenCurrent(va, -vg1, vg2) * 1000.0;
@@ -130,7 +130,7 @@ class Characteristics extends Circuit {
 				gridStart: 0,
 				gridStep: 1,
 				gridStop: 7,
-				screenStart: 0,
+				screenStart: this.parameters.field[4].value,
 				screenStep: 0,
 				screenStop: 0,
 				iaMax: this.device.definition.iaMax,
@@ -154,7 +154,7 @@ class Characteristics extends Circuit {
 				samples: []
 			};
 
-			for (let j = 1; j < curves[i].data.length; j++) {
+			for (let j = 1; j < curves[i].data.length; j += 2) {
 				sweep.samples.push({
 					va: curves[i].data[j].x,
 					ia: curves[i].data[j].y,
