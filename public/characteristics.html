@@ -58,7 +58,7 @@
 	<script>
 		const triodeChart = document.getElementById('mainChart');		
 		const pentodeChart = document.getElementById('pentodeChart');	
-		tubes = smallSignalTriodes.concat(smallSignalPentodes);
+		tubes = smallSignalTriodes.concat(smallSignalPentodes.concat(powerPentodes));
 		circuit = new Characteristics(triodeChart, pentodeChart);
 		circuit.configureParameters();
 		circuit.buildTubeList(tubes);

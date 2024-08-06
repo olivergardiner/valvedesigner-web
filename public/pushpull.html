@@ -1,0 +1,94 @@
+<html>
+<head>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="designer.js"></script>
+	<script src="pushpull.js"></script>
+	<script src="tubes.js"></script>
+	<link rel="stylesheet" href="designer.css"></link>
+</head>
+<body>
+	<section id="container">
+	<div id="designer">
+	<div style="width: 600px; height: 500px;">
+		<canvas id="myChart"></canvas>
+	</div>
+	<div style="height: 10px;"></div>
+	<div>Select a tube: <select name="tubes" id="tubeSelect" style="margin-left: 40px;" onchange="circuit.loadDevice(tubes, this.selectedIndex);"></select></div>
+	<div style="height: 10px;"></div>
+	<table>
+		<tr>
+			<th colspan="2">Circuit Parameter</th>
+			<th colspan="2">Operating Point</th>
+		</tr>
+		<tr>
+			<td width="30%"><span id="fLabel1">Field 1</span></td>
+			<td width="20%"><input type="text" id="field1" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td width="30%"><span id="vLabel1">Value 1</span></td>
+			<td width="20%"><span id="value1"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel2">Field 2</span></td>
+			<td><input type="text" id="field2" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel2">Value 2</span></td>
+			<td><span id="value2"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel3">Field 3</span></td>
+			<td><input type="text" id="field3" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel3">Value 3</span></td>
+			<td><span id="value3"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel4">Field 4</span></td>
+			<td><input type="text" id="field4" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel4">Value 4</span></td>
+			<td><span id="value4"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel5">Field 5</span></td>
+			<td><input type="text" id="field5" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel5">Value 5</span></td>
+			<td><span id="value5"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel6">Field 6</span></td>
+			<td><input type="text" id="field6" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel6">Value 6</span></td>
+			<td><span id="value6"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel7">Field 7</span></td>
+			<td><input type="text" id="field7" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel7">Value 7</span></td>
+			<td><span id="value7"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel8">Field 8</span></td>
+			<td><input type="text" id="field8" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel8">Value 8</span></td>
+			<td><span id="value8"></span></td>
+		</tr>
+	</table>
+	</div>
+	<div id="description">
+	<h1>The Push Pull Output Stage</h1>
+	<p>The Push Pull Output Stage is the most efficient way of driving a speaker as it typically operates in Class AB and this makes it easier to deliver higher output powers if being loud is what you're after. In guitar amplifiers this circuit is almost always built with pentodes or beam tetrodes but triodes (or triode-strapped pentodes) are more commonly found in HiFi amplifiers as this typically yields greater linearity.</p>
+	<img src="pushpull.png" style="display: block; margin-left: auto; margin-right: auto;"></img>
+	<p>Output stages, particularly the push pull flavour, may seem complex from a design perspective but they are deceptively simple. The DC load line is vertical because there is no resistive load. This means that the quiescent current is simply set by the bias voltage - this can either be achieved by applying a negative bias voltage to the bottom of the grid leak resistors, or by using a cathode resistor (bypassed) to provide cathode bias. For simplicity, this design calculator allows you to set the desired quiescent anode current, from which the bias voltage can be determined and, in turn, the value of the required cathode resistor (remembering that the cathode resistor is common to both valves and so will carry twice the quiescent <b>cathode</b> current of each valve) is also shown in case cathode bias is desired (cathode bias tends to provide some compression, while fixed bias creates more "bark").</p>
+	<p>NB: For biasing, you select the desired anode current as it is this that determines the anode power dissipation at the supply voltage. However, when adjusting fixed bias amplifiers it is the cathode current that is typically measured, either by measuring the voltage across a 1 ohm cathode resistor or by using an adapter connected to an ammeter.</p>
+	<p>The AC load line allows us to understand the output swing and power and is determined by the characteristics of the output transformer, specifically the anode to anode impedance (Raa). When the valves are operating in Class A (both tubes conducting), both valves see the whole primary but, as they are out of phase, each valve sees half the total load impedance. When one of the valves is cut off, the other tube only sees its half of the primary and, because the impedance ratio of a transformer is the square of the turns ratio, this means that the "on" tube now sees just a quarter of the total load impedance. The Class B load line (with a slope of one quarter Raa) is simply drawn in the usual way, and the Class A load line is drawn through the bias point with a slope of one half Raa. The AC load line simply transitions from the Class A load line to the Class B load line where the two load lines cross. In practice, the transition from Class A to Class B is not abrupt, so there is a blend that occurs across the transition.</p>
+	<p>So far, we have not had to consider the characteristics of the valve at all! The primary thing we really need to care about with regard to the valve is whether or not the bias conditions will cause it to fail and, for this, the only thing we need to know is the anode power dissipation. As long as the bias point is below the anode power limit and the AC load line does not significantly encroach above the power curve then we should be fine (you can get away with a bit of encroachment in a guitar amplifier as the average power dissipation will be well below this).</p>
+	<p>At this point, the final step we need to consider for pentodes is where to set the screen voltage. For maximimum efficiency we want the AC load line to pass through the "knee" of the anode curves, for minimum distortion we want the load line to pass above the knee, and for maximum power and "colour" we want the load line to pass below the knee. In the last case, the one thing to bear in mind is that at maximum signal, significant screen grid current will start to flow such that the screen grid power limit will come into play. Once the desired screen grid voltage has been determined then it is typically created using a resistive dropper in the power supply (with a suitable reservoir capacitor) - the voltage dropped across this resistor will be determined by the quiescent screen current and preamp current.</p>
+	</div>
+	</section>
+	<script>
+		const ctx = document.getElementById('myChart');		
+		tubes = powerPentodes.concat(powerTriodes);
+		circuit = new PushPull(ctx);
+		circuit.configureParameters();
+		circuit.buildTubeList(tubes);
+		circuit.loadDevice(tubes, 0);
+	</script>
+</body>
+</html>

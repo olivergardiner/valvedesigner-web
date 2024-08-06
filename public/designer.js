@@ -41,6 +41,16 @@ function u(x) {
 	return x < 0.0 ? 0.0 : 1.0;
 }
 
+function smin(x, y, k) {
+	k *= 1.0;
+	let r = Math.exp(-x/k) + Math.exp(-y/k);
+	return -k * Math.log(r);
+}
+
+function smax(x, y, k) {
+	return -smin(-x, -y, k);
+}
+
 class Circuit {
 	constructor(ctx) {
 		this.ctx = ctx;
@@ -116,12 +126,13 @@ class Circuit {
 		return dataset;
 	}
 	
-	drawLoadLine(vb, iaMax) {
+	drawLoadLine(vb1, iaMax1, vb2 = 0, iaMax2 = 0) {
 		let loadLine = [];
 		for (let i = 0; i < 101; i++) {
-			let va = i * vb / 100;
-			let ia = iaMax * (1.0 - i / 100);
-			loadLine.push({ x: va, y: ia });
+			let va1 = i * vb1 / 100;
+			let ia1 = iaMax1 * (1.0 - i / 100);
+			
+			loadLine.push({ x: va1, y: ia1 });
 		}
 		
 		return loadLine;
@@ -369,7 +380,7 @@ class CohenHelieTriode extends Model {
 	}
 
 	anodeCurrent(anodeVoltage, gridVoltage, screenVoltage = 0, secondaryEmission = true) {
-		return this.cohenHelieEpk(anodeVoltage, gridVoltage) / this.model.kg1;
+		return this.cohenHelieEpk(anodeVoltage, gridVoltage) / (this.model.kg1 * 1000.0);
 	}
 	
 	cohenHelieEpk(voltage, gridVoltage) {
@@ -432,12 +443,12 @@ class GardinerPentode extends CohenHelieTriode {
 		let vco = vg2 / this.model.lambda - vg1 * this.model.nu - this.model.omega;
 		let psec = this.model.s * va * (1.0 + Math.tanh(-this.model.ap * (va - vco)));
 		let ia = epk * (k * scale + this.model.a * va / this.model.kg2) + this.model.os * vg2;
-
+		
 		if(secondaryEmission) {
 		    ia = ia - epk * psec / this.model.kg2;
 		}
 
-		return ia;
+		return Math.max(ia, 0.0) / 1000;
 	}
 
 	screenCurrent(va, vg1, vg2, secondaryEmission = true) {
@@ -452,6 +463,6 @@ class GardinerPentode extends CohenHelieTriode {
 		    ig2 = ig2 + epk * psec / this.model.kg2a;
 		}
 
-		return ig2;
+		return Math.max(ig2, 0.0) / 1000;
 	}
 }
