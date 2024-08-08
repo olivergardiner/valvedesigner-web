@@ -1,0 +1,90 @@
+<html>
+<head>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="designer.js"></script>
+	<script src="singleended-ul.js"></script>
+	<script src="tubes.js"></script>
+	<link rel="stylesheet" href="designer.css"></link>
+</head>
+<body>
+	<section id="container">
+	<div id="designer">
+	<div style="width: 600px; height: 500px;">
+		<canvas id="myChart"></canvas>
+	</div>
+	<div style="height: 10px;"></div>
+	<div>Select a tube: <select name="tubes" id="tubeSelect" style="margin-left: 40px;" onchange="circuit.loadDevice(tubes, this.selectedIndex);"></select></div>
+	<div style="height: 10px;"></div>
+	<table>
+		<tr>
+			<th colspan="2">Circuit Parameter</th>
+			<th colspan="2">Operating Point</th>
+		</tr>
+		<tr>
+			<td width="30%"><span id="fLabel1">Field 1</span></td>
+			<td width="20%"><input type="text" id="field1" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td width="30%"><span id="vLabel1">Value 1</span></td>
+			<td width="20%"><span id="value1"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel2">Field 2</span></td>
+			<td><input type="text" id="field2" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel2">Value 2</span></td>
+			<td><span id="value2"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel3">Field 3</span></td>
+			<td><input type="text" id="field3" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel3">Value 3</span></td>
+			<td><span id="value3"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel4">Field 4</span></td>
+			<td><input type="text" id="field4" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel4">Value 4</span></td>
+			<td><span id="value4"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel5">Field 5</span></td>
+			<td><input type="text" id="field5" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel5">Value 5</span></td>
+			<td><span id="value5"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel6">Field 6</span></td>
+			<td><input type="text" id="field6" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel6">Value 6</span></td>
+			<td><span id="value6"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel7">Field 7</span></td>
+			<td><input type="text" id="field7" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel7">Value 7</span></td>
+			<td><span id="value7"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel8">Field 8</span></td>
+			<td><input type="text" id="field8" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel8">Value 8</span></td>
+			<td><span id="value8"></span></td>
+		</tr>
+	</table>
+	</div>
+	<div id="description">
+	<h1>The Ultralinear Single Ended Output Stage</h1>
+	<p>The Ultralinear Single Ended Output Stage is (as the name suggests), a way of improving the linearity and lowering the distortion of a pentode output stage. It does this by biasing a pentode so that its characteristics are somewhere between a pentode and a triode. In general this is more likely to be applicable to HiFi amplifiers and is likely to be a requirement for single ended pentode HiFi amplifiers due to the inherent non-linearity of these tubes as they approach cut off.</p>
+	<img src="singleended-ul.png" style="display: block; margin-left: auto; margin-right: auto;"></img>
+	<p></p>
+	</div>
+	</section>
+	<script>
+		const ctx = document.getElementById('myChart');		
+		tubes = powerPentodes;
+		circuit = new SingleEndedUL(ctx);
+		circuit.configureParameters();
+		circuit.buildTubeList(tubes);
+		circuit.loadDevice(tubes, 0);
+	</script>
+</body>
+</html>

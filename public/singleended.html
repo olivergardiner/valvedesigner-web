@@ -1,0 +1,90 @@
+<html>
+<head>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="designer.js"></script>
+	<script src="singleended.js"></script>
+	<script src="tubes.js"></script>
+	<link rel="stylesheet" href="designer.css"></link>
+</head>
+<body>
+	<section id="container">
+	<div id="designer">
+	<div style="width: 600px; height: 500px;">
+		<canvas id="myChart"></canvas>
+	</div>
+	<div style="height: 10px;"></div>
+	<div>Select a tube: <select name="tubes" id="tubeSelect" style="margin-left: 40px;" onchange="circuit.loadDevice(tubes, this.selectedIndex);"></select></div>
+	<div style="height: 10px;"></div>
+	<table>
+		<tr>
+			<th colspan="2">Circuit Parameter</th>
+			<th colspan="2">Operating Point</th>
+		</tr>
+		<tr>
+			<td width="30%"><span id="fLabel1">Field 1</span></td>
+			<td width="20%"><input type="text" id="field1" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td width="30%"><span id="vLabel1">Value 1</span></td>
+			<td width="20%"><span id="value1"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel2">Field 2</span></td>
+			<td><input type="text" id="field2" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel2">Value 2</span></td>
+			<td><span id="value2"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel3">Field 3</span></td>
+			<td><input type="text" id="field3" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel3">Value 3</span></td>
+			<td><span id="value3"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel4">Field 4</span></td>
+			<td><input type="text" id="field4" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel4">Value 4</span></td>
+			<td><span id="value4"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel5">Field 5</span></td>
+			<td><input type="text" id="field5" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel5">Value 5</span></td>
+			<td><span id="value5"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel6">Field 6</span></td>
+			<td><input type="text" id="field6" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel6">Value 6</span></td>
+			<td><span id="value6"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel7">Field 7</span></td>
+			<td><input type="text" id="field7" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel7">Value 7</span></td>
+			<td><span id="value7"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel8">Field 8</span></td>
+			<td><input type="text" id="field8" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel8">Value 8</span></td>
+			<td><span id="value8"></span></td>
+		</tr>
+	</table>
+	</div>
+	<div id="description">
+	<h1>The Single Ended Output Stage</h1>
+	<p>The Single Ended Output Stage is the simplest amplifier output stage and necessarily operates in pure Class A (thus avoiding any possible crossover distortion), but these benefits come at a cost of efficiency and output power. Furthermore, for pentodes, the lack of linearity as the valve approaches cut off introduces more distortion (less good for HiFi but potentially great for guitar).</p>
+	<img src="singleended.png" style="display: block; margin-left: auto; margin-right: auto;"></img>
+	<p>The only real difference from the push pull output stage from a design standpoint is that the single ended architecture can only operate in Class A as there is no second tube to take over once tube is cut off. This means that a) the output power is much lower, and b) that the warmer you bias, the greater the available Class A swing will be.</p>
+	</div>
+	</section>
+	<script>
+		const ctx = document.getElementById('myChart');		
+		tubes = powerPentodes.concat(powerTriodes);
+		circuit = new SingleEnded(ctx);
+		circuit.configureParameters();
+		circuit.buildTubeList(tubes);
+		circuit.loadDevice(tubes, 0);
+	</script>
+</body>
+</html>
