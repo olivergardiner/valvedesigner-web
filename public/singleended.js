@@ -140,7 +140,7 @@ class SingleEnded extends Circuit {
 			ik += 1000.0 * this.device.model.screenCurrent(vb, -this.vk, vs);
 		}
 		
-		let rk = 1000.0 * this.vk / (ik * 2);
+		let rk = 1000.0 * this.vk / ik;
 		
 		$('#value1').text(this.vk.toFixed(3));
 		$('#value2').text(ik.toFixed(3));
