@@ -5,10 +5,13 @@
 	<script src="designer.js"></script>
 	<script src="singleended.js"></script>
 	<script src="tubes.js"></script>
+	<script src="menu.js"></script>
 	<link rel="stylesheet" href="designer.css"></link>
 </head>
 <body>
 	<section id="container">
+    <h1>The valve design calculators</h1>
+	<div id="menu"></div>
 	<div id="designer">
 	<div style="width: 600px; height: 500px;">
 		<canvas id="myChart"></canvas>
@@ -76,9 +79,11 @@
 	<p>The Single Ended Output Stage is the simplest amplifier output stage and necessarily operates in pure Class A (thus avoiding any possible crossover distortion), but these benefits come at a cost of efficiency and output power. Furthermore, for pentodes, the lack of linearity as the valve approaches cut off introduces more distortion (less good for HiFi but potentially great for guitar).</p>
 	<img src="singleended.png" style="display: block; margin-left: auto; margin-right: auto;"></img>
 	<p>The only real difference from the push pull output stage from a design standpoint is that the single ended architecture can only operate in Class A as there is no second tube to take over once tube is cut off. This means that a) the output power is much lower, and b) that the warmer you bias, the greater the available Class A swing will be.</p>
+	<p>NB: The output power calculation is not currently correct</p>
 	</div>
 	</section>
 	<script>
+		buildMenu();
 		const ctx = document.getElementById('myChart');		
 		tubes = powerPentodes.concat(powerTriodes);
 		circuit = new SingleEnded(ctx);

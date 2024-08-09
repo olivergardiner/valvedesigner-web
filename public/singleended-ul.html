@@ -5,10 +5,13 @@
 	<script src="designer.js"></script>
 	<script src="singleended-ul.js"></script>
 	<script src="tubes.js"></script>
+	<script src="menu.js"></script>
 	<link rel="stylesheet" href="designer.css"></link>
 </head>
 <body>
 	<section id="container">
+    <h1>The valve design calculators</h1>
+	<div id="menu"></div>
 	<div id="designer">
 	<div style="width: 600px; height: 500px;">
 		<canvas id="myChart"></canvas>
@@ -75,10 +78,11 @@
 	<h1>The Ultralinear Single Ended Output Stage</h1>
 	<p>The Ultralinear Single Ended Output Stage is (as the name suggests), a way of improving the linearity and lowering the distortion of a pentode output stage. It does this by biasing a pentode so that its characteristics are somewhere between a pentode and a triode. In general this is more likely to be applicable to HiFi amplifiers and is likely to be a requirement for single ended pentode HiFi amplifiers due to the inherent non-linearity of these tubes as they approach cut off.</p>
 	<img src="singleended-ul.png" style="display: block; margin-left: auto; margin-right: auto;"></img>
-	<p></p>
+	<p>NB: The output power calculation is not currently correct</p>
 	</div>
 	</section>
 	<script>
+		buildMenu();
 		const ctx = document.getElementById('myChart');		
 		tubes = powerPentodes;
 		circuit = new SingleEndedUL(ctx);

@@ -5,10 +5,13 @@
 	<script src="designer.js"></script>
 	<script src="dccathodefollower.js"></script>
 	<script src="tubes.js"></script>
+	<script src="menu.js"></script>
 	<link rel="stylesheet" href="designer.css"></link>
 </head>
 <body>
 	<section id="container">
+    <h1>The valve design calculators</h1>
+	<div id="menu"></div>
 	<div id="designer">
 	<div style="width: 600px; height: 500px;">
 		<canvas id="myChart"></canvas>
@@ -80,6 +83,7 @@
 	</div>
 	</section>
 	<script>
+		buildMenu();
 		const ctx = document.getElementById('myChart');		
 		circuit = new DCCathodeFollower(ctx);
 		circuit.configureParameters();
