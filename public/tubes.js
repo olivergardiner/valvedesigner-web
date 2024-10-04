@@ -64,7 +64,7 @@ let smallSignalPentodes = [
 		"vg1Max": 5.0,
 		"vg1Step": 0.5,
 		"vg2Max": 200.0,
-		"iaMax": 8.0,
+		"iaMax": 7.0,
 		"paMax": 1.0,
 	    "model": {
 	        "a": 0,
@@ -93,6 +93,48 @@ let smallSignalPentodes = [
 	        "vct": 0,
 	        "x": 1.5633565707452823
 	    }
+	},
+	{
+		"name": "EF86 (Simple)",
+		"vaMax": 500,
+		"vg1Max": 5,
+		"vg1Step": 0.5,
+		"vg2Max": 425,
+		"iaMax": 7,
+		"paMax": 1,
+		"model": {
+			"a": 0.0011,
+			"alpha": 0.68,
+			"beta": 0.0744047619047619,
+			"device": "pentode",
+			"gamma": 0.6000000000000001,
+			"kg1": 0.7895042924594784,
+			"kg2": 4.473857657270378,
+			"kp": 120,
+			"mu": 38,
+			"type": "simple"
+		}
+	},
+	{
+		"name": "EF37A (Simple)",
+		"vaMax": 500,
+		"vg1Max": 4,
+		"vg1Step": 0.5,
+		"vg2Max": 425,
+		"iaMax": 10,
+		"paMax": 1,
+		"model": {
+			"a": 0.0001,
+			"alpha": 0.105,
+			"beta": 0.11574074074074074,
+			"device": "pentode",
+			"gamma": 0.6,
+			"kg1": 0.7693433823776972,
+			"kg2": 3.6543810662940612,
+			"kp": 65,
+			"mu": 28,
+			"type": "simple"
+		}
 	}
 ];
 
@@ -101,6 +143,34 @@ let powerTriodes = [
 ];
 
 let powerPentodes = [
+	{
+		"name": "EL84 (Simple)",
+		"vaMax": 500,
+		"vg1Max": 20,
+		"vg1Step": 2,
+		"vg2Max": 425,
+		"iaMax": 175,
+		"paMax": 12,
+		"model": {
+			"a": 0.0008,
+			"alpha": 0,
+			"beta": 0.041666666666666664,
+			"device": "pentode",
+			"gamma": 0.6000000000000001,
+			"kg1": 0.275564082964226,
+			"kg2": 2.5802818677559345,
+			"kp": 240,
+			"mu": 19,
+			"type": "simple"
+		},
+		"static": {
+			"va": 250,
+			"vg2": 250,
+			"vg1": 7.3,
+			"ia": 46,
+			"ig2": 5.5
+		}
+	},
 	{
 		"name": "EL84 (Gardiner)",
 		"vaMax": 500.0,
@@ -211,11 +281,11 @@ let powerPentodes = [
 	},
 	{
 		"name": "EL34B (Gardiner)",
-		"vaMax": 600.0,
+		"vaMax": 500.0,
 		"vg1Max": 60.0,
 		"vg1Step": 5.0,
 		"vg2Max": 425.0,
-		"iaMax": 500.0,
+		"iaMax": 350.0,
 		"paMax": 25.0,
 		"model": {
 		    "a": 0.00025656324993623618,
@@ -243,6 +313,83 @@ let powerPentodes = [
 		    "type": "gardiner",
 		    "vct": 0,
 		    "x": 1.4757805517155946
+		}
+	},
+	{
+		"name": "EL34 (Simple)",
+		"vaMax": 500,
+		"vg1Max": 60,
+		"vg1Step": 5,
+		"vg2Max": 425,
+		"iaMax": 350,
+		"paMax": 25,
+		"model": {
+			"a": 0.0008,
+			"alpha": 0,
+			"beta": 0.0289,
+			"device": "pentode",
+			"gamma": 0.6,
+			"kg1": 0.3353,
+			"kg2": 2.586,
+			"kp": 43,
+			"mu": 11,
+			"type": "simple"
+		}
+	},
+	{
+		"name": "6550 (Simple)",
+		"vaMax": 700,
+		"vg1Max": 50,
+		"vg1Step": 5,
+		"vg2Max": 500,
+		"iaMax": 500,
+		"paMax": 42,
+		"model": {
+			"a": 0.0036,
+			"alpha": 0.06,
+			"beta": 0.038580246913580245,
+			"device": "pentode",
+			"gamma": 1.52,
+			"kg1": 0.5152649950837948,
+			"kg2": 6.097302441824905,
+			"kp": 45,
+			"mu": 8,
+			"type": "simple"
+		},
+		"static": {
+			"va": 250,
+			"vg2": 250,
+			"vg1": 14,
+			"ia": 130,
+			"ig2": 12
+		}
+	},
+	{
+		"name": "KT88 (Simple)",
+		"vaMax": 700,
+		"vg1Max": 50,
+		"vg1Step": 5,
+		"vg2Max": 500,
+		"iaMax": 500,
+		"paMax": 42,
+		"model": {
+			"a": 0.008150383106343218,
+			"alpha": 0,
+			"beta": 0.18601190476190477,
+			"device": "pentode",
+			"gamma": 0.42166781592001573,
+			"kg1": 0.4364697355612988,
+			"kg2": 6.25606620971195,
+			"kp": 36.2,
+			"mu": 8,
+			"type": "simple"
+		},
+		"static": {
+			"va": 250,
+			"vg2": 250,
+			"vg1": 14,
+			"ia": 160,
+			"ig2": 12
 		}
 	}
 ];

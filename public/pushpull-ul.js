@@ -54,7 +54,7 @@ class PushPullUL extends Circuit {
 		
 		let vb = this.parameters.field[0].value;
 		let vg1Step = this.device.definition.vg1Step;
-		let vg1Max = this.device.definition.vg1Max;
+		let vg1Max = this.device.definition.vg1Max * 2;
 		let vg2Tap = this.parameters.field[1].value;
 		let vg1 = 0.0;
 		let k = -1;
@@ -89,7 +89,7 @@ class PushPullUL extends Circuit {
 		let vb = this.parameters.field[0].value;
 		let ia = this.parameters.field[2].value;
 		let raa = this.parameters.field[3].value;
-		let vg1Max = this.device.definition.vg1Max;
+		let vg1Max = this.device.definition.vg1Max * 2;
 		let vg2Tap = this.parameters.field[1].value;
 		
 		let iaMaxB = 4000.0 * vb / raa;

@@ -1,0 +1,156 @@
+<html>
+<head>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="designer.js"></script>
+	<script src="templates.js"></script>
+	<script src="pentodemodeller.js"></script>
+	<link rel="stylesheet" href="designer.css"></link>
+</head>
+<body>
+	<section id="container">
+	<div id="designer">
+	<div style="width: 600px; height: 500px;">
+		<canvas id="pentodeChart"></canvas>
+	</div>
+	<p></p>
+	<div>Knee Position</div>
+	<div class="slidecontainer">
+	  <input type="range" min="0" max="200" value="50" class="slider-color" id="beta" onInput="circuit.updateSliders()">
+	</div>
+	<div>Overall Knee Sharpness (Vg1 = 0)</div>
+	<div class="slidecontainer">
+	  <input type="range" min="0" max="200" value="50" class="slider-color" id="gamma" onInput="circuit.updateSliders()">
+	</div>
+	<div>Knee Position Change With Vg1</div>
+	<div class="slidecontainer">
+	  <input type="range" min="0" max="200" value="50" class="slider-color" id="alpha" onInput="circuit.updateSliders()">
+	</div>
+	<div>Compression Of Anode Curves</div>
+	<div class="slidecontainer">
+	  <input type="range" min="0" max="200" value="50" class="slider-color" id="kp" onInput="circuit.updateSliders()">
+	</div>
+	<div>Residual Slope Of Anode Curves</div>
+	<div class="slidecontainer">
+	  <input type="range" min="0" max="200" value="50" class="slider-color" id="a" onInput="circuit.updateSliders()">
+	</div>
+	<p></p>
+	<div id="curves">
+		<input type="file" id="loadCurves" onChange="loadCurves(this.files)" accept="image/png, image/jpeg, image/jpg" class="custom-file-input">
+		<p/>
+		<input type="button" value="Clear Chart Background" onClick="clearCurves()" class="custom-file-clear">
+	</div>
+	</div>
+	<div id="description">
+	<div>
+	<h1>The Simple Pentode Modeller</h1>
+	<table style="width: 900px;">
+		<tr>
+			<td style="width: 150px;">Device Name:</td>
+			<td><input type="text" id="deviceName" onChange="circuit.updateParameters()" style="width: 200px"></td>
+			<td width="*"></td>
+			<td>Select a template:</td>
+			<td><select style="width: 100px;" name="tubes" id="tubeSelect" style="margin-left: 40px;" onchange="circuit.loadDevice(templates, this.selectedIndex);"></select></td>
+		</tr>
+	</table>
+	</div>
+	<table style="width: 900px;">
+		<tr>
+			<th colspan="2">Chart Parameters</th>
+			<th colspan="2">Static Characteristics</th>
+			<th colspan="2">Model</th>
+		</tr>
+		<tr>
+			<td width="150px"><span id="fLabel1">Field 1</span></td>
+			<td width="150px"><input type="text" id="field1" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td width="150px"><span id="fLabel9">Field 9</span></td>
+			<td width="150px"><input type="text" id="field9" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td width="150px"><span id="vLabel1">Value 1</span></td>
+			<td width="150px"><span id="value1"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel2">Field 2</span></td>
+			<td><input type="text" id="field2" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="fLabel10">Field 10</span></td>
+			<td><input type="text" id="field10" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel2">Value 2</span></td>
+			<td><span id="value2"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel3">Field 3</span></td>
+			<td><input type="text" id="field3" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="fLabel11">Field 11</span></td>
+			<td><input type="text" id="field11" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel3">Value 3</span></td>
+			<td><span id="value3"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel4">Field 4</span></td>
+			<td><input type="text" id="field4" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="fLabel12">Field 12</span></td>
+			<td><input type="text" id="field12" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel4">Value 4</span></td>
+			<td><span id="value4"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel5">Field 5</span></td>
+			<td><input type="text" id="field5" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="fLabel13">Field 13</span></td>
+			<td><input type="text" id="field13" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel5">Value5</span></td>
+			<td><span id="value5"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel6">Field 6</span></td>
+			<td><input type="text" id="field6" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="fLabel14">Field 14</span></td>
+			<td><input type="text" id="field14" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel6">Value 6</span></td>
+			<td><span id="value6"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel7">Field 7</span></td>
+			<td><input type="text" id="field7" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="fLabel15">Field 15</span></td>
+			<td><input type="text" id="field15" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel7">Value 7</span></td>
+			<td><span id="value7"></span></td>
+		</tr>
+		<tr>
+			<td><span id="fLabel8">Field 8</span></td>
+			<td><input type="text" id="field8" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="fLabel16">Field 16</span></td>
+			<td><input type="text" id="field16" onChange="circuit.updateParameters()" style="width: 100px"></td>
+			<td><span id="vLabel8">Value 8</span></td>
+			<td><span id="value8"></span></td>
+		</tr>
+	</table>
+	<div class="text-wrap">
+		<textarea id="textA" readonly></textarea>
+	</div>
+	<p>Instructions on how to use the modeller</p>
+	</div>
+	</section>
+	<script>
+		function loadCurves(files) {
+			let reader = new FileReader();
+			reader.onload = function (e) {
+			    const uploaded_image = reader.result;
+			    $('#pentodeChart').css('backgroundImage', `url(${uploaded_image})`);
+			}
+			reader.readAsDataURL(files[0]);
+		}
+		
+		function clearCurves() {
+		    $('#pentodeChart').css('backgroundImage', '');
+		    $('#loadCurves').val('');
+		}
+
+		const pentodeChart = document.getElementById('pentodeChart');	
+		circuit = new PentodeModeller(pentodeChart);
+		circuit.configureParameters();
+		circuit.buildTubeList(templates);
+		circuit.loadDevice(templates, 0);
+	</script>
+</body>
+</html>

@@ -8,7 +8,7 @@ class SingleEnded extends Circuit {
 				{ name: 'Supply voltage', value: 300 },
 				{ name: 'Screen voltage', value: 250 },
 				{ name: 'Bias current (anode)', value: 30 },
-				{ name: 'Anode to anode load', value: 8000 }
+				{ name: 'Anode load', value: 8000 }
 			],
 			nValues: 4,
 			value: [
@@ -96,14 +96,14 @@ class SingleEnded extends Circuit {
 		classBLoadLine.push({x: 0, y: iaMaxB});
 		classBLoadLine.push({x: vb, y: 0});
 		
-		let gradient = -2000.0 / raa;
+		let gradient = -1000.0 / raa;
 		let iaMaxA = ia - gradient * vb;
 		let vaMaxA = -iaMaxA / gradient;
 		
 		let acLoadLine = [];
 		for (let i = 0; i < 101; i++) {
 			let va = i * vaMaxA / 100;
-			let ia2 = iaMaxA - va * 2000.0 / raa;
+			let ia2 = iaMaxA - va * 1000.0 / raa;
 			
 			acLoadLine.push({ x: va, y: ia2 });
 		}
@@ -125,8 +125,8 @@ class SingleEnded extends Circuit {
 		let ouptutPower = (vb - powerLimit.point.x) * powerLimit.point.y / 2000.0;
 		
 		let iErrMin = 1000.0;
-		for (let i = 0; i < 101; i++) {
-			let vg1 = i * vg1Max / 100;
+		for (let i = 0; i < 1001; i++) {
+			let vg1 = i * vg1Max / 1000;
 			let iErr = Math.abs(ia - 1000.0 * this.device.model.anodeCurrent(vb, -vg1, vs));
 			if (iErr < iErrMin) {
 				iErrMin = iErr;

@@ -33,3 +33,104 @@ table th {
 	width: 600px;
 	margin-left: 650px;
 }
+
+#pentodeChart {
+ 	background-size: 558px 440px;
+ 	background-position: 30px 33px;
+	background-repeat: no-repeat;
+}
+.custom-file-input {
+	color:#fff;
+}
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: 'Set Chart Background';
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+  color:#000;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+.custom-file-clear {
+  background: #fff;
+  border: 1px solid #999;
+  border-radius: 3px;
+  color:#000;
+  font-weight:700;
+  padding: 5px 8px;
+}
+.slidecontainer {
+  width: 100%; /* Width of the outside container */
+}
+
+.slider-color {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity:0.7;
+  -webkit-transition: opacity .15s ease-in-out;
+  transition: opacity .15s ease-in-out;
+}
+.slider-color:hover {
+  opacity:1;
+}
+.slider-color::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #04AA6D;
+  cursor: pointer;
+}
+.slider-color::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border: 0;
+  border-radius: 50%;
+  background: #04AA6D;
+  cursor: pointer;
+}
+
+textarea {
+  min-width: 500px;
+  max-width: 500px;
+  min-height: 350px;
+  max-height: 350px;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}

@@ -5,19 +5,47 @@ class Characteristics extends Circuit {
 		this.pentodeChart = null;
 		
 		this.parameters = {
-			nFields: 5,
+			nFields: 6,
 			field: [
 				{ name: 'Grid Start', value: 0 },
 				{ name: 'Grid Stop', value: 5 },
 				{ name: 'Grid Step', value: 0.5 },
 				{ name: 'Max Anode Voltage', value: 300 },
-				{ name: 'Screen Voltage', value: 120 }
+				{ name: 'Screen Voltage', value: 120 },
+				{ name: 'Max Anode Current', value: 100 }
 			],
 			nValues: 0,
 			value: []
 		};
 	}
-	
+
+	onDeviceLoad() {
+		this.parameters.field[1].value = this.device.definition.vg1Max;
+		this.parameters.field[2].value = this.device.definition.vg1Step;
+		this.parameters.field[3].value = this.device.definition.vaMax;
+		this.parameters.field[4].value = this.device.definition.vg2Max;
+		this.parameters.field[5].value = this.device.definition.iaMax;
+		
+		$('#field2').val(this.device.definition.vg1Max);
+		$('#field3').val(this.device.definition.vg1Step);
+		$('#field4').val(this.device.definition.vaMax);
+		$('#field5').val(this.device.definition.vg2Max);
+		$('#field6').val(this.device.definition.iaMax);
+		$('#field5').val(this.device.definition.vg2Max);
+	}
+		
+	updateParameters() {		
+		for (let i = 0; i < this.parameters.nFields; i++) {
+			this.parameters.field[i].value = parseFloat($('#field' + (i + 1)).val());
+			$('#field' + (i + 1)).text(this.parameters.field[i].value);
+		}
+		
+		this.device.definition.vaMax = this.parameters.field[3].value;
+		this.device.definition.iaMax = this.parameters.field[5].value;
+		
+		this.showPlots();
+	}
+			
 	anodePlot() {
 		if (this.device.model.model.device === "pentode") {
 			$('#fLabel5').show();
@@ -40,9 +68,9 @@ class Characteristics extends Circuit {
 		        let va = vaMax * i / 100.0;
 				let ia = this.device.model.anodeCurrent(va, -vg1, va) * 1000.0;
 		        anodeCurve.push({x: va, y: ia, vg1: -vg1, vg2: 0, ig2: 0 });
-				if (ia > this.device.definition.iaMax) {
-					break;
-				}
+				//if (ia > this.device.definition.iaMax) {
+				//	break;
+				//}
 		    }
 			
 			let dataset = {
@@ -61,9 +89,9 @@ class Characteristics extends Circuit {
 					let ig2 = this.device.model.screenCurrent(va, -vg1, vg2) * 1000.0;
 					pentodeCurve.push({ x: va, y: ia, vg1: -vg1, vg2: vg2, ig2: ig2 });
 					screenCurve.push({ x: va, y: ig2 });
-					if (ia > this.device.definition.iaMax) {
-						break;
-					}
+					//if (ia > this.device.definition.iaMax) {
+					//	break;
+					//}
 				}
 
 				let dataset = {

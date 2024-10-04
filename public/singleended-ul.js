@@ -8,7 +8,7 @@ class SingleEndedUL extends Circuit {
 				{ name: 'Supply voltage', value: 300 },
 				{ name: 'Screen tap', value: 0.5 },
 				{ name: 'Bias current (anode)', value: 30 },
-				{ name: 'Anode to anode load', value: 8000 }
+				{ name: 'Anode load', value: 8000 }
 			],
 			nValues: 4,
 			value: [
@@ -54,7 +54,7 @@ class SingleEndedUL extends Circuit {
 		
 		let vb = this.parameters.field[0].value;
 		let vg1Step = this.device.definition.vg1Step;
-		let vg1Max = this.device.definition.vg1Max;
+		let vg1Max = this.device.definition.vg1Max * 2;
 		let vg2Tap = this.parameters.field[1].value;
 		let vg1 = 0.0;
 		let k = -1;
@@ -89,7 +89,7 @@ class SingleEndedUL extends Circuit {
 		let vb = this.parameters.field[0].value;
 		let ia = this.parameters.field[2].value;
 		let raa = this.parameters.field[3].value;
-		let vg1Max = this.device.definition.vg1Max;
+		let vg1Max = this.device.definition.vg1Max * 2;
 		let vg2Tap = this.parameters.field[1].value;
 		
 		let iaMaxB = 4000.0 * vb / raa;
@@ -98,14 +98,14 @@ class SingleEndedUL extends Circuit {
 		classBLoadLine.push({x: 0, y: iaMaxB});
 		classBLoadLine.push({x: vb, y: 0});
 		
-		let gradient = -2000.0 / raa;
+		let gradient = -1000.0 / raa;
 		let iaMaxA = ia - gradient * vb;
 		let vaMaxA = -iaMaxA / gradient;
 		
 		let acLoadLine = [];
 		for (let i = 0; i < 101; i++) {
 			let va = i * vaMaxA / 100;
-			let ia2 = iaMaxA - va * 2000.0 / raa;
+			let ia2 = iaMaxA - va * 1000.0 / raa;
 			
 			acLoadLine.push({ x: va, y: ia2 });
 		}

@@ -51,6 +51,30 @@ function smax(x, y, k) {
 	return -smin(-x, -y, k);
 }
 
+function potFunction(x, factor) {
+	let b = Math.pow(1.0 / factor - 1.0, 2);
+	
+	if (b == 1.0) {
+		return x;
+	}
+	
+	let a = 1.0 / (b - 1.0);
+	
+	return a * (Math.pow(b, x) - 1.0);
+}
+
+function inversePotFunction(y, factor) {
+	let b = Math.pow(1.0 / factor - 1.0, 2);
+	
+	if (b == 1.0) {
+		return y;
+	}
+	
+	let a = 1.0 / (b - 1.0);
+	
+	return Math.log(y / a + 1.0) / Math.log(b);
+}
+
 class Circuit {
 	constructor(ctx) {
 		this.ctx = ctx;
@@ -65,11 +89,24 @@ class Circuit {
 		};
 	}
 	
+	loadSingleDevice(tube) {
+		this.device = new Device(tube);
+
+		this.onDeviceLoad();
+	
+		this.showPlots(); 
+	}
+	
 	loadDevice(tubeList, index) {
 		
 		this.device = new Device(structuredClone(tubeList[index]));
+		
+		this.onDeviceLoad();
 
 		this.showPlots(); 
+	}
+	
+	onDeviceLoad() {
 	}
 	
 	buildTubeList(tubeList) {
@@ -182,7 +219,7 @@ class Circuit {
 				plugins: {
 					title : {
 						display : true,
-						text : 'Triode Characteristic Graph: ' + this.device.definition.name,
+						text : 'Anode Characteristic Graph: ' + this.device.definition.name,
 					},
 					legend : {
 						display : false,
@@ -285,6 +322,8 @@ class Device {
 		} else if (this.definition.model.device === "pentode") {
 			if (definition.model.type === "gardiner") {
 				this.model = new GardinerPentode(definition.model);
+			} else if (definition.model.type === "simple") {
+				this.model = new SimplePentode(definition.model);
 			}
 		}
 	}
@@ -464,5 +503,42 @@ class GardinerPentode extends CohenHelieTriode {
 		}
 
 		return Math.max(ig2, 0.0) / 1000;
+	}
+}
+
+class SimplePentode extends Model {
+	constructor(model) {
+		super(model);
+	}
+
+	anodeCurrent(va, vg1, vg2 = 0, secondaryEmission = true) {
+		let epk = this.simpleEpk(vg2, vg1);
+		let k = 1.0 / this.model.kg1 - 1.0 / this.model.kg2;
+		let shift = this.model.beta * (1.0 - this.model.alpha * vg1);
+		let g = Math.exp(-Math.pow(shift * va, this.model.gamma));
+		let scale = 1.0 - g;
+		let a = this.model.a;
+		let ia = epk * (k * scale + a * va / this.model.kg2);
+		
+		return Math.max(ia, 0.0) / 1000;
+	}
+
+	screenCurrent(va, vg1, vg2, secondaryEmission = true) {
+		let epk = this.simpleEpk(vg2, vg1);
+		let k = 1.0 / this.model.kg2;
+		let shift = this.model.beta * (1.0 - this.model.alpha * vg1);
+		let g = Math.exp(-Math.pow(shift * va, this.model.gamma));
+		let psi = this.model.kg2 / this.model.kg1 - 1.0;
+		let scale = 1.0 + psi * g;
+		let a = this.model.a;
+		let ig2 = epk * (k * scale - a * va * this.model.kg1 / this.model.kg2);
+
+		return Math.max(ig2, 0.0) / 1000;
+	}
+	
+	simpleEpk(voltage, gridVoltage) {
+		let y = this.model.kp * (1.0 / this.model.mu + gridVoltage / voltage);
+		let ep = voltage / this.model.kp * Math.log(1.0 + Math.exp(y));
+		return Math.pow(ep, 1.5);
 	}
 }
