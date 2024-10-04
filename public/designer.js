@@ -518,20 +518,19 @@ class SimplePentode extends Model {
 		let g = Math.exp(-Math.pow(shift * va, this.model.gamma));
 		let scale = 1.0 - g;
 		let a = this.model.a;
-		let ia = epk * (k * scale + a * va / this.model.kg2);
+		let ia = epk * (k * scale + a * va / this.model.kg1);
 		
 		return Math.max(ia, 0.0) / 1000;
 	}
 
 	screenCurrent(va, vg1, vg2, secondaryEmission = true) {
 		let epk = this.simpleEpk(vg2, vg1);
-		let k = 1.0 / this.model.kg2;
 		let shift = this.model.beta * (1.0 - this.model.alpha * vg1);
 		let g = Math.exp(-Math.pow(shift * va, this.model.gamma));
 		let psi = this.model.kg2 / this.model.kg1 - 1.0;
 		let scale = 1.0 + psi * g;
 		let a = this.model.a;
-		let ig2 = epk * (k * scale - a * va * this.model.kg1 / this.model.kg2);
+		let ig2 = epk * (scale - a * va) / this.model.kg2;
 
 		return Math.max(ig2, 0.0) / 1000;
 	}

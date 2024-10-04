@@ -89,7 +89,7 @@ class PentodeModeller extends Circuit {
 
 		this.device.definition.name = $('#deviceName').val();
 
-		this.aMax = 1.2 / this.device.definition.model.mu;
+		this.aMax = 0.01 / Math.pow(this.device.definition.model.mu, 0.3);
 		this.kpMax = this.device.definition.model.mu * 10.0;
 
 		$('#kp').val(inversePotFunction((this.device.definition.model.kp - 1) / this.kpMax, this.kpPotFactor) * 200);
@@ -119,7 +119,7 @@ class PentodeModeller extends Circuit {
 	}
 
 	onDeviceLoad() {
-		this.aMax = 1.2 / this.device.definition.model.mu;
+		this.aMax = 0.01 / Math.pow(this.device.definition.model.mu, 0.3);
 		this.kpMax = this.device.definition.model.mu * 10.0;
 		
 		$('#alpha').val(inversePotFunction(this.device.definition.model.alpha / this.alphaMax, this.alphaPotFactor) * 200);
