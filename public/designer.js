@@ -235,9 +235,12 @@ class Circuit {
 						beginAtZero : true
 					},
 					y : {
+						min: 0,
 						max : this.device.definition.iaMax,
 						beginAtZero : true
 					}
+				},
+				layout: {
 				}
 			}
 		};
@@ -285,9 +288,12 @@ class Circuit {
 							beginAtZero : true
 						},
 						y : {
+							min: 0,
 							max : this.device.definition.iaMax,
 							beginAtZero : true
 						}
+					},
+					layout: {
 					}
 				}
 			};

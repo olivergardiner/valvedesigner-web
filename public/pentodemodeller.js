@@ -208,13 +208,13 @@ class PentodeModeller extends Circuit {
 		}
 		
 		$('#value1').text(this.device.definition.model.mu);
-		$('#value2').text(this.device.definition.model.kg1.toFixed(4));
-		$('#value3').text(this.device.definition.model.kg2.toFixed(4));
+		$('#value2').text(this.device.definition.model.kg1.toFixed(6));
+		$('#value3').text(this.device.definition.model.kg2.toFixed(6));
 	    $('#value4').text(this.device.definition.model.kp);
-		$('#value5').text(this.device.definition.model.alpha.toFixed(4));
-		$('#value6').text(this.device.definition.model.beta.toFixed(4));
-		$('#value7').text(this.device.definition.model.gamma.toFixed(4));
-		$('#value8').text(this.device.definition.model.a);
+		$('#value5').text(this.device.definition.model.alpha.toFixed(6));
+		$('#value6').text(this.device.definition.model.beta.toFixed(6));
+		$('#value7').text(this.device.definition.model.gamma.toFixed(6));
+		$('#value8').text(this.device.definition.model.a.toFixed(6));
 		
 		$('#textA').text(JSON.stringify(this.device.definition, null, "\t"));
 	}
@@ -236,9 +236,6 @@ class PentodeModeller extends Circuit {
 					let ig2 = this.device.model.screenCurrent(va, -vg1, vg2) * 1000.0;
 					pentodeCurve.push({ x: va, y: ia, vg1: -vg1, vg2: vg2, ig2: ig2 });
 					screenCurve.push({ x: va, y: ig2 });
-					//if (ia > this.device.definition.iaMax) {
-					//	break;
-					//}
 				}
 
 				let dataset = {
