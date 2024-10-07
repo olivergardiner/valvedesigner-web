@@ -19,3 +19,5 @@ The following circuits are in the pipeline:
 * Transformer output stages (SE/PP, Triode/Pentode and Untapped/Ultralinear)
 
 To return to this project, now that the Qt version is no longer dependent on ngSpice, the static HTML pages represent the porting of the Valve Designer to Javascript (using ChartJs as the charting engine). The currently implemented circuits are available from the [index page](https://olivergardiner.github.io/valvedesigner-web/public/designer.html).
+
+In addition to the circuit designers, there is also a [generic anode characteristics viewer](https://olivergardiner.github.io/valvedesigner-web/public/characteristics.html) and a [pentode modeller](https://olivergardiner.github.io/valvedesigner-web/public/pentodemodeller.html).
