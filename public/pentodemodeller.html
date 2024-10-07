@@ -13,7 +13,7 @@
 	<div style="width: 600px; height: 500px;">
 		<canvas id="pentodeChart"></canvas>
 	</div>
-	<p></p>
+	<div style="height: 10px;"></div>
 	<div>Knee Position</div>
 	<div class="slidecontainer">
 	  <input type="range" min="0" max="200" value="50" class="slider-color" id="beta" onInput="circuit.updateSliders()">
@@ -34,9 +34,9 @@
 	<div class="slidecontainer">
 	  <input type="range" min="0" max="200" value="50" class="slider-color" id="a" onInput="circuit.updateSliders()">
 	</div>
-	<p></p>
+	<div style="height: 10px;"></div>
 	<div id="curves">
-		<input type="file" id="loadCurves" onChange="loadCurves(this.files)" accept="image/png, image/jpeg, image/jpg" class="custom-file-input">
+		<input type="file" id="loadCurves" onChange="circuit.setBackground(this.files[0])" accept="image/png, image/jpeg, image/jpg" class="custom-file-input">
 		<p/>
 		<input type="button" value="Clear Chart Background" onClick="clearCurves()" class="custom-file-clear">
 	</div>
@@ -54,6 +54,7 @@
 		</tr>
 	</table>
 	</div>
+	<div style="height: 10px;"></div>
 	<table style="width: 900px;">
 		<tr>
 			<th colspan="2">Chart Parameters</th>
@@ -125,6 +126,7 @@
 			<td><span id="value8"></span></td>
 		</tr>
 	</table>
+	<div style="height: 10px;"></div>
 	<div class="text-wrap">
 		<textarea id="textA" readonly></textarea>
 	</div>

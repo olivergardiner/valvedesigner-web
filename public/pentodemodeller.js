@@ -95,9 +95,24 @@ class PentodeModeller extends Circuit {
 		$('#kp').val(inversePotFunction((this.device.definition.model.kp - 1) / this.kpMax, this.kpPotFactor) * 200);
 		$('#a').val(inversePotFunction(this.device.definition.model.a / this.aMax, this.aPotFactor) * 200);
 		
+		this.setBackgroundSize();
+				
 		this.updateModel();
 
 		this.showPlots();
+	}
+	
+	setBackgroundSize() {
+		if (this.device.definition.iaMax < 10.0) {
+			$('#pentodeChart').css('background-size', '569px 440px');
+			$('#pentodeChart').css('background-position', '19px 33px');
+		} else if (this.device.definition.iaMax < 100.0) {
+			$('#pentodeChart').css('background-size', '562px 440px');
+			$('#pentodeChart').css('background-position', '26px 33px');
+		} else {
+			$('#pentodeChart').css('background-size', '556px 440px');
+			$('#pentodeChart').css('background-position', '32px 33px');
+		}
 	}
 	
 	updateSliders() {
@@ -158,6 +173,8 @@ class PentodeModeller extends Circuit {
 		$('#field12').val(this.device.definition.static.ia);
 		$('#field13').val(this.device.definition.static.ig2);
 		$('#field14').val(this.device.definition.model.mu);
+		
+		this.setBackgroundSize();
 	}
 	
 	updateModel() {
@@ -180,6 +197,17 @@ class PentodeModeller extends Circuit {
 		this.device.definition.model.kg1 = kg1;
 		this.device.definition.model.kg2 = kg2;
 		this.device.definition.model.mu = mu;
+	}
+	
+	setBackground(file) {
+		let reader = new FileReader();
+		reader.onload = function (e) {
+		    const uploaded_image = reader.result;
+		    $('#pentodeChart').css('backgroundImage', `url(${uploaded_image})`);
+		}
+		reader.readAsDataURL(file);
+		
+		this.setBackgroundSize();
 	}
 	
 	anodePowerPlot() {
