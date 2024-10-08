@@ -215,6 +215,34 @@ let powerPentodes = [
 	    }
 	},
 	{
+		"name": "6F6 (Simple)",
+		"vaMax": 500,
+		"vg1Max": 30,
+		"vg1Step": 5,
+		"vg2Max": 425,
+		"iaMax": 100,
+		"paMax": 11,
+		"model": {
+			"a": 0.00012950731295561965,
+			"alpha": 0,
+			"beta": 0.0377415458937198,
+			"device": "pentode",
+			"gamma": 0.5280662911532314,
+			"kg1": 1.424627804668891,
+			"kg2": 8.876527090629242,
+			"kp": 23.95,
+			"mu": 9,
+			"type": "simple"
+		},
+		"static": {
+			"va": 250,
+			"vg2": 250,
+			"vg1": 15.7,
+			"ia": 34,
+			"ig2": 6.5
+		}
+	},
+	{
 		"name": "6P6S (Gardiner)",
 		"vaMax": 500.0,
 		"vg1Max": 40.0,
@@ -341,6 +369,34 @@ let powerPentodes = [
 			"kp": 47.75,
 			"mu": 11,
 			"type": "simple"
+		}
+	},
+	{
+		"name": "6L6GC (Simple)",
+		"vaMax": 700,
+		"vg1Max": 60,
+		"vg1Step": 4,
+		"vg2Max": 425,
+		"iaMax": 300,
+		"paMax": 30,
+		"model": {
+			"a": 0.00022318368351353425,
+			"alpha": 0.04395792791986384,
+			"beta": 0.025656814449917895,
+			"device": "pentode",
+			"gamma": 1.343603556768485,
+			"kg1": 0.8416820743236144,
+			"kg2": 13.971922433771999,
+			"kp": 49.150000000000006,
+			"mu": 9,
+			"type": "simple"
+		},
+		"static": {
+			"va": 250,
+			"vg2": 250,
+			"vg1": 11,
+			"ia": 78,
+			"ig2": 5
 		}
 	},
 	{
