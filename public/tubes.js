@@ -20,7 +20,7 @@ let smallSignalTriodes = [
 	},
 	{
 		"name": "12AX7 (Cohen Helie - DS)",
-		"vaMax": 375,
+		"vaMax": 300,
 		"vg1Max": 5,
 		"vg1Step": 0.5,
 		"iaMax": 5,
@@ -68,10 +68,10 @@ let smallSignalTriodes = [
 	},
 	{
 		"name": "12AT7 (Cohen Helie - DS)",
-		"vaMax": 600,
+		"vaMax": 300,
 		"vg1Max": 8,
 		"vg1Step": 1,
-		"iaMax": 40,
+		"iaMax": 30,
 		"paMax": 2.5,
 		"model": {
 			"device": "triode",
@@ -92,7 +92,7 @@ let smallSignalTriodes = [
 	},
 	{
 		"name": "12AU7 (Cohen Helie - DS)",
-		"vaMax": 500,
+		"vaMax": 300,
 		"vg1Max": 25,
 		"vg1Step": 5,
 		"iaMax": 30,
@@ -100,13 +100,13 @@ let smallSignalTriodes = [
 		"model": {
 			"device": "triode",
 			"type": "cohenHelie",
-			"kg1": 1.2265571816950345,
+			"kg1": 0.8924220046985567,
 			"mu": 20,
-			"x": 1.5,
-			"kp": 69.25,
+			"x": 1.405,
+			"kp": 75,
 			"kvb": 5,
 			"kvb1": 0,
-			"vct": 0.605
+			"vct": 0.05
 		},
 		"static": {
 			"va": 250,
@@ -116,7 +116,7 @@ let smallSignalTriodes = [
 	},
 	{
 		"name": "6SL7 (Cohen Helie)",
-		"vaMax": 500.0,
+		"vaMax": 300.0,
 		"vg1Max": 7.0,
 		"vg1Step": 1,
 		"iaMax": 5,
@@ -135,10 +135,10 @@ let smallSignalTriodes = [
 	},
 	{
 		"name": "6SL7 (Cohen Helie - DS)",
-		"vaMax": 500,
+		"vaMax": 300,
 		"vg1Max": 5,
-		"vg1Step": 0.5,
-		"iaMax": 3.5,
+		"vg1Step": 1.0,
+		"iaMax": 5,
 		"paMax": 1,
 		"model": {
 			"device": "triode",
@@ -159,7 +159,7 @@ let smallSignalTriodes = [
 	},
 	{
 		"name": "6SL7 (Ayumi)",
-		"vaMax": 500.0,
+		"vaMax": 300.0,
 		"vg1Max": 7.0,
 		"vg1Step": 1,
 		"iaMax": 5.0,
