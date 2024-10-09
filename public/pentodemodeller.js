@@ -175,6 +175,8 @@ class PentodeModeller extends Circuit {
 		$('#field14').val(this.device.definition.model.mu);
 		
 		this.setBackgroundSize();
+		
+		this.updateModel();
 	}
 	
 	updateModel() {

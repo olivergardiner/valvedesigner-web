@@ -19,6 +19,102 @@ let smallSignalTriodes = [
 		}
 	},
 	{
+		"name": "12AX7 (Cohen Helie - DS)",
+		"vaMax": 375,
+		"vg1Max": 5,
+		"vg1Step": 0.5,
+		"iaMax": 5,
+		"paMax": 1,
+		"model": {
+			"device": "triode",
+			"type": "cohenHelie",
+			"kg1": 0.899682072661792,
+			"mu": 100,
+			"x": 1.52,
+			"kp": 806,
+			"kvb": 3,
+			"kvb1": 12.5,
+			"vct": 0.505
+		},
+		"static": {
+			"va": 250,
+			"vg1": 2,
+			"ia": 1.2
+		}
+	},
+	{
+		"name": "12AY7 (Cohen Helie - DS)",
+		"vaMax": 300,
+		"vg1Max": 5,
+		"vg1Step": 1,
+		"iaMax": 10,
+		"paMax": 1.5,
+		"model": {
+			"device": "triode",
+			"type": "cohenHelie",
+			"kg1": 2.189584103263982,
+			"mu": 42,
+			"x": 1.7850000000000001,
+			"kp": 343,
+			"kvb": 60,
+			"kvb1": 0,
+			"vct": 0.97
+		},
+		"static": {
+			"va": 150,
+			"vg1": 0,
+			"ia": 6.8
+		}
+	},
+	{
+		"name": "12AT7 (Cohen Helie - DS)",
+		"vaMax": 600,
+		"vg1Max": 8,
+		"vg1Step": 1,
+		"iaMax": 40,
+		"paMax": 2.5,
+		"model": {
+			"device": "triode",
+			"type": "cohenHelie",
+			"kg1": 0.22773737557928625,
+			"mu": 75,
+			"x": 1.4849999999999999,
+			"kp": 238,
+			"kvb": 0,
+			"kvb1": 0,
+			"vct": 0.185
+		},
+		"static": {
+			"va": 250,
+			"vg1": 2,
+			"ia": 10
+		}
+	},
+	{
+		"name": "12AU7 (Cohen Helie - DS)",
+		"vaMax": 500,
+		"vg1Max": 25,
+		"vg1Step": 5,
+		"iaMax": 30,
+		"paMax": 2.75,
+		"model": {
+			"device": "triode",
+			"type": "cohenHelie",
+			"kg1": 1.2265571816950345,
+			"mu": 20,
+			"x": 1.5,
+			"kp": 69.25,
+			"kvb": 5,
+			"kvb1": 0,
+			"vct": 0.605
+		},
+		"static": {
+			"va": 250,
+			"vg1": 8.5,
+			"ia": 10.5
+		}
+	},
+	{
 		"name": "6SL7 (Cohen Helie)",
 		"vaMax": 500.0,
 		"vg1Max": 7.0,
@@ -35,6 +131,30 @@ let smallSignalTriodes = [
 			"mu": 71.51150378518423,
 			"vct": 0,
 			"x": 1.302954496063906
+		}
+	},
+	{
+		"name": "6SL7 (Cohen Helie - DS)",
+		"vaMax": 500,
+		"vg1Max": 5,
+		"vg1Step": 0.5,
+		"iaMax": 3.5,
+		"paMax": 1,
+		"model": {
+			"device": "triode",
+			"type": "cohenHelie",
+			"kg1": 1.1421165218853864,
+			"mu": 79,
+			"x": 1.445,
+			"kp": 749.8,
+			"kvb": 55,
+			"kvb1": 0,
+			"vct": 0.785
+		},
+		"static": {
+			"va": 250,
+			"vg1": 2,
+			"ia": 2.3
 		}
 	},
 	{

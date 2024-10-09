@@ -1,4 +1,55 @@
-let templates = [
+let triodes = [
+	{
+		"name": "12AX7",
+		"vaMax": 375,
+		"vg1Max": 5,
+		"vg1Step": 0.5,
+		"iaMax": 5,
+		"paMax": 1,
+		"model": {
+			"device": "triode",
+			"type": "cohenHelie",
+			"kg1": 0.899682072661792,
+			"mu": 100,
+			"x": 1.52,
+			"kp": 806,
+			"kvb": 3,
+			"kvb1": 12.5,
+			"vct": 0.505
+		},
+		"static": {
+			"va": 250,
+			"vg1": 2,
+			"ia": 1.2
+		}
+	},
+	{
+		"name": "12AU7",
+		"vaMax": 500,
+		"vg1Max": 25,
+		"vg1Step": 5,
+		"iaMax": 30,
+		"paMax": 2.75,
+		"model": {
+			"device": "triode",
+			"type": "cohenHelie",
+			"kg1": 1.2265571816950345,
+			"mu": 20,
+			"x": 1.5,
+			"kp": 69.25,
+			"kvb": 5,
+			"kvb1": 0,
+			"vct": 0.605
+		},
+		"static": {
+			"va": 250,
+			"vg1": 8.5,
+			"ia": 10.5
+		}
+	}
+];
+
+let pentodes = [
 	{
 		"name": "EF86",
 		"vaMax": 500,

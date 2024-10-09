@@ -39,6 +39,13 @@ table th {
  	background-position: 30px 33px;
 	background-repeat: no-repeat;
 }
+
+#triodeChart {
+ 	background-size: 558px 440px;
+ 	background-position: 30px 33px;
+	background-repeat: no-repeat;
+}
+
 .custom-file-input {
 	color:#fff;
 }

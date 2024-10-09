@@ -4,35 +4,35 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<script src="designer.js"></script>
 	<script src="templates.js"></script>
-	<script src="pentodemodeller.js"></script>
+	<script src="triodemodeller.js"></script>
 	<link rel="stylesheet" href="designer.css"></link>
 </head>
 <body>
 	<section id="container">
 	<div id="designer">
 	<div style="width: 600px; height: 500px;">
-		<canvas id="pentodeChart"></canvas>
+		<canvas id="triodeChart"></canvas>
 	</div>
 	<div style="height: 10px;"></div>
-	<div>Knee Position</div>
+	<div>Contact Voltage</div>
 	<div class="slidecontainer">
-	  <input type="range" min="0" max="200" value="50" class="slider-color" id="beta" onInput="circuit.updateSliders()">
+	  <input type="range" min="0" max="200" value="50" class="slider-color" id="vct" onInput="circuit.updateSliders()">
 	</div>
-	<div>Overall Knee Sharpness (Vg1 = 0)</div>
+	<div>Kvb</div>
 	<div class="slidecontainer">
-	  <input type="range" min="0" max="200" value="50" class="slider-color" id="gamma" onInput="circuit.updateSliders()">
+	  <input type="range" min="0" max="200" value="50" class="slider-color" id="kvb" onInput="circuit.updateSliders()">
 	</div>
-	<div>Knee Position Change With Vg1</div>
+	<div>Kvb1</div>
 	<div class="slidecontainer">
-	  <input type="range" min="0" max="200" value="50" class="slider-color" id="alpha" onInput="circuit.updateSliders()">
+	  <input type="range" min="0" max="200" value="50" class="slider-color" id="kvb1" onInput="circuit.updateSliders()">
 	</div>
-	<div>Compression Of Anode Curves</div>
+	<div>Kp</div>
 	<div class="slidecontainer">
 	  <input type="range" min="0" max="200" value="50" class="slider-color" id="kp" onInput="circuit.updateSliders()">
 	</div>
-	<div>Residual Slope Of Anode Curves</div>
+	<div>Exponent</div>
 	<div class="slidecontainer">
-	  <input type="range" min="0" max="200" value="50" class="slider-color" id="a" onInput="circuit.updateSliders()">
+	  <input type="range" min="0" max="200" value="50" class="slider-color" id="x" onInput="circuit.updateSliders()">
 	</div>
 	<div style="height: 10px;"></div>
 	<div id="curves">
@@ -50,7 +50,7 @@
 			<td><input type="text" id="deviceName" onChange="circuit.updateParameters()" style="width: 200px"></td>
 			<td width="*"></td>
 			<td>Select a template:</td>
-			<td><select style="width: 100px;" name="tubes" id="tubeSelect" style="margin-left: 40px;" onchange="circuit.loadDevice(templates, this.selectedIndex);"></select></td>
+			<td><select style="width: 100px;" name="tubes" id="tubeSelect" style="margin-left: 40px;" onchange="circuit.loadDevice(triodes, this.selectedIndex);"></select></td>
 		</tr>
 	</table>
 	</div>
@@ -138,21 +138,21 @@
 			let reader = new FileReader();
 			reader.onload = function (e) {
 			    const uploaded_image = reader.result;
-			    $('#pentodeChart').css('backgroundImage', `url(${uploaded_image})`);
+			    $('#triodeChart').css('backgroundImage', `url(${uploaded_image})`);
 			}
 			reader.readAsDataURL(files[0]);
 		}
 		
 		function clearCurves() {
-		    $('#pentodeChart').css('backgroundImage', '');
+		    $('#triodeChart').css('backgroundImage', '');
 		    $('#loadCurves').val('');
 		}
 
-		const pentodeChart = document.getElementById('pentodeChart');	
-		circuit = new PentodeModeller(pentodeChart);
+		const triodeChart = document.getElementById('triodeChart');	
+		circuit = new TriodeModeller(triodeChart);
 		circuit.configureParameters();
-		circuit.buildTubeList(pentodes);
-		circuit.loadDevice(pentodes, 0);
+		circuit.buildTubeList(triodes);
+		circuit.loadDevice(triodes, 0);
 	</script>
 </body>
 </html>
