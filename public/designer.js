@@ -324,6 +324,8 @@ class Device {
 				this.model = new CohenHelieTriode(definition.model);
 			} else if (definition.model.type === "ayumi") {
 				this.model = new AyumiTriode(definition.model);
+			} else if (definition.model.type === "simple") {
+				this.model = new SimpleTriode(definition.model);
 			}
 		} else if (this.definition.model.device === "pentode") {
 			if (definition.model.type === "gardiner") {
@@ -416,6 +418,22 @@ class Model {
 		}
 
 		return vg2;
+	}
+}
+
+class SimpleTriode extends Model {
+	constructor(model) {
+		super(model);
+	}
+
+	anodeCurrent(anodeVoltage, gridVoltage, screenVoltage = 0, secondaryEmission = true) {
+		return this.simpleEpk(anodeVoltage, gridVoltage) / (this.model.kg1 * 1000.0);
+	}
+
+	simpleEpk(voltage, gridVoltage) {
+		let y = (1.0 / this.model.mu + gridVoltage / voltage);
+		let g = 1.0 / this.model.kp * Math.log(1.0 + this.model.kp * Math.exp(y));
+		return voltage * Math.pow(g, this.model.x);
 	}
 }
 
