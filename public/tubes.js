@@ -174,6 +174,30 @@ let smallSignalTriodes = [
 			"xg": 0.4894416362475,
 			"Glim": 0.00081896165
 		}
+	},
+	{
+		"name": "6SN7 (Cohen Helie - DS)",
+		"vaMax": 600,
+		"vg1Max": 24,
+		"vg1Step": 2,
+		"iaMax": 20,
+		"paMax": 2.5,
+		"model": {
+			"device": "triode",
+			"type": "cohenHelie",
+			"kg1": 1.568481554777002,
+			"mu": 20,
+			"x": 1.5350000000000001,
+			"kp": 201,
+			"kvb": 15,
+			"kvb1": 7.000000000000001,
+			"vct": 1
+		},
+		"static": {
+			"va": 250,
+			"vg1": 8,
+			"ia": 9
+		}
 	}
 ];
 
