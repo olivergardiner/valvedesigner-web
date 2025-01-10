@@ -266,28 +266,34 @@ let smallSignalPentodes = [
 			"ig2": 0.6
 		}
 	},
-	{
-		"name": "EF37A (Simple)",
-		"vaMax": 500,
-		"vg1Max": 4,
-		"vg1Step": 0.5,
-		"vg2Max": 425,
-		"iaMax": 10,
-		"paMax": 1,
-		"model": {
-			"a": 0,
-			"alpha": 0.37125122681739386,
-			"beta": 0.07387706855791962,
-			"device": "pentode",
-			"gamma": 0.6824726245870135,
-			"kg1": 0.7559245494365968,
-			"kg2": 3.5906416098238347,
-			"kp": 66.8,
-			"mu": 28,
-			"type": "simple"
-		}
+{
+	"name": "EF37A (Simple)",
+	"vaMax": 500,
+	"vg1Max": 4,
+	"vg1Step": 0.5,
+	"vg2Max": 550,
+	"iaMax": 10,
+	"paMax": 1,
+	"model": {
+		"a": 0,
+		"alpha": 0.31095350305936403,
+		"beta": 0.12112403100775193,
+		"device": "pentode",
+		"gamma": 0.47411213900185595,
+		"kg1": 0.9544338214537755,
+		"kg2": 4.533560651905433,
+		"kp": 164.20000000000002,
+		"mu": 23,
+		"type": "simple"
+	},
+	"static": {
+		"va": 250,
+		"vg2": 100,
+		"vg1": 2,
+		"ia": 3,
+		"ig2": 0.8
 	}
-];
+}];
 
 let powerTriodes = [
 	
