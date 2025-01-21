@@ -279,7 +279,7 @@ class PentodeModeller extends Circuit {
 				};
 
 				this.anodeCurves.push(dataset)
-				this.anodeCurves.push(screenDataset)
+				//this.anodeCurves.push(screenDataset)
 			}
 				
 		    vg1 += vg1Step;
