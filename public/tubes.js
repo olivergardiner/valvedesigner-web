@@ -663,31 +663,31 @@ let powerPentodes = [
 		}
 	},
 	{
-	"name": "GU50 (Simple)",
-	"vaMax": 1000,
-	"vg1Max": 30,
-	"vg1Step": 5,
-	"vg2Max": 250,
-	"iaMax": 400,
-	"paMax": 40,
-	"model": {
-		"a": 0,
-		"alpha": 0,
-		"beta": 0.025656814449917895,
-		"device": "pentode",
-		"gamma": 0.5047554463761547,
-		"kg1": 0.45526221492098334,
-		"kg2": 3.368940390415277,
-		"kp": 13.6,
-		"mu": 8,
-		"type": "simple"
-	},
-	"static": {
-		"va": 400,
-		"vg2": 250,
-		"vg1": 20,
-		"ia": 160,
-		"ig2": 25
+		"name": "GU50 (Simple)",
+		"vaMax": 1000,
+		"vg1Max": 30,
+		"vg1Step": 5,
+		"vg2Max": 250,
+		"iaMax": 400,
+		"paMax": 40,
+		"model": {
+			"a": 0,
+			"alpha": 0.007690659496746631,
+			"beta": 0.025656814449917895,
+			"device": "pentode",
+			"gamma": 0.5047554463761547,
+			"kg1": 0.45526221492098334,
+			"kg2": 3.368940390415277,
+			"kp": 13.6,
+			"mu": 8,
+			"type": "simple"
+		},
+		"static": {
+			"va": 400,
+			"vg2": 250,
+			"vg1": 20,
+			"ia": 160,
+			"ig2": 25
+		}
 	}
-}
 ];
