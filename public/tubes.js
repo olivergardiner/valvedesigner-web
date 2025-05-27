@@ -665,7 +665,7 @@ let powerPentodes = [
 	{
 		"name": "GU50 (Simple)",
 		"vaMax": 1000,
-		"vg1Max": 30,
+		"vg1Max": 60,
 		"vg1Step": 5,
 		"vg2Max": 250,
 		"iaMax": 400,
