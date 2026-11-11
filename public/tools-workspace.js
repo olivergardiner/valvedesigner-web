@@ -280,5 +280,3 @@ class ToolsWorkspace {
 		reader.readAsDataURL(file);
 	}
 }
-
-if (typeof document !== 'undefined') new ToolsWorkspace().start();

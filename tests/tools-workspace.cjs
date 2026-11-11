@@ -10,6 +10,7 @@ function context() {
 		text() {}, show() {}, hide() {}, css() {}
 	})});
 	for (const file of ['curves', 'plotting', 'designer', 'tubes', 'templates', 'characteristics', 'triodemodeller', 'pentodemodeller', 'tools-workspace']) vm.runInContext(file === 'templates' ? require('./support/archived-templates.cjs')(root) : fs.readFileSync(path.join(root, 'public', file + '.js'), 'utf8'), ctx);
+	require('./support/install-catalogue.cjs')(root, ctx);
 	return ctx;
 }
 const ctx = context();

@@ -183,3 +183,9 @@ select { width: 100%; padding: 10px 26px 10px 10px; min-height: 40px; border: 1p
 @media (max-width: 740px) {
 	.circuit-menu > div { left: 0; right: auto; }
 }
+
+.catalogue-loading { max-width: 720px; margin: 40px auto; padding: 28px; }
+.catalogue-loading h1 { font-size: 24px; }
+.catalogue-loading p { line-height: 1.6; }
+.catalogue-loading button { padding: 10px 16px; font: inherit; color: white; background: var(--accent); border: 0; border-radius: 5px; }
+@media(max-width: 760px) { .catalogue-loading { margin: 24px 18px; } }

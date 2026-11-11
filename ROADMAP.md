@@ -31,4 +31,4 @@ Avoid adding a general circuit simulator or a framework migration without a conc
 
 All eight circuit calculations now run independently of the browser UI. Transformer variants share one calculation, and all calculators share a result adapter. Regression checks cover the extraction. Steps 1 and 2 of the shared UI provide metadata-generated controls for all eight circuit calculators. All seven remaining calculators are now migrated, with independent in-page edit/model state and redirects from original URLs. Step 3 modernises Characteristics and combines both fitters in modelling.html, preserving adapter mathematics and export contracts.
 
-The catalogue and modeller now share one nested data definition in tubes.js. Consider moving this JSON-compatible data to an asynchronously loaded tubes.json as a separate step, with explicit loading/error states.
+The catalogue and modeller now share one nested data definition in tubes.js. The data now loads asynchronously from tubes.json with validation, loading/error panels and retry.

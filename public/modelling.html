@@ -18,6 +18,7 @@
 <script defer src="pentodemodeller.js"></script>
 <script defer src="tool-navigation.js"></script>
 <script defer src="tools-workspace.js"></script>
+	<script defer src="workspace-startup.js"></script>
 </head><body data-tool="fitting"><a class="skip-link" href="#workspace">Skip to workspace</a>
 <header class="app-header">
 		<a class="brand" href="designer.html#triodecc" aria-label="Valve Designer home">
@@ -31,7 +32,8 @@
 		</nav>
 		<a class="all-circuits-link" href="designer.html#circuits">All circuits <span aria-hidden="true">↗</span></a>
 	</header>
-<main id="workspace" tabindex="-1"><div class="page-heading"><div><p class="eyebrow">Model fitting</p><h1 id="tool-title"></h1><p id="tool-summary" class="subtitle"></p></div></div>
+<section id="catalogue-loading" class="catalogue-loading panel" aria-labelledby="catalogue-status"><h1 id="catalogue-status" role="status" aria-live="polite">Loading valve models…</h1><p id="catalogue-error" role="alert" hidden></p><button id="catalogue-retry" type="button" hidden>Retry loading</button><noscript>Enable JavaScript to load valve models and use this workspace.</noscript></section>
+<main id="workspace" tabindex="-1" hidden aria-busy="true"><div class="page-heading"><div><p class="eyebrow">Model fitting</p><h1 id="tool-title"></h1><p id="tool-summary" class="subtitle"></p></div></div>
 <div class="workspace-grid tools-grid"><aside id="tool-controls" class="setup-column" aria-label="Tool setup">
 <section class="panel setup-panel"><div class="panel-heading"><h2>Model setup</h2><button id="reset-tool" class="text-button" type="button">Reset model</button></div>
 <div id="mode-field" class="field"><label for="tool-mode">Valve type</label><select id="tool-mode"><option value="triode">Triode · Cohen–Helie</option><option value="pentode">Pentode · simple model</option></select></div>

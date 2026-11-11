@@ -11,7 +11,7 @@ The active catalogue contains representative datasheet fits with plain device na
 3. Select a cropped PNG or JPEG curve image, for example from curves/. The image is drawn behind the generated curves by a Chart.js plugin, stretched to chartArea on every draw and resize. Crop to the plot axes and match chart limits; opacity is adjustable. There is no axis calibration interface.
 4. Enter a representative static point. Mu is a separate model coefficient, initialised from model.mu. Use positive magnitudes for negative grid bias, V for voltages and mA for currents.
 5. Adjust shape sliders and compare several grid curves, particularly around the intended operating region. Recheck scaling when changing the reference point or mu.
-6. Set the separate Display parameters panel for the designer/characteristics axes, grid sweep, pentode screen voltage and dissipation limit. Edit the populated device name, then download the full model JSON or copy it from the read-only text area. Adding it to tubes.js is a deliberate source edit; there is no model JSON import button.
+6. Set the separate Display parameters panel for the designer/characteristics axes, grid sweep, pentode screen voltage and dissipation limit. Edit the populated device name, then download the full model JSON or copy it from the read-only text area. Adding it to tubes.json is a deliberate source edit; there is no model JSON import button.
 
 Switching valve model discards edits to the selected clone. Switching between triode and pentode modes retains each mode’s adapter, field/slider values, selected model and image until the page is left or reloaded. Reset model restores fields and coefficients while retaining the image. Original modeller URLs redirect to the matching modelling.html hash.
 

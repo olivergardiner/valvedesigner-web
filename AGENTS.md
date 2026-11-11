@@ -10,7 +10,7 @@ Valve Designer is a static JavaScript suite for triode and pentode audio circuit
 - `public/calculatedcircuit.js`: common result-to-UI adapter and transformer-stage presentation metadata.
 - `public/circuit-definitions.js`: metadata for all eight calculators and the generated circuit directory. `public/designer-workspace.js`/`.css`: new workspace/session and isolated responsive styles.
 - `docs/design/model-catalogue-archive.md`: immutable 25-model source snapshot used by historical numerical tests. `tests/support/archived-catalogue.cjs` reads its source block.
-- `public/tubes.js`: unified versioned JSON-compatible valveCatalogue data plus derived flat display views for existing solvers. Each entry has name, category, model, display, fitting and static; model.mu is the only persisted mu. No separate live templates. See docs/design/catalogue.md.
+- `public/tubes.json`: unified versioned catalogue data. `public/tubes.js`: async loader, validation and derived flat views. `public/workspace-startup.js`: loading/error/retry UI and deferred initialisation for all three workspaces. Each entry has name, category, model, display, fitting and static; model.mu is the only persisted mu. No separate live templates. See docs/design/catalogue.md.
 - Circuit `public/<id>.html` files redirect to the shared workspace. The old calculator adapter scripts remain only for frozen regression checks. Characteristics and modelling.html use tools-workspace.js/.css; both original modeller HTML URLs redirect to modelling.html. Existing tool adapters retain numerical and export ownership.
 - `public/menu.js`, `public/designer.css`: navigation and shared presentation.
 - `svg/`: circuit drawing sources; corresponding displayed PNGs are in `public/`.
@@ -33,6 +33,8 @@ Valve Designer is a static JavaScript suite for triode and pentode audio circuit
 ## Verification
 
 There is no build, package manifest or CI configuration. Run `node tests/numerical-baseline.cjs` for the numerical regression suite and triode page-adapter smoke checks. Also run `node tests/plot-baseline.cjs` for all tools’ chart/output/export snapshots and shared sampling contracts. Follow docs/design/development.md. Run `git diff --check`; check JavaScript syntax with Node when available. Manually exercise affected pages for behaviour changes. Numerical changes require representative before/after results with units, tolerances and failure cases; visual plausibility alone is insufficient. Do not introduce a tooling migration for a small fix.
+
+Run `node tests/catalogue-loading.cjs` after loader/startup changes (HTTP, schema validation, timeouts, retry, atomic install and DOM startup checks). Pages require HTTP serving, including local testing.
 
 Run `node tests/catalogue.cjs` after catalogue changes; it validates retained definitions against the archive and exercises every live circuit/model combination, including explicit known failures. Historical baseline suites use archived inputs; do not regenerate their fixtures for active catalogue pruning.
 

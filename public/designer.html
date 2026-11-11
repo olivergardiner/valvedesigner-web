@@ -17,6 +17,7 @@
 	<script defer src="tubes.js"></script>
 	<script defer src="circuit-definitions.js"></script>
 	<script defer src="designer-workspace.js"></script>
+	<script defer src="workspace-startup.js"></script>
 </head>
 <body>
 	<a id="skip-link" class="skip-link" href="#workspace">Skip to circuit</a>
@@ -32,7 +33,8 @@
 		</nav>
 		<a class="all-circuits-link" href="#circuits">All circuits <span aria-hidden="true">↗</span></a>
 	</header>
-	<main id="workspace" tabindex="-1">
+	<section id="catalogue-loading" class="catalogue-loading panel" aria-labelledby="catalogue-status"><h1 id="catalogue-status" role="status" aria-live="polite">Loading valve models…</h1><p id="catalogue-error" role="alert" hidden></p><button id="catalogue-retry" type="button" hidden>Retry loading</button><noscript>Enable JavaScript to load valve models and use this workspace.</noscript></section>
+<main id="workspace" tabindex="-1" hidden aria-busy="true">
 		<section id="circuit-view" aria-labelledby="circuit-title" hidden>
 			<div class="page-heading"><div><p class="eyebrow" id="circuit-category"></p><h1 id="circuit-title"></h1><p id="circuit-summary" class="subtitle"></p></div></div>
 			<div class="workspace-grid">

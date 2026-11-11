@@ -56,7 +56,7 @@ Ayumi uses ramped voltage expressions, an internal grid-current branch and an an
 
 ## Data contract
 
-tubes.js owns one versioned valveCatalogue object. Each device has name/category and nested model, display, fitting and static sections. The existing smallSignalTriodes/smallSignalPentodes/powerTriodes/powerPentodes arrays are derived flat display views for the solvers. The modeller uses the same entries with fitting views. Mu belongs only to model; static contains reference voltages/currents. See [catalogue.md](catalogue.md) for fields and export.
+tubes.json owns the versioned catalogue; tubes.js loads/validates it and exposes valveCatalogue after successful installation. Each device has name/category and nested model, display, fitting and static sections. The existing smallSignalTriodes/smallSignalPentodes/powerTriodes/powerPentodes arrays are derived flat display views for the solvers. The modeller uses the same entries with fitting views. Mu belongs only to model; static contains reference voltages/currents. See [catalogue.md](catalogue.md) for fields and export.
 
 Plot maxima are not a complete validated set of ratings. Multiple definitions for the same valve can reflect different models or provenance and should remain distinct. Fitter JSON is a device definition, not a Valve Workbench project.
 
@@ -80,7 +80,7 @@ Model coefficients, fitted static references and DS provenance remain individual
 
 ## Active datasheet catalogue
 
-The active tubes.js now contains six triodes (12AX7, 12AY7, 12AT7, 12AU7, 6SL7, 6SN7), two small-signal pentodes (EF86, EF37A), and seven power pentodes (EL84, 6F6, EL34, 6L6GC, 6550, KT88, GU50). Names contain no model-family or DS suffix. Triodes retain Cohen–Helie coefficients; pentodes retain simple-model coefficients, with EF86 and EF37A selected from Simple V2. The 6SN7 is retained based on the matching traced plot and fitter-compatible definition. These selections and all originals are recorded in [the archive](model-catalogue-archive.md). No fitted coefficients, static references or normalised ranges changed in pruning.
+The active catalogue now contains six triodes (12AX7, 12AY7, 12AT7, 12AU7, 6SL7, 6SN7), two small-signal pentodes (EF86, EF37A), and seven power pentodes (EL84, 6F6, EL34, 6L6GC, 6550, KT88, GU50). Names contain no model-family or DS suffix. Triodes retain Cohen–Helie coefficients; pentodes retain simple-model coefficients, with EF86 and EF37A selected from Simple V2. The 6SN7 is retained based on the matching traced plot and fitter-compatible definition. These selections and all originals are recorded in [the archive](model-catalogue-archive.md). No fitted coefficients, static references or normalised ranges changed in pruning.
 
 The archived source block is also the fixed input catalogue for historical regression tests. Active catalogue tests verify exact retained definitions apart from names, uniqueness, ranges and every applicable circuit/device pairing. Current default-setting limitations are recorded explicitly: 12AT7 fails the inverse-voltage solver in all three triode circuits; some EL34, KT88 and GU50 output-stage combinations do not have a sampled power-limit intersection with the default component/bias settings. The existing workspace error handling presents these failures. This catalogue cleanup does not fix inverse-search or intersection algorithms.
 

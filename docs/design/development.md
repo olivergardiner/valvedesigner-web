@@ -2,13 +2,13 @@
 
 ## Running locally
 
-Open public/designer.html directly in a modern browser, or serve the repository using an existing static HTTP server. If Python is installed, run this from the repository root:
+Serve the repository using Live Server or another static HTTP server. Direct file:// access cannot fetch tubes.json and shows an explanatory message. If Python is installed, run this from the repository root:
 
 ```powershell
 python -m http.server 8000
 ```
 
-Visit http://localhost:8000/public/designer.html. Use direct URLs for characteristics.html, triodemodeller.html and pentodemodeller.html; the calculator menu lists circuit tools only. public/index.html also redirects to the shared designer. Chart.js and jQuery require CDN access. No npm installation or compilation is required; structuredClone requires a modern browser.
+Visit http://localhost:8000/public/designer.html. Use /public/characteristics.html and /public/modelling.html for the other workspaces; old modeller URLs redirect. Shared navigation reaches every tool. public/index.html also redirects to the shared designer. Chart.js and jQuery require CDN access. No npm installation or compilation is required; structuredClone requires a modern browser.
 
 ## Existing checks
 
@@ -74,3 +74,5 @@ Run `node tests/catalogue.cjs` after catalogue edits. Same-device variants share
 After pruning, historical numerical, plotting and shared-designer baseline suites load the exact catalogue source block from model-catalogue-archive.md using tests/support/archived-catalogue.cjs. The active catalogue is tested separately by catalogue.cjs: 15 exact retained definitions, 38 finite default circuit/model calculations and 10 explicit known failure cases. Frozen fixtures are unchanged by pruning.
 
 Unified catalogue checks also compare every existing coefficient/static point/display setting against catalogue-before-consolidation.json, validate image references and sole model.mu ownership, load every fit without normalisation, and check model JSON projection round trips. The old fitting seeds are loaded from fitting-template-archive.md solely for frozen historical snapshots.
+
+Run `node tests/catalogue-loading.cjs` for async fetch/timeout/cache/retry, invalid network/HTTP/JSON/schema input, atomic replacement and deferred workspace startup. This also exercises an actual temporary localhost HTTP server. Browser verification should check loading, retry and initial chart sizing; there is no automated browser dependency in the repository.

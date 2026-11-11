@@ -4,6 +4,7 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const context = vm.createContext({structuredClone});
 vm.runInContext(fs.readFileSync(path.join(__dirname, '../public/tubes.js'), 'utf8'), context);
+require('./support/install-catalogue.cjs')(path.join(__dirname, '..'), context);
 const tubes = JSON.parse(vm.runInContext('JSON.stringify([...smallSignalTriodes, ...smallSignalPentodes, ...powerTriodes, ...powerPentodes])', context));
 const canonical = JSON.parse(vm.runInContext('JSON.stringify(valveCatalogue)', context));
 assert.equal(canonical.version, 1);
@@ -57,6 +58,7 @@ for (const tube of tubes) {
 }
 const runtime = vm.createContext({structuredClone});
 for (const source of ['curves','plotting','designer','calculations/common','calculations/triodecc','calculations/pentodecc','calculations/followers','calculations/outputstage','tubes','circuit-definitions','designer-workspace']) vm.runInContext(fs.readFileSync(path.join(__dirname, '../public', source + '.js'), 'utf8'), runtime);
+require('./support/install-catalogue.cjs')(path.join(__dirname, '..'), runtime);
 const count = vm.runInContext(`(() => {
 	let count = 0;
 	const failures = [];

@@ -47,7 +47,7 @@ class DesignerSession {
 function resolveDesignerRoute(hash, definitions = designerCircuitDefinitions) {
 	const id = hash.replace(/^#/, '') || 'triodecc';
 	if (id === 'circuits') return {kind: 'directory'};
-	if (definitions.some(circuit => circuit.id === id)) return {kind: 'circuit', id};
+	if (definitions.some(circuit => circuit.id === id)) return {kind: 'circuit', id};
 	return {kind: 'unknown'};
 }
 
@@ -211,7 +211,7 @@ class DesignerWorkspace {
 			const current = link.hash === (route.kind === 'directory' ? '#circuits' : '#' + route.id);
 			if (current) link.setAttribute('aria-current', 'page');
 			else link.removeAttribute('aria-current');
-		}
+		}
 		this.element('circuit-view').hidden = route.kind !== 'circuit';
 		this.element('directory-view').hidden = route.kind !== 'directory';
 		this.element('unknown-view').hidden = route.kind !== 'unknown';
@@ -386,9 +386,4 @@ class DesignerWorkspace {
 		this.element('chart-empty').textContent = 'Adjust the circuit values to calculate a new operating point.';
 		this.element('chart-empty').hidden = false;
 	}
-}
-
-if (typeof document !== 'undefined') {
-	var circuit = new DesignerWorkspace(document, window);
-	circuit.start();
 }
