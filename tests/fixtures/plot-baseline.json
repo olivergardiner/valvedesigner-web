@@ -17,19 +17,19 @@
   },
   {
     "name": "singleended powerPentodes[0]",
-    "sha256": "e7371a2a4fe1ad9d6df9d3206ea6e563ca6d7c2912853a1dbbf43b42423834cc"
+    "sha256": "72b7889b8196bced687d36454d2e318025d9fffb54fbd505a348bfc6063ba63e"
   },
   {
     "name": "singleended-ul powerPentodes[0]",
-    "sha256": "f3b850f7d87f23097c097a2408d488c21556fa90dadd5202ea3b3e4d6381fcce"
+    "sha256": "f40da2f982913b54fe01187ce8f352624f15d009db8325748f3b9ee9fff0bb10"
   },
   {
     "name": "pushpull powerPentodes[0]",
-    "sha256": "8c57cbee3562a4ad48632057aee4a7df28399021661455cdddac210767a55ac9"
+    "sha256": "68cf9e933441c882db1492af2f939febcb950bd235f1390895c6f4d0664683b9"
   },
   {
     "name": "pushpull-ul powerPentodes[0]",
-    "sha256": "a13a3463f9cc8f6bed08ae695f1167f1f2fb7d73a406cb24f773d0229d2e7ec1"
+    "sha256": "f2b0687b1d6ccd6d36c8b1e0799a34acd8e5a5d2d12d61d22be6bf96f3ab4534"
   },
   {
     "name": "characteristics smallSignalTriodes[0]",
@@ -37,7 +37,7 @@
   },
   {
     "name": "characteristics powerPentodes[0]",
-    "sha256": "77e7b826ca2977347b895a1ed5867d5a295f4e8aab815e7f233d129ca187916c"
+    "sha256": "5adcfd9b6384b40229510d8e34917167d4a53760b8f79b3fa621bcd16d055385"
   },
   {
     "name": "triodemodeller triodes[0]",

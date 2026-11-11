@@ -63,3 +63,23 @@ Plot maxima are not a complete validated set of ratings. Multiple definitions fo
 Catalogue names marked `DS` identify datasheet-derived models created using the browser modellers. The corresponding traced datasheet curves are in `curves/`. These represent datasheet characteristics rather than measurements of an individual device. The marker identifies provenance; its absence alone does not establish how another model was obtained.
 
 Zero voltage, exponential overflow or invalid coefficients can produce non-finite values. Some circuit plotters seed the origin explicitly; viewers and modellers evaluate zero directly. No common domain guard exists. Model changes require numerical comparison over the intended operating region.
+
+## Consistent catalogue ranges (before pruning)
+
+The archived variants of the same named device share vaMax, vg1Max, vg1Step, vg2Max (pentodes), iaMax and paMax. These are the tool’s plotting/sampling settings, not a complete datasheet ratings table. Select the Gardiner entry as the reference when available; otherwise retain the first catalogue entry. Device suffixes remain distinct (for example EL34 and EL34B).
+
+| Device | Reference | Anode V | Grid magnitude V / step V | Screen V | Current mA | Power W |
+| --- | --- | --- | --- | --- | --- | --- |
+| 12AX7 | Cohen Helie | 300 | 5 / 0.5 | — | 5 | 1 |
+| 6SL7 | Cohen Helie | 300 | 7 / 1 | — | 5 | 1 |
+| EF86 | Gardiner | 300 | 5 / 0.5 | 200 | 7 | 1 |
+| EF37A | First entry | 500 | 4 / 0.5 | 550 | 10 | 1 |
+| EL84 | Gardiner | 500 | 20 / 2 | 300 | 200 | 12 |
+
+Model coefficients, fitted static references and DS provenance remain individual to each model. Modeller templates in templates.js retain their datasheet-image fitting ranges, independently of the comparison catalogue. Run `node tests/catalogue.cjs` to detect range mismatches.
+
+## Active datasheet catalogue
+
+The active tubes.js now contains six triodes (12AX7, 12AY7, 12AT7, 12AU7, 6SL7, 6SN7), two small-signal pentodes (EF86, EF37A), and seven power pentodes (EL84, 6F6, EL34, 6L6GC, 6550, KT88, GU50). Names contain no model-family or DS suffix. Triodes retain Cohen–Helie coefficients; pentodes retain simple-model coefficients, with EF86 and EF37A selected from Simple V2. The 6SN7 is retained based on the matching traced plot and fitter-compatible definition. These selections and all originals are recorded in [the archive](model-catalogue-archive.md). No fitted coefficients, static references or normalised ranges changed in pruning.
+
+The archived source block is also the fixed input catalogue for historical regression tests. Active catalogue tests verify exact retained definitions apart from names, uniqueness, ranges and every applicable circuit/device pairing. Current default-setting limitations are recorded explicitly: 12AT7 fails the inverse-voltage solver in all three triode circuits; some EL34, KT88 and GU50 output-stage combinations do not have a sampled power-limit intersection with the default component/bias settings. The existing workspace error handling presents these failures. This catalogue cleanup does not fix inverse-search or intersection algorithms.

@@ -8,7 +8,7 @@ Open public/designer.html directly in a modern browser, or serve the repository 
 python -m http.server 8000
 ```
 
-Visit http://localhost:8000/public/designer.html. Use direct URLs for characteristics.html, triodemodeller.html and pentodemodeller.html; the calculator menu lists circuit tools only. Avoid public/index.html until its relative redirect is corrected. Chart.js and jQuery require CDN access. No npm installation or compilation is required; structuredClone requires a modern browser.
+Visit http://localhost:8000/public/designer.html. Use direct URLs for characteristics.html, triodemodeller.html and pentodemodeller.html; the calculator menu lists circuit tools only. public/index.html also redirects to the shared designer. Chart.js and jQuery require CDN access. No npm installation or compilation is required; structuredClone requires a modern browser.
 
 ## Existing checks
 
@@ -56,3 +56,19 @@ Run `node tests/circuit-calculations.cjs`. Twenty numerical cases were captured 
 The command invokes every circuit calculation without DOM/jQuery/Chart.js globals, checks deterministic repeats and unchanged inputs, and exercises invalid/missing inputs, unsupported devices, invalid sweeps/taps, non-finite results and missing intersections. All eight page adapters are tested for clearing stale charts/results and recovering from corrected inputs with DOM/chart stand-ins. The original numerical and plotting baselines remain additional regression references.
 
 Browser verification for this consolidation: all eight calculator pages loaded through Live Server, switched to a second valve, rejected a typed zero supply voltage, cleared displayed results and recovered when the original supply was restored. No console errors were reported. The full catalogue, image uploads and every possible input combination were not exercised.
+
+## Shared designer checks
+
+Run `node tests/designer-workspace.cjs`. The test compares workspace outputs and every chart coordinate with three frozen triode cases, including changed component values. It verifies kΩ-to-ohm conversion, catalogue isolation, invalid/model input rejection, reset state and route resolution, plus local assets. Browser checks covered editing a 12AU7 case, DS provenance, invalid-input clearing/recovery, reset while retaining the valve, directory navigation with raw edits preserved, Back/Forward, existing-calculator handoff/return, unknown fragments and the keyboard skip link. Phone (390px) and tablet (900px) viewport checks showed no horizontal overflow. The desktop and complete mobile layout were inspected visually.
+
+## Migration to all shared circuits
+
+The workspace check now compares all twenty frozen circuit cases, including every plotted coordinate and all displayed outputs, through the shared session/metadata binding. It also checks all eight independent edit/model states and routes, inclusive 0%/100% tap endpoints, invalid percentages, schematics/help and all old-URL redirects. The fixtures are unchanged. `tests/support/retired-adapters.cjs` loads the former adapter dependency set independently of redirect HTML, retaining the original six numerical and twelve chart snapshots as regression references.
+
+Browser verification for this migration covered all eight shared routes, defaults, second-model selection and independent supply edits retained across switching. Ultralinear 0% and 100% calculated; 101% cleared results, survived switching/Back, and recovered on reset without changing the selected valve. All eight old URLs redirected correctly. The DC follower’s two markers have distinct colours and labels. All eight circuits fit a 390px viewport without horizontal overflow; the eight-result pentode layout was also checked at 900px. Desktop follower/pentode layouts were inspected, including the expanded chart height. No console errors were reported.
+
+For Characteristics or Model Fitting changes, also run `node tests/tools-workspace.cjs`. It checks sweep/reference validation, edited model coefficients and sampled data against the original adapters, synthetic viewer export, assets and old modeller redirects. Browser checks should cover both valve types, invalid sweep recovery, mode switching with edits, local image loading and narrow layouts.
+
+Run `node tests/catalogue.cjs` after catalogue edits. Same-device variants share plot/sampling metadata; fit coefficients and static references remain model-specific. The November 2026 normalisation deliberately updates affected EF86/EL84 baseline entries; see decisions.md for numerical effects.
+
+After pruning, historical numerical, plotting and shared-designer baseline suites load the exact catalogue source block from model-catalogue-archive.md using tests/support/archived-catalogue.cjs. The active catalogue is tested separately by catalogue.cjs: 15 exact retained definitions, 38 finite default circuit/model calculations and 10 explicit known failure cases. Frozen fixtures are unchanged by pruning.

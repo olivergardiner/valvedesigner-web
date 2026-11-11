@@ -46,3 +46,29 @@ Implemented November 2026: browser-independent sampling lives in curves.js; Char
 Implemented November 2026: all eight circuit calculators use plain functions, with shared cathode-bias sampling, checked intersections, input/finite checks and curve-derived gain in calculations/common.js. Four transformer output variants share calculateOutputStage, preserving sampling resolutions and shared-resistor conventions. Followers and pentode common cathode retain their specific approximations in separate functions.
 
 CalculatedCircuit handles field binding, named result selection, datasets and expected error recovery. TransformerOutputCircuit additionally shares output-stage presentation metadata. Calculation functions create no UI elements or datasets. Model coefficients, equations, successful-case outputs and layout are preserved. Invalid/no-solution results now produce visible errors across all calculators. Twenty pre-consolidation cases supplement the existing numerical and chart snapshots.
+
+## Shared designer, Step 1
+
+Implemented November 2026: designer.html hosts a metadata-driven triode workspace, with separate setup, chart, result and help panels. The original triode page remains and consumes the same circuit definition. Other circuit choices open existing pages until Step 2. Native DOM listeners and an isolated stylesheet avoid a framework/build migration and changes to original-page styling. The new page uses Chart.js but does not require jQuery.
+
+Hash routes support the triode workspace and circuit directory with browser Back/Forward. Raw edits and selected model are retained in memory within the document, including errors; no persistence across reload or external-page navigation is promised. Resistances display in kΩ and convert explicitly to the existing ohm-based calculation API. Chart styling changes only the shared workspace; calculation functions and legacy plot snapshots remain unchanged.
+
+## Shared designer, Step 2
+
+Implemented November 2026: all eight circuit calculators use the shared metadata/session workspace. Circuit selection updates the hash without reloading; each circuit retains its own raw parameter strings and valve selection. All original calculator URLs now replace themselves with the corresponding shared route, with a fallback link. Retired adapters remain unloaded in production and available to frozen regression checks.
+
+The workspace supports inclusive parameter ranges as well as positive inputs: ultralinear screen taps display percentages and convert to the existing fractional API. Chart overlays and legends preserve topology-specific line/marker identities. Result count controls the desktop result rows and minimum chart height, with the plot filling any extra height needed by the table. Original help/schematics and the known single-ended power-calculation limitation are retained. Calculations and model coefficients are unchanged.
+
+## 2026-11-11: characteristics and fitting workspaces
+
+Keep Characteristics as a separate workspace and combine the two manual fitters under modelling.html#triode and #pentode. ToolsWorkspace owns responsive controls, validation, sessions, local image overlays and downloads, while the original classes retain coefficient mappings, reference-point normalisation, curve sampling and legacy .vwp export. Preserve the frozen numerical/chart/export fixtures. Overlay alignment uses the actual chart plotting area rather than current-dependent fixed pixel offsets. Fitting remains manual; no model import, automatic optimisation or reload persistence is implied.
+
+## 2026-11-11: normalise same-device catalogue ranges
+
+Use the Gardiner definition for EF86 and EL84 plotting/sampling metadata. Use the first catalogue entry for other same-device variants. Align all six range fields while preserving coefficients and static references. Separate modeller templates retain their fitting-image ranges. The owner authorised this catalogue normalisation; affected regression expectations were deliberately refreshed, rather than weakening comparison tolerances.
+
+The EF86 Simple circuit fixture (250 V supply; Rk 1 kΩ, Ra 100 kΩ, Rs 330 kΩ, Rl 470 kΩ) changes from the original frozen 500 V sampling range/grid stop 4.5 V to 300 V/grid stop 5 V. Displayed Vk changes 1.818 → 1.801 V, Va 111.332 → 113.699 V, Ia 1.373 → 1.350 mA and bypassed gain 116.028 → 113.782. This reflects the existing sampled intersection algorithm, not retuned coefficients. EL84 circuit outputs are unchanged; its 200 mA plot maximum changes dissipation sampling, chart axes and viewer export. Existing comparison tolerances remain 1e-10 absolute plus 1e-12 relative for full numerical fixtures. Unaffected fixture cases were retained.
+
+## 2026-11-11: archive the full catalogue and retain datasheet fits
+
+Archive all 25 current definitions verbatim in model-catalogue-archive.md before pruning tubes.js to 15 datasheet fits. Retain DS triodes, the curve-backed 6SN7 and simple pentodes, choosing Simple V2 for EF86/EF37A. Remove model-family/DS name suffixes. Keep coefficients, static references, normalised ranges and separate fitting templates. No tubes.json exists; tubes.js is the classic-script catalogue consumed by the app. Preserve historical fixtures by loading their original models from the archive, and validate the active catalogue independently.

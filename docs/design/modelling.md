@@ -4,16 +4,18 @@
 
 The two browser modellers create representative characteristics from datasheet images without measuring an individual valve. Fitting is manual and visual: there is no curve digitiser, residual minimiser or automatic optimiser.
 
-Existing catalogue entries marked `DS` were created from datasheets using these modellers; their corresponding traced curves are stored in `curves/`. Preserve this provenance when editing or presenting those definitions.
+The active catalogue contains representative datasheet fits with plain device names. Previously DS-labelled triodes and all other original definitions are preserved in model-catalogue-archive.md; traced plots are stored in `curves/`. Preserve this provenance when editing definitions.
 
-1. Open public/triodemodeller.html or public/pentodemodeller.html and select a nearby template.
+1. Open public/modelling.html#triode or public/modelling.html#pentode and select a nearby template.
 2. Set the chart voltage/current extents, positive grid-bias magnitude range and step, and dissipation overlay. Pentodes also need the screen voltage matching the datasheet curves.
-3. Select a cropped PNG or JPEG curve image, for example from curves/. The image is a CSS background behind the generated curves. Alignment uses fixed pixel sizes/offsets chosen from the current range; there is no axis calibration interface.
+3. Select a cropped PNG or JPEG curve image, for example from curves/. The image is drawn behind the generated curves by a Chart.js plugin, stretched to chartArea on every draw and resize. Crop to the plot axes and match chart limits; opacity is adjustable. There is no axis calibration interface.
 4. Enter a representative static point and mu. Use positive magnitudes for negative grid bias, V for voltages and mA for currents.
 5. Adjust shape sliders and compare several grid curves, particularly around the intended operating region. Recheck scaling when changing the reference point or mu.
-6. Enter the device name and copy the full JSON from the read-only text area. Adding it to tubes.js is a deliberate source edit; there is no model JSON import button or general model download implementation in the modellers.
+6. Edit the populated device name, then download the full model JSON or copy it from the read-only text area. Adding it to tubes.js is a deliberate source edit; there is no model JSON import button.
 
-Switching template discards edits to the selected clone. Reloading loses the fitting session and image. The current onDeviceLoad code does not populate the name input, so enter a name explicitly before copying the result. Both HTML pages still contain placeholder usage text.
+Switching template discards edits to the selected clone. Switching between triode and pentode modes retains each mode’s adapter, field/slider values, selected template and image until the page is left or reloaded. Reset template restores fields and coefficients while retaining the image. Original modeller URLs redirect to the matching modelling.html hash.
+
+ToolsWorkspace generates labelled controls and delegates coefficient mapping, normalisation, sampling and .vwp export to the existing tool adapters. It overrides chart presentation and fixed image alignment only. Input checks reject non-finite values, reversed sweeps, non-positive steps/limits and more than 201 grid curves. Reference voltages, currents and mu must be positive; grid bias may be zero. The viewer omits the unused screen field for triodes.
 
 ## Triode fitter
 

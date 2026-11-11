@@ -35,8 +35,8 @@ const snapshots = cases.map(([file,type,definition]) => {
   }),
   Chart: class {constructor(ctx,config) {charts.push(config);} destroy() {}}
  });
- for (const source of ['curves','plotting','designer','calculations/common','calculations/triodecc','calculations/pentodecc','calculations/followers','calculations/outputstage','calculatedcircuit','tubes','templates',file]) {
-  vm.runInContext(fs.readFileSync(path.join(root,'public',source+'.js'),'utf8'),context);
+ for (const source of ['curves','plotting','designer','calculations/common','calculations/triodecc','calculations/pentodecc','calculations/followers','calculations/outputstage','calculatedcircuit','circuit-definitions','tubes','templates',file]) {
+  vm.runInContext(source === 'tubes' ? require('./support/archived-catalogue.cjs')(root) : fs.readFileSync(path.join(root,'public',source+'.js'),'utf8'),context);
  }
  vm.runInContext(`circuit = new ${type}({}, {}); circuit.configureParameters(); circuit.loadSingleDevice(structuredClone(${definition}));`,context);
  const result = vm.runInContext(`({charts: null, export: typeof circuit.createJSON === 'function' ? circuit.createJSON() : null})`,context);
@@ -81,8 +81,8 @@ assert.equal(contracts.line[100].y,0);
 assert.equal(contracts.noPower.length,0);
 assert.ok(contracts.rejected);
 for (const [file] of cases) {
- const html=fs.readFileSync(path.join(root,'public',file+'.html'),'utf8');
- const sources=[...html.matchAll(/<script src="([^"]+)"><\/script>/g)].map(match=>match[1]);
+ const html=fs.readFileSync(path.join(root,'public',file==='characteristics' ? 'characteristics.html' : file.endsWith('modeller') ? 'modelling.html' : 'designer.html'),'utf8');
+ const sources=[...html.matchAll(/<script (?:defer )?src="([^"]+)"><\/script>/g)].map(match=>match[1]);
  assert.ok(sources.indexOf('curves.js') >= 0 && sources.indexOf('curves.js') < sources.indexOf('designer.js'),file+' curve dependency order');
  assert.ok(sources.indexOf('plotting.js') >= 0 && sources.indexOf('plotting.js') < sources.indexOf('designer.js'),file+' plotting dependency order');
 }

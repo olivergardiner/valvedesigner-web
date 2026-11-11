@@ -31,10 +31,10 @@ Voltages are V, plotted/operating currents mA, resistances ohms, transconductanc
 
 Common domain/numerical failures throw CircuitCalculationError, a RangeError. Missing intersections and non-finite results are rejected. The inverse methods still lack convergence status, and output bias selection remains a nearest-candidate search without a new residual-acceptance policy. Successful-case equations, sampling and approximations are preserved; regression equivalence does not independently establish physical accuracy.
 
-## Presentation and loading
+## Compatibility adapters and loading
 
-CalculatedCircuit in public/calculatedcircuit.js maps ordered UI fields through parameterKeys, formats named outputPaths and constructs datasets from resultSeries metadata. Labels, colours and display formatting belong here or in the page adapters. Expected failures clear the old chart/result and show an alert; corrected input restores rendering. TransformerOutputCircuit shares field and presentation metadata for the four output pages. Numerical variation is composed through calculateOutputStage options, not solver subclasses.
+The retired CalculatedCircuit in public/calculatedcircuit.js maps ordered UI fields through parameterKeys, formats named outputPaths and constructs datasets from resultSeries metadata. Labels, colours and display formatting belong here or in the page adapters. Expected failures clear the old chart/result and show an alert; corrected input restores rendering. TransformerOutputCircuit shares field and presentation metadata for the four output pages. Numerical variation is composed through calculateOutputStage options, not solver subclasses.
 
-Calculator pages load calculations/common.js, their calculation file and calculatedcircuit.js after designer.js and before their page class. The viewer and modellers retain their previous dependency sets. The existing page-level circuit global and inline handlers remain compatible.
+The shared designer loads all calculation functions before circuit-definitions.js and designer-workspace.js. DesignerSession converts displayed units, constructs a cloned Device and calls the selected function. Retired adapters remain available only to regression tests; original HTML URLs redirect to shared routes. Viewer and modellers retain their previous dependency sets.
 
 Run the three regression scripts documented in [development.md](development.md) when changing this interface.

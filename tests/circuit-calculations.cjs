@@ -26,11 +26,9 @@ const cases = [
  ['pushpull-ul','PushPullUL','powerPentodes[0]',[300,1,30,8000]]
 ];
 function loadPage(file, context) {
- const html=fs.readFileSync(path.join(root,'public',file+'.html'),'utf8');
- for (const match of html.matchAll(/<script src="([^"]+)"><\/script>/g)) {
-  if (!match[1].startsWith('https:')) vm.runInContext(fs.readFileSync(path.join(root,'public',match[1]),'utf8'),context);
- }
+ require('./support/retired-adapters.cjs')(root, context);
 }
+
 const snapshots=cases.map(([file,type,definition,parameters],index)=> {
  const outputs={};
  const context=vm.createContext({structuredClone,$:selector=>({text(value){if(/^#value\d+$/.test(selector))outputs[selector]=value;},show(){},hide(){}})});
@@ -111,7 +109,7 @@ for (const [file,type,definition,values] of cases) {
 }
 console.log('PASS: all circuit functions run without browser globals, preserve inputs, repeat deterministically and reject invalid/no-solution cases.');
 
-// Exercise shared adapter failure/recovery using the page's actual script order.
+// Exercise shared adapter failure/recovery using the retired adapter dependency set.
 for(const [file,type,definition] of cases.slice(0,16).filter((entry,index)=>index%2===0)) {
  const elements=new Map();
  let chartCount=0;
@@ -139,4 +137,4 @@ for(const [file,type,definition] of cases.slice(0,16).filter((entry,index)=>inde
  assert.equal(elements.get('#calculationError').text,'');
  assert.equal(elements.get('#calculationError').visible,false);
 }
-console.log('PASS: eight page adapters clear stale results/charts on failure and recover after corrected input (DOM/chart stand-ins).');
+console.log('PASS: eight retired adapters clear stale results/charts on failure and recover after corrected input (DOM/chart stand-ins).');

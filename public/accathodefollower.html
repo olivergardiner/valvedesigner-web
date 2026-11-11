@@ -1,100 +1,10 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-	<script src="curves.js"></script>
-	<script src="plotting.js"></script>
-	<script src="designer.js"></script>
-	<script src="calculations/common.js"></script>
-	<script src="calculations/followers.js"></script>
-	<script src="calculatedcircuit.js"></script>
-	<script src="accathodefollower.js"></script>
-	<script src="tubes.js"></script>
-	<script src="menu.js"></script>
-	<link rel="stylesheet" href="designer.css"></link>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Valve Designer</title>
+	<script>window.location.replace('designer.html#accathodefollower');</script>
 </head>
-<body>
-	<section id="container">
-    <h1>The valve design calculators</h1>
-	<div id="menu"></div>
-	<div id="designer">
-	<p id="calculationError" role="alert" style="display: none;"></p>
-	<div style="width: 600px; height: 500px;">
-		<canvas id="myChart"></canvas>
-	</div>
-	<div style="height: 10px;"></div>
-	<div>Select a tube: <select name="tubes" id="tubeSelect" style="margin-left: 40px;" onchange="circuit.loadDevice(smallSignalTriodes, this.selectedIndex);"></select></div>
-	<div style="height: 10px;"></div>
-	<table>
-		<tr>
-			<th colspan="2">Circuit Parameter</th>
-			<th colspan="2">Operating Point</th>
-		</tr>
-		<tr>
-			<td width="30%"><span id="fLabel1">Field 1</span></td>
-			<td width="20%"><input type="text" id="field1" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td width="30%"><span id="vLabel1">Value 1</span></td>
-			<td width="20%"><span id="value1"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel2">Field 2</span></td>
-			<td><input type="text" id="field2" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel2">Value 2</span></td>
-			<td><span id="value2"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel3">Field 3</span></td>
-			<td><input type="text" id="field3" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel3">Value 3</span></td>
-			<td><span id="value3"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel4">Field 4</span></td>
-			<td><input type="text" id="field4" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel4">Value 4</span></td>
-			<td><span id="value4"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel5">Field 5</span></td>
-			<td><input type="text" id="field5" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel5">Value 5</span></td>
-			<td><span id="value5"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel6">Field 6</span></td>
-			<td><input type="text" id="field6" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel6">Value 6</span></td>
-			<td><span id="value6"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel7">Field 7</span></td>
-			<td><input type="text" id="field7" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel7">Value 7</span></td>
-			<td><span id="value7"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel8">Field 8</span></td>
-			<td><input type="text" id="field8" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel8">Value 8</span></td>
-			<td><span id="value8"></span></td>
-		</tr>
-	</table>
-	</div>
-	<div id="description">
-	<h1>The AC Cathode Follower</h1>
-	<p>The AC Cathode Follower, like all followers provides no gain (it actually introduces a very slight loss) but operates as a buffer that isolates a high impedance source from a low impedance drive. Because of the AC coupling on both the input and the output, the bias point is not affected by input DC voltage or output load but the AC load seen by the cathode is the cathode resistor in parallel with the load impedance. This means that the AC load line is rotated about the bias point and it is important understand the effect this has on output swing if the follower will be driving a heavy load. Remember that the grid to cathode voltage is <b>not</b> the input signal and it is the <b>maximum swing</b> (the input and output are the same) that is determined by the limits of the load line before the grid to cathode voltage becomes positive or the valve is cut off.</p>
-	<img src="accathodefollower.png" style="display: block; margin-left: auto; margin-right: auto;"></img>
-	<p>The load line is drawn in exactly the same way as for the Triode Common Cathode Amplifier as the voltage from anode to cathode is simply determined by the current flowing through the triode and the total resistance in the anode to cathode path. This means that the DC voltage on the cathode is actually the supply voltage minus the voltage across the triode. Remember to check whether heater elevation will be required to keep the valve within maximum ratings.</p>
-	<p>Note that the input of the AC Cathode Follower is bootstrapped because the AC voltage on either end of the grid resistor is essentially identical - this means that practically no signal current flows in the grid resistor and so the input impedance is much higher than the value of the grid resistor. In turn, this means that the input capacitor can be quite small without there being any effect on low frequencies.</p>
-	</div>
-	</section>
-	<script>
-		buildMenu();
-		const ctx = document.getElementById('myChart');		
-		circuit = new ACCathodeFollower(ctx);
-		circuit.configureParameters();
-		circuit.buildTubeList(smallSignalTriodes);
-		circuit.loadDevice(smallSignalTriodes, 0);
-	</script>
-</body>
+<body><p><a href="designer.html#accathodefollower">Open this circuit in Valve Designer</a></p></body>
 </html>

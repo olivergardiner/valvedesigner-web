@@ -4,8 +4,8 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 const root = path.join(__dirname, '..');
 const context = vm.createContext({structuredClone});
-for (const file of ['curves','plotting','designer', 'calculations/common', 'calculations/triodecc', 'calculations/pentodecc', 'calculations/followers', 'calculations/outputstage', 'calculatedcircuit', 'tubes', 'triodecc', 'pentodecc', 'singleended', 'pushpull']) {
- vm.runInContext(fs.readFileSync(path.join(root,`public/${file}.js`), 'utf8'), context);
+for (const file of ['curves','plotting','designer', 'calculations/common', 'calculations/triodecc', 'calculations/pentodecc', 'calculations/followers', 'calculations/outputstage', 'calculatedcircuit','circuit-definitions', 'tubes', 'triodecc', 'pentodecc', 'singleended', 'pushpull']) {
+ vm.runInContext(file === 'tubes' ? require('./support/archived-catalogue.cjs')(root) : fs.readFileSync(path.join(root,`public/${file}.js`), 'utf8'), context);
 }
 const cases = [
  ['12AX7 default','TriodeCC','smallSignalTriodes[0]',[300,1000,100000,1000000]],
@@ -65,7 +65,7 @@ vm.runInContext(`(() => {
 })()`,context);
 console.log('PASS: six legacy baselines (all plotted points and displayed outputs), pure calculation determinism, input rejection and missing/non-finite solution cases.');
 
-// Page wiring smoke check with small DOM/chart stand-ins (not a browser test).
+// Retired adapter smoke check with small DOM/chart stand-ins (not a browser test).
 const elements = new Map();
 context.$ = selector => {
  if (!elements.has(selector)) elements.set(selector, {});
@@ -76,11 +76,7 @@ let charts = 0;
 context.Chart = class {constructor() {charts++;} destroy() {charts--;}};
 context.document = {getElementById() {return {};}};
 context.buildMenu = () => {};
-const html = fs.readFileSync(path.join(root,'public/triodecc.html'),'utf8');
-const localScripts = [...html.matchAll(/<script src="([^":]+\.js)"><\/script>/g)].map(match => match[1]);
-assert.ok(localScripts.indexOf('calculations/triodecc.js') < localScripts.indexOf('triodecc.js'));
-const inline = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]).join('\n');
-vm.runInContext(inline,context);
+vm.runInContext("circuit = new TriodeCC({}); circuit.configureParameters(); circuit.loadDevice(smallSignalTriodes,0);",context);
 assert.equal(charts,1);
 assert.equal(elements.get('#value1').text,'1.323');
 vm.runInContext("circuit.loadDevice(smallSignalTriodes,4)",context);
@@ -94,4 +90,4 @@ elements.get('#field2').value = '1500';
 vm.runInContext('circuit.updateParameters()',context);
 assert.equal(charts,1);
 assert.equal(elements.get('#calculationError').text,'');
-console.log('PASS: triode page startup, valve switching, invalid-input display and recovery (DOM/chart stand-ins).');
+console.log('PASS: retired triode adapter startup, valve switching, invalid-input display and recovery (DOM/chart stand-ins).');

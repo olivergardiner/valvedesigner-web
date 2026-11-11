@@ -4,7 +4,9 @@ Source-based baseline reviewed 11 November 2026. Current implementation is descr
 
 | Document | Purpose |
 | --- | --- |
+| [Shared designer](shared-designer.md) | All eight workspace circuits, metadata, routing, units and verification |
 | [Architecture](architecture.md) | Runtime, ownership and circuit inventory |
+| [Archived model catalogue](model-catalogue-archive.md) | Complete 25-model snapshot before datasheet-only pruning |
 | [Valve models](models.md) | Model dispatch, units and device definitions |
 | [Modelling rationale](modelling-rationale.md) | Owner articles, design intent and implications for model independence |
 | [Calculation API](calculation-api.md) | Pure functions, named inputs/results, validation and adapters |

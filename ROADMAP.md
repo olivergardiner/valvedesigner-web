@@ -12,9 +12,9 @@ Suggestions following the November 2026 source review. These are not approved im
 
 ## Improve daily use
 
-- Fix public/index.html's relative redirect and expose both modellers clearly in navigation.
-- Replace modeller placeholder instructions; populate device names on template load and support explicit JSON download/import and session save/load.
-- Replace fixed-pixel datasheet alignment with axis calibration; consider optional curve digitisation/optimisation after reliable manual fitting is established.
+- The index redirect is fixed, and both modellers are linked from the shared designer. Characteristics and Model Fitting now share the modern navigation and presentation.
+- Model naming, instructions and JSON download are implemented. Consider model import and session save/load.
+- Responsive plot-area alignment and opacity are implemented. Add axis calibration; consider optional curve digitisation/optimisation after reliable manual fitting is established.
 - Pin Chart.js to a verified version and consider local dependency copies for reproducible offline use.
 - Improve smaller-screen layout and field units/validation while retaining fast component-value editing.
 
@@ -29,4 +29,4 @@ Avoid adding a general circuit simulator or a framework migration without a conc
 
 ## Architecture work completed
 
-All eight circuit calculations now run independently of the browser UI. Transformer variants share one calculation, and all calculators share a result adapter. Regression checks cover the extraction. The next UI step can replace duplicated numbered-field HTML with a shared interface using the established named parameter/result metadata, without changing the calculation API.
+All eight circuit calculations now run independently of the browser UI. Transformer variants share one calculation, and all calculators share a result adapter. Regression checks cover the extraction. Steps 1 and 2 of the shared UI provide metadata-generated controls for all eight circuit calculators. All seven remaining calculators are now migrated, with independent in-page edit/model state and redirects from original URLs. Step 3 modernises Characteristics and combines both fitters in modelling.html, preserving adapter mathematics and export contracts.

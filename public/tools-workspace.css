@@ -1,0 +1,31 @@
+.tools-grid { grid-template-columns: 310px minmax(0, 1fr); }
+.tool-chart { position: relative; height: clamp(490px, 53vw, 670px); }
+.tools-grid .chart-panel { display: block; }
+.tools-grid .analysis-column { display: flex; flex-direction: column; }
+.tools-grid .analysis-column > * { width: 100%; }
+.app-header .circuit-menu > summary { color: var(--muted); border-color: transparent; }
+.app-header .fitting-menu > summary[aria-current] { color: var(--accent); border-color: var(--accent); }
+.tool-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.tool-button { padding: 11px 16px; border: 1px solid var(--accent); border-radius: 5px; color: white; background: var(--accent); font: inherit; cursor: pointer; }
+.tool-button:disabled { opacity: .5; cursor: default; }
+.tool-note { color: var(--muted); line-height: 1.6; font-size: 15px; }
+.tool-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; }
+#deviceName { width: 100%; padding: 10px; border: 1px solid #cdd7cf; border-radius: 5px; }
+#sliders { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+input[type=file] { max-width: 100%; font: inherit; font-size: 14px; }
+.overlay-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 15px; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px; }
+.overlay-controls label { flex-basis: 100%; font-weight: 600; }
+.overlay-controls input[type=range] { width: 160px; }
+.model-json { width: 100%; min-height: 300px; resize: vertical; border: 1px solid var(--border); border-radius: 5px; background: #f8faf8; padding: 15px; font: 14px/1.5 Consolas, monospace; }
+#coefficients { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.tools-grid .help-panel { padding: 22px; line-height: 1.65; }
+.tools-grid .help-panel summary { padding: 0; }
+.tools-grid .help-panel p:last-child { margin-bottom: 0; }
+@media (max-width: 850px) {
+	.tools-grid { display: grid; grid-template-columns: minmax(0, 1fr); align-items: stretch; }
+	.tools-grid .setup-column { display: grid; width: 100%; }
+	.tools-grid .analysis-column { width: 100%; }
+	.tool-chart { height: 460px; }
+}
+@media (max-width: 480px) { .tool-fields, #sliders { grid-template-columns: 1fr; } #coefficients { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tool-chart { height: 400px; } }

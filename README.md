@@ -3,11 +3,15 @@ A Javascript valve circuit design aid
 
 ## Current repository guide
 
-Open `public/designer.html` in a modern browser, or serve this repository with a static HTTP server and visit `/public/designer.html`. If Python is installed, `python -m http.server 8000` from the repository root serves it at <http://localhost:8000/public/designer.html>. There is no build or npm installation. Chart.js and jQuery are loaded from CDNs and require internet access. The current `public/index.html` redirect has an extra `public/` path component; use the explicit designer URL.
+Open `public/designer.html` in a modern browser, or serve this repository with a static HTTP server and visit `/public/designer.html`. If Python is installed, `python -m http.server 8000` from the repository root serves it at <http://localhost:8000/public/designer.html>. There is no build or npm installation. Chart.js and jQuery are loaded from CDNs and require internet access. `public/index.html` also redirects to the shared designer.
+
+The shared designer hosts all eight calculators. Choose a circuit in the selector, or browse `designer.html#circuits`. Each circuit retains its own selected valve and edits while switching within the page. Original calculator URLs redirect to their matching `designer.html#<circuit>` route.
+
+The active catalogue contains 15 representative datasheet models, named by device. The [archived catalogue](docs/design/model-catalogue-archive.md) preserves all 25 previous definitions, including coefficients and static reference points. Fitting templates remain separate.
 
 Eight circuit calculators are implemented: triode and pentode common cathode, AC and DC coupled cathode followers, single-ended and push-pull output stages, and ultralinear versions of both output stages. Phase splitters remain placeholders. Small-signal stages derive operating points from component values; output stages accept a target anode bias current.
 
-The [triode modeller](public/triodemodeller.html) fits Cohen–Helie parameters and the [pentode modeller](public/pentodemodeller.html) fits the simple pentode model. Both use manual slider adjustment against an uploaded datasheet image, with current scaling from a static reference point. They do not automatically digitise or optimise curves. Prefer a simple representative model where it adequately describes the intended design region; detailed models remain available.
+The [triode modeller](public/modelling.html#triode) fits Cohen–Helie parameters and the [pentode modeller](public/modelling.html#pentode) fits the simple pentode model. Both use manual slider adjustment against an uploaded datasheet image, with current scaling from a static reference point. They share one responsive workspace with independent in-page sessions, local datasheet overlays, model naming and JSON download. Characteristics uses the same visual style and retains synthetic .vwp export. They do not automatically digitise or optimise curves. Prefer a simple representative model where it adequately describes the intended design region; detailed models remain available.
 
 | Documentation | Contents |
 | --- | --- |
@@ -16,7 +20,7 @@ The [triode modeller](public/triodemodeller.html) fits Cohen–Helie parameters 
 | [Development](docs/design/development.md) | Local running and verification |
 | [ROADMAP.md](ROADMAP.md) | Proposed improvements and known limitations |
 
-Run `node tests/numerical-baseline.cjs` for numerical regression and page-adapter smoke checks, and `node tests/plot-baseline.cjs` for shared plotting regression checks. Run `node tests/circuit-calculations.cjs` for consolidated circuit calculation and adapter checks. No CI is currently configured. These are steady-state design and load-line tools, not a general transient/frequency-domain simulator. The history below describes the project's origins; the design documents describe the current source implementation.
+Run `node tests/catalogue.cjs` to check the active catalogue against its archive and exercise all live circuit/model combinations. Historical regression suites use the archived catalogue to retain retired-model coverage. Run `node tests/numerical-baseline.cjs` for numerical regression and page-adapter smoke checks, and `node tests/plot-baseline.cjs` for shared plotting regression checks. Run `node tests/circuit-calculations.cjs` for consolidated circuit calculation and adapter checks. Run `node tests/designer-workspace.cjs` for the shared workspace’s unit conversion, state, routes and numerical binding. Run `node tests/tools-workspace.cjs` for tools input validation, edited model/chart/export preservation and redirects. No CI is currently configured. These are steady-state design and load-line tools, not a general transient/frequency-domain simulator. The history below describes the project's origins; the design documents describe the current source implementation.
 
 ## Project history
 

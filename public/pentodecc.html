@@ -1,100 +1,10 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-	<script src="curves.js"></script>
-	<script src="plotting.js"></script>
-	<script src="designer.js"></script>
-	<script src="calculations/common.js"></script>
-	<script src="calculations/pentodecc.js"></script>
-	<script src="calculatedcircuit.js"></script>
-	<script src="pentodecc.js"></script>
-	<script src="tubes.js"></script>
-	<script src="menu.js"></script>
-	<link rel="stylesheet" href="designer.css"></link>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Valve Designer</title>
+	<script>window.location.replace('designer.html#pentodecc');</script>
 </head>
-<body>
-	<section id="container">
-    <h1>The valve design calculators</h1>
-	<div id="menu"></div>
-	<div id="designer">
-	<p id="calculationError" role="alert" style="display: none;"></p>
-	<div style="width: 600px; height: 500px;">
-		<canvas id="myChart"></canvas>
-	</div>
-	<div style="height: 10px;"></div>
-	<div>Select a tube: <select name="tubes" id="tubeSelect" style="margin-left: 40px;" onchange="circuit.loadDevice(smallSignalPentodes, this.selectedIndex);"></select></div>
-	<div style="height: 10px;"></div>
-	<table>
-		<tr>
-			<th colspan="2">Circuit Parameter</th>
-			<th colspan="2">Operating Point</th>
-		</tr>
-		<tr>
-			<td width="30%"><span id="fLabel1">Field 1</span></td>
-			<td width="20%"><input type="text" id="field1" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td width="30%"><span id="vLabel1">Value 1</span></td>
-			<td width="20%"><span id="value1"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel2">Field 2</span></td>
-			<td><input type="text" id="field2" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel2">Value 2</span></td>
-			<td><span id="value2"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel3">Field 3</span></td>
-			<td><input type="text" id="field3" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel3">Value 3</span></td>
-			<td><span id="value3"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel4">Field 4</span></td>
-			<td><input type="text" id="field4" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel4">Value 4</span></td>
-			<td><span id="value4"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel5">Field 5</span></td>
-			<td><input type="text" id="field5" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel5">Value 5</span></td>
-			<td><span id="value5"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel6">Field 6</span></td>
-			<td><input type="text" id="field6" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel6">Value 6</span></td>
-			<td><span id="value6"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel7">Field 7</span></td>
-			<td><input type="text" id="field7" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel7">Value 7</span></td>
-			<td><span id="value7"></span></td>
-		</tr>
-		<tr>
-			<td><span id="fLabel8">Field 8</span></td>
-			<td><input type="text" id="field8" onChange="circuit.updateParameters()" style="width: 100px"></td>
-			<td><span id="vLabel8">Value 8</span></td>
-			<td><span id="value8"></span></td>
-		</tr>
-	</table>
-	</div>
-	<div id="description">
-	<h1>The Pentode Common Cathode Amplifier</h1>
-	<p>The Pentode Common Cathode Amplifier is similar in principle to the triode amplifier but the pentode version has the advantage of offering both higher gain and higher output swing. Because the anode is no longer a controlling element (its only job is to sit there collecting the electrons passing through the screen), the anode curves more closely resemble those of a transistor and the increase in available swing is easily seen by the fact that the anode curves cover far more of the anode load line than is the case for triodes.</p>
-	<p>In this circuit, the screen voltage (which controls the gain of the pentode) is set by the screen resistor and, at the bias point, means that the screen is at a voltage below the supply voltage determined by the quiescent screen current and the screen resistor. If the screen resistor is not bypassed then it will also introduce a degree of local negative feedback as the screen voltage will vary with signal. In some circuits, the screen is decoupled to ground but it should be decoupled to the cathode as it is the cathode to screen voltage that determines the anode current.</p>
-	<img src="pentodecc.png" style="display: block; margin-left: auto; margin-right: auto;"></img>
-	<p>In guitar amplifiers, a pentode gain stage can offer a couple of useful characteristics: 1) the markedly different anode curves (compared to a triode) offer a slightly different way of colouring the sound due to natural distortion, and 2) a suitable choice of screen capacitor leads to a level of natural compression determined by the time constant of the screen resistor and capacitor. For example, an EF86 with a screen resistor of 300k and a screen bypass capacitor of 47nF yields a time constant of 14mS, which is likely to suit most guitar players.</p>
-	</div>
-	</section>
-	<script>
-		buildMenu();
-		const ctx = document.getElementById('myChart');		
-		circuit = new PentodeCC(ctx);
-		circuit.configureParameters();
-		circuit.buildTubeList(smallSignalPentodes);
-		circuit.loadDevice(smallSignalPentodes, 0);
-	</script>
-</body>
+<body><p><a href="designer.html#pentodecc">Open this circuit in Valve Designer</a></p></body>
 </html>

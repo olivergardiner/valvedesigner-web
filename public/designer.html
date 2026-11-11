@@ -1,27 +1,67 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Valve Designer · Circuit design</title>
+	<link rel="stylesheet" href="designer-workspace.css">
+	<script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script defer src="curves.js"></script>
+	<script defer src="plotting.js"></script>
+	<script defer src="designer.js"></script>
+	<script defer src="calculations/common.js"></script>
+	<script defer src="calculations/triodecc.js"></script>
+	<script defer src="calculations/pentodecc.js"></script>
+	<script defer src="calculations/followers.js"></script>
+	<script defer src="calculations/outputstage.js"></script>
+	<script defer src="tubes.js"></script>
+	<script defer src="circuit-definitions.js"></script>
+	<script defer src="designer-workspace.js"></script>
 </head>
 <body>
-<h1>The valve design calculators</h1>
-<p>Conceptually, these design calculators are similar to the excellent work of Giuseppe Amato but have a slightly different philosophy:</p>
-<ul>
-<li>Rather than setting bias voltages, each circuit is based on actual component values and the operating point is then shown</li>
-<li>A variety of different circuits can be offered based on a single underlying device model</li>
-</ul>
-<p>The javascript to model the valves allows a variety of different model types to be supported - the API simply requires you to be able to determine anode (and screen current) for a given anode voltage and grid voltage. By default, I use a Cohen Helie model for triodes and a modified Reefman (Koren derivative) model for pentodes, but support may be added for others (e.g. Immler) in due course. In general, the operating point is found by finding the intersection of the true load lines, noting that cathode load lines are not actually linear.</p>
-<p>To use the calculators, simply choose the valve you want to work with and edit the default component values to suit your needs. Any change will cause the operating point to be recalculated and displayed.</p>
-<p>The following design calculators are provided:</p>
-<p><a href="triodecc.html">Triode Common Cathode Amplifier</a></p>
-<p><a href="pentodecc.html">Pentode Common Cathode Amplifier</a></p>
-<p><a href="accathodefollower.html">AC Cathode Follower</a></p>
-<p><a href="dccathodefollower.html">DC Cathode Follower</a></p>
-<p>Long Tailed Pair Phase Splitter</p>
-<p>Cathodyne Phase Splitter</p>
-<p><a href="singleended.html">Single Ended Output Stage</a></p>
-<p><a href="singleended-ul.html">Ultralinear Single Ended Output Stage</a></p>
-<p><a href="pushpull.html">Push Pull Output Stage</a></p>
-<p><a href="pushpull-ul.html">Ultralinear Push Pull Output Stage</a></p>
-<p></p>
-<p>In addition to the design calculators, the <a href="characteristics.html">Generic Characteristics visualiser</a> allows you to simply plot the anode (and screen) characteristics for any of the supported tubes.</p>
+	<a id="skip-link" class="skip-link" href="#workspace">Skip to circuit</a>
+	<header class="app-header">
+		<a class="brand" href="#triodecc" aria-label="Valve Designer home">
+			<svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11"/><path d="M10 12h12M10 19h12M16 5v7M12 25v-6M20 25v-6"/></svg>
+			<span>Valve <strong>Designer</strong></span>
+		</a>
+		<nav aria-label="Workspaces">
+			<details id="circuit-menu" class="fitting-menu circuit-menu"><summary id="designer-nav">Circuit designer <span aria-hidden="true">&#8964;</span></summary><div id="circuit-menu-links"></div></details>
+			<a href="characteristics.html">Characteristics</a>
+			<details class="fitting-menu"><summary>Model fitting <span aria-hidden="true">⌄</span></summary><div><a href="modelling.html#triode">Triode modeller</a><a href="modelling.html#pentode">Pentode modeller</a></div></details>
+		</nav>
+		<a class="all-circuits-link" href="#circuits">All circuits <span aria-hidden="true">↗</span></a>
+	</header>
+	<main id="workspace" tabindex="-1">
+		<section id="circuit-view" aria-labelledby="circuit-title" hidden>
+			<div class="page-heading"><div><p class="eyebrow" id="circuit-category"></p><h1 id="circuit-title"></h1><p id="circuit-summary" class="subtitle"></p></div></div>
+			<div class="workspace-grid">
+				<aside class="setup-column" aria-label="Circuit setup">
+					<section class="panel setup-panel" aria-labelledby="setup-title">
+						<div class="panel-heading"><h2 id="setup-title">Circuit setup</h2><span class="section-number" aria-hidden="true">01</span></div>
+						<div class="field"><label for="circuit-select">Circuit</label><select id="circuit-select"></select></div>
+						<div class="field valve-field"><label for="valve-select">Valve model</label><select id="valve-select"></select><p class="model-description" id="model-description"></p></div>
+						<div class="section-divider"><h3>Component values</h3><button class="text-button" id="reset-parameters" type="button">Reset values</button></div>
+						<form id="parameter-form" novalidate><div id="parameter-fields"></div></form>
+					</section>
+					<section class="panel schematic-panel" aria-labelledby="schematic-title"><div class="panel-heading"><h2 id="schematic-title">Circuit schematic</h2></div><img id="circuit-schematic" width="221" height="300" alt=""><p>Component labels match the inputs above.</p></section>
+				</aside>
+				<div class="analysis-column">
+					<section class="panel chart-panel" aria-labelledby="chart-title">
+						<div class="panel-heading chart-heading"><div><h2 id="chart-title">Anode characteristics</h2><p id="chart-device" class="chart-device"></p></div><span id="calculation-status" class="status" role="status" aria-live="polite">Calculating</span></div>
+						<div id="calculation-error" class="error-message" role="alert" hidden></div>
+						<div class="chart-container"><canvas id="characteristic-chart" role="img" aria-label="Anode current versus anode voltage, with characteristic curves and load lines."></canvas><p id="chart-empty" class="chart-empty" hidden></p></div>
+						<ul id="chart-legend" class="chart-legend" aria-label="Chart legend"></ul>
+					</section>
+					<section class="panel results-panel" aria-labelledby="results-title"><div class="panel-heading"><h2 id="results-title">Operating point &amp; gain</h2><span class="muted">Calculated from your component values</span></div><dl id="result-values" class="result-grid" aria-live="polite"></dl><p id="result-note" class="result-note" hidden></p></section>
+					<details class="panel help-panel" open><summary>How this circuit works</summary><div id="circuit-help"></div></details>
+				</div>
+			</div>
+		</section>
+		<section id="directory-view" aria-labelledby="directory-title" hidden><div class="page-heading"><div><p class="eyebrow">Circuit library</p><h1 id="directory-title">Choose a circuit</h1><p class="subtitle">From small-signal gain stages to transformer outputs.</p></div></div><div id="circuit-directory" class="circuit-directory"></div></section>
+		<section id="unknown-view" class="panel unknown-view" aria-labelledby="unknown-title" hidden><p class="eyebrow">Circuit designer</p><h1 id="unknown-title">Circuit not found</h1><p>Choose a circuit to continue.</p><a class="primary-link" href="#circuits">Browse circuits</a></section>
+		<noscript><p class="error-message">Enable JavaScript to use the circuit calculators. <a href="triodecc.html">Open the original triode calculator</a>.</p></noscript>
+	</main>
+	<footer class="app-footer"><span>Valve Designer</span><span>Models and load lines for practical amplifier design.</span></footer>
 </body>
 </html>
