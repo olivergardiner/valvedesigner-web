@@ -2,7 +2,12 @@
 <head>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="curves.js"></script>
+	<script src="plotting.js"></script>
 	<script src="designer.js"></script>
+	<script src="calculations/common.js"></script>
+	<script src="calculations/followers.js"></script>
+	<script src="calculatedcircuit.js"></script>
 	<script src="accathodefollower.js"></script>
 	<script src="tubes.js"></script>
 	<script src="menu.js"></script>
@@ -13,6 +18,7 @@
     <h1>The valve design calculators</h1>
 	<div id="menu"></div>
 	<div id="designer">
+	<p id="calculationError" role="alert" style="display: none;"></p>
 	<div style="width: 600px; height: 500px;">
 		<canvas id="myChart"></canvas>
 	</div>

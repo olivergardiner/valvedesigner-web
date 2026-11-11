@@ -213,30 +213,10 @@ class PentodeModeller extends Circuit {
 	}
 	
 	anodePowerPlot() {
-		let paMax = this.device.definition.paMax;
-		let iaMax = this.parameters.field[4].value;
-		let vaMax = this.parameters.field[3].value;
+		this.device.definition.vaMax = this.parameters.field[3].value;
+		this.device.definition.iaMax = this.parameters.field[4].value;
+		this.addDissipationCurve();
 
-		this.device.definition.vaMax = vaMax;
-		this.device.definition.iaMax = iaMax;
-		
-		let powerCurve = [];
-		if (paMax > 0.0) {
-		    let startVa = 1000 * paMax / iaMax;
-		    for (let i=0; i < 100; i++) {
-		        let va = startVa + (vaMax - startVa) * i / 100.0;
-		        powerCurve.push({x: va, y: 1000 * paMax / va});
-		    }
-			
-			let dataset = {
-				data: powerCurve,
-				label: 'Anode power limit(' + paMax.toFixed(3) + 'W)',
-				borderColor: 'rgba(191, 0, 0, 1)'
-			};
-			
-			this.anodePowerCurve.push(dataset);
-		}
-		
 		$('#value1').text(this.device.definition.model.mu);
 		$('#value2').text(this.device.definition.model.kg1.toFixed(6));
 		$('#value3').text(this.device.definition.model.kg2.toFixed(6));
@@ -250,39 +230,13 @@ class PentodeModeller extends Circuit {
 	}
 
 	anodePlot() {
-		let vg1 = this.parameters.field[0].value;
-		let vg1Stop = this.parameters.field[1].value;
-		let vg1Step = this.parameters.field[2].value;
-		let vaMax = this.parameters.field[3].value;
-		let vg2 = this.parameters.field[6].value;
-
-		while (vg1 < vg1Stop + 0.001) {
-			if (this.device.model.model.device === "pentode") {
-				let pentodeCurve = [];
-				let screenCurve = [];
-				for (let i = 0; i < 101; i++) {
-					let va = vaMax * i / 100.0;
-					let ia = this.device.model.anodeCurrent(va, -vg1, vg2) * 1000.0;
-					let ig2 = this.device.model.screenCurrent(va, -vg1, vg2) * 1000.0;
-					pentodeCurve.push({ x: va, y: ia, vg1: -vg1, vg2: vg2, ig2: ig2 });
-					screenCurve.push({ x: va, y: ig2 });
-				}
-
-				let dataset = {
-					data: pentodeCurve,
-					borderColor: 'rgba(0, 0, 191, 1)'
-				};
-	
-				let screenDataset = {
-					data: screenCurve,
-					borderColor: 'rgba(0, 191, 191, 1)'
-				};
-
-				this.anodeCurves.push(dataset)
-				//this.anodeCurves.push(screenDataset)
-			}
-				
-		    vg1 += vg1Step;
-		}
+		if (this.device.definition.model.device !== 'pentode') return;
+		const fields = this.parameters.field;
+		const family = sampleGridFamily(fields[0].value, fields[1].value, fields[2].value, grid =>
+			sampleVoltageCurve(fields[3].value, voltage => ({
+				x: voltage, y: this.device.model.anodeCurrent(voltage, -grid, fields[6].value) * 1000.0,
+				vg1: -grid, vg2: fields[6].value, ig2: this.device.model.screenCurrent(voltage, -grid, fields[6].value) * 1000.0
+			})));
+		this.anodeCurves = family.map(curve => lineDataset(curve.points, 'rgba(0, 0, 191, 1)'));
 	}
 }

@@ -1,0 +1,50 @@
+[
+  {
+    "name": "triodecc smallSignalTriodes[0]",
+    "sha256": "b8b7e84668278b549dee709a869b83173822f4e6ef4e702736f7e3a5e5926d48"
+  },
+  {
+    "name": "pentodecc smallSignalPentodes[0]",
+    "sha256": "aa90a1a97906c05aafb71e738992f2420882e5b7a3b80c0ee27f52fb09737268"
+  },
+  {
+    "name": "accathodefollower smallSignalTriodes[0]",
+    "sha256": "02d0851f0162fca4d4f7445c5ed4c572332fb8dcb6001fdd83bf00614a60a41b"
+  },
+  {
+    "name": "dccathodefollower smallSignalTriodes[0]",
+    "sha256": "f9cca2e45be667976617af56e31522b4eada252b458154e5fc695d62e9f5d245"
+  },
+  {
+    "name": "singleended powerPentodes[0]",
+    "sha256": "e7371a2a4fe1ad9d6df9d3206ea6e563ca6d7c2912853a1dbbf43b42423834cc"
+  },
+  {
+    "name": "singleended-ul powerPentodes[0]",
+    "sha256": "f3b850f7d87f23097c097a2408d488c21556fa90dadd5202ea3b3e4d6381fcce"
+  },
+  {
+    "name": "pushpull powerPentodes[0]",
+    "sha256": "8c57cbee3562a4ad48632057aee4a7df28399021661455cdddac210767a55ac9"
+  },
+  {
+    "name": "pushpull-ul powerPentodes[0]",
+    "sha256": "a13a3463f9cc8f6bed08ae695f1167f1f2fb7d73a406cb24f773d0229d2e7ec1"
+  },
+  {
+    "name": "characteristics smallSignalTriodes[0]",
+    "sha256": "2808a1af51e01a4910a48d8d496b525ab90e86a47417d9f3e3f88f45eb722cae"
+  },
+  {
+    "name": "characteristics powerPentodes[0]",
+    "sha256": "77e7b826ca2977347b895a1ed5867d5a295f4e8aab815e7f233d129ca187916c"
+  },
+  {
+    "name": "triodemodeller triodes[0]",
+    "sha256": "fb9682c9a47c69de41dbef70398fe255ad65b2a8ae8eed5eddcb944bbf22b995"
+  },
+  {
+    "name": "pentodemodeller pentodes[0]",
+    "sha256": "5fedf1d2d58f2a8a0c3dffe92e2406ba6fa6198533fe821631cd86685de37dfe"
+  }
+]

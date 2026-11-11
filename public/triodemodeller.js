@@ -194,30 +194,10 @@ class TriodeModeller extends Circuit {
 	}
 	
 	anodePowerPlot() {
-		let paMax = this.device.definition.paMax;
-		let iaMax = this.parameters.field[4].value;
-		let vaMax = this.parameters.field[3].value;
+		this.device.definition.vaMax = this.parameters.field[3].value;
+		this.device.definition.iaMax = this.parameters.field[4].value;
+		this.addDissipationCurve();
 
-		this.device.definition.vaMax = vaMax;
-		this.device.definition.iaMax = iaMax;
-		
-		let powerCurve = [];
-		if (paMax > 0.0) {
-		    let startVa = 1000 * paMax / iaMax;
-		    for (let i=0; i < 100; i++) {
-		        let va = startVa + (vaMax - startVa) * i / 100.0;
-		        powerCurve.push({x: va, y: 1000 * paMax / va});
-		    }
-			
-			let dataset = {
-				data: powerCurve,
-				label: 'Anode power limit(' + paMax.toFixed(3) + 'W)',
-				borderColor: 'rgba(191, 0, 0, 1)'
-			};
-			
-			this.anodePowerCurve.push(dataset);
-		}
-		
 		$('#value1').text(this.device.definition.model.mu);
 		$('#value2').text(this.device.definition.model.kg1.toFixed(6));
 		$('#value3').text(this.device.definition.model.kp.toFixed(6));
@@ -230,29 +210,10 @@ class TriodeModeller extends Circuit {
 	}
 
 	anodePlot() {
-		let vg1 = this.parameters.field[0].value;
-		let vg1Stop = this.parameters.field[1].value;
-		let vg1Step = this.parameters.field[2].value;
-		let vaMax = this.parameters.field[3].value;
-
-		while (vg1 < vg1Stop + 0.001) {
-			if (this.device.model.model.device === "triode") {
-				let triodeCurve = [];
-				for (let i = 0; i < 101; i++) {
-					let va = vaMax * i / 100.0;
-					let ia = this.device.model.anodeCurrent(va, -vg1) * 1000.0;
-					triodeCurve.push({ x: va, y: ia});
-				}
-
-				let dataset = {
-					data: triodeCurve,
-					borderColor: 'rgba(0, 0, 191, 1)'
-				};
-	
-				this.anodeCurves.push(dataset)
-			}
-				
-		    vg1 += vg1Step;
-		}
+		if (this.device.definition.model.device !== 'triode') return;
+		const fields = this.parameters.field;
+		const family = sampleGridFamily(fields[0].value, fields[1].value, fields[2].value, grid =>
+			sampleAnodeCurve(this.device.model, fields[3].value, -grid));
+		this.anodeCurves = family.map(curve => lineDataset(curve.points, 'rgba(0, 0, 191, 1)'));
 	}
 }

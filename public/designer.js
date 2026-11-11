@@ -150,29 +150,11 @@ class Circuit {
 	}
 			
 	showPoint(x, y, color, label = null) {
-		let point = { x: x, y: y };
-		let dataset = {
-			data: [point],
-			label: label,
-			borderColor: color,
-			pointBackgroundColor: color,
-			pointStyle: 'circle',
-			pointRadius: 5
-		};
-		
-		return dataset;
+		return pointDataset(x, y, color, label);
 	}
 	
 	drawLoadLine(vb1, iaMax1, vb2 = 0, iaMax2 = 0) {
-		let loadLine = [];
-		for (let i = 0; i < 101; i++) {
-			let va1 = i * vb1 / 100;
-			let ia1 = iaMax1 * (1.0 - i / 100);
-			
-			loadLine.push({ x: va1, y: ia1 });
-		}
-		
-		return loadLine;
+		return sampleLoadLine(vb1, iaMax1);
 	}
 	
 	showPlots() {
@@ -201,104 +183,17 @@ class Circuit {
 	}
 		
 	drawChart() {
-		let chart = {
-			type : 'line',
-			indexAxis : 'x',
-			data : { datasets: this.operatingPointCurves.concat(this.anodePowerCurve).concat(this.anodeCurves) },
-			options : {
-				animation: false,
-				responsive : true,
-				maintainAspectRatio:false,
-				stacked : false,
-				hoverMode : 'index',
-				elements: {
-					point: {
-						pointStyle: false
-					}
-				},
-				plugins: {
-					title : {
-						display : true,
-						text : 'Anode Characteristic Graph: ' + this.device.definition.name,
-					},
-					legend : {
-						display : false,
-						labels : {
-							fontColor : 'rgb(255, 99, 132)'
-						}
-					}
-				},
-				scales : {
-					x : {
-						type : 'linear',
-						max : this.device.definition.vaMax,
-						beginAtZero : true
-					},
-					y : {
-						min: 0,
-						max : this.device.definition.iaMax,
-						beginAtZero : true
-					}
-				},
-				layout: {
-				}
-			}
-		};
-	
-		this.chart = new Chart(this.ctx, chart);
-		
-		if (this.pentodeCtx != null) {
-			this.showPentodeChart();
-		}
+		this.chart = new Chart(this.ctx, characteristicChartConfig(this.device.definition,
+			this.operatingPointCurves.concat(this.anodePowerCurve).concat(this.anodeCurves),
+			'Anode Characteristic Graph: ' + this.device.definition.name));
+		if (this.pentodeCtx != null) this.showPentodeChart();
 	}
 	
 	showPentodeChart() {
-		if (this.device.model.model.device === "pentode") {
-			let pentodeChart = {
-				type : 'line',
-				indexAxis : 'x',
-				data : { datasets: this.pentodeCurves.concat(this.screenCurves) },
-				options : {
-					animation: false,
-					responsive : true,
-					maintainAspectRatio:false,
-					stacked : false,
-					hoverMode : 'index',
-					elements: {
-						point: {
-							pointStyle: false
-						}
-					},
-					plugins: {
-						title : {
-							display : true,
-							text : 'Pentode Characteristic Graph: ' + this.device.definition.name,
-						},
-						legend : {
-							display : false,
-							labels : {
-								fontColor : 'rgb(255, 99, 132)'
-							}
-						}
-					},
-					scales : {
-						x : {
-							type : 'linear',
-							max : this.device.definition.vaMax,
-							beginAtZero : true
-						},
-						y : {
-							min: 0,
-							max : this.device.definition.iaMax,
-							beginAtZero : true
-						}
-					},
-					layout: {
-					}
-				}
-			};
-	
-			this.pentodeChart = new Chart(this.pentodeCtx, pentodeChart);
+		if (this.device.model.model.device === 'pentode') {
+			this.pentodeChart = new Chart(this.pentodeCtx, characteristicChartConfig(this.device.definition,
+				this.pentodeCurves.concat(this.screenCurves),
+				'Pentode Characteristic Graph: ' + this.device.definition.name));
 		}
 	}
 	
@@ -308,9 +203,13 @@ class Circuit {
 	loadLines() {
 	}
 	
-	anodePowerPlot() {
+	addDissipationCurve(curve = sampleDissipationCurve(this.device.definition)) {
+		if (curve.length) this.anodePowerCurve.push(dissipationDataset(curve, this.device.definition.paMax));
 	}
 	
+	anodePowerPlot() {
+	}
+
 	downloadJSON() {
 	}
 }
