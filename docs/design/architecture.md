@@ -40,7 +40,7 @@ All eight circuit calculators now delegate to browser-independent functions in p
 | pushpull.js / PushPull | powerPentodes + powerTriodes | Push-pull output |
 | pushpull-ul.js / PushPullUL | powerPentodes | Ultralinear push-pull output |
 
-powerTriodes is currently empty. Characteristics combines small-signal triodes, small-signal pentodes and power pentodes. Modellers use separate triodes/pentodes template arrays. Long-tailed-pair and cathodyne phase splitters are placeholders on the landing page.
+powerTriodes is currently empty. Characteristics combines small-signal triodes, small-signal pentodes and power pentodes. Modellers select from the same canonical valveCatalogue data as the circuit/viewer catalogue. Derived flat display definitions keep the existing solvers independent of the storage schema. See catalogue.md. Long-tailed-pair and cathodyne phase splitters are placeholders on the landing page.
 
 ## Assets and state
 
@@ -56,3 +56,5 @@ Sampling explicitly distinguishes a synthetic origin from an evaluated zero-volt
 
 
 The shared page uses circuit-definitions.js for all eight circuits’ fields, result paths, default values, schematic and help. It calls the same pure calculation function directly through DesignerSession; it does not bind numbered legacy field slots or require jQuery. The retired numbered-field adapter scripts are no longer loaded by production circuit pages; tests keep using them as regression references.
+
+The unified synchronous catalogue is a versioned JSON-compatible object in tubes.js. Compatibility arrays are derived clones of display views. The modeller uses fitting views from the same entries and preserves saved coefficients on initial load. The former templates.js has been archived and removed from production. Async loading remains deferred.

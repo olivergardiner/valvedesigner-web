@@ -36,7 +36,7 @@ const snapshots = cases.map(([file,type,definition]) => {
   Chart: class {constructor(ctx,config) {charts.push(config);} destroy() {}}
  });
  for (const source of ['curves','plotting','designer','calculations/common','calculations/triodecc','calculations/pentodecc','calculations/followers','calculations/outputstage','calculatedcircuit','circuit-definitions','tubes','templates',file]) {
-  vm.runInContext(source === 'tubes' ? require('./support/archived-catalogue.cjs')(root) : fs.readFileSync(path.join(root,'public',source+'.js'),'utf8'),context);
+  vm.runInContext(source === 'tubes' ? require('./support/archived-catalogue.cjs')(root) : source === 'templates' ? require('./support/archived-templates.cjs')(root) : fs.readFileSync(path.join(root,'public',source+'.js'),'utf8'),context);
  }
  vm.runInContext(`circuit = new ${type}({}, {}); circuit.configureParameters(); circuit.loadSingleDevice(structuredClone(${definition}));`,context);
  const result = vm.runInContext(`({charts: null, export: typeof circuit.createJSON === 'function' ? circuit.createJSON() : null})`,context);

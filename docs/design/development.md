@@ -72,3 +72,5 @@ For Characteristics or Model Fitting changes, also run `node tests/tools-workspa
 Run `node tests/catalogue.cjs` after catalogue edits. Same-device variants share plot/sampling metadata; fit coefficients and static references remain model-specific. The November 2026 normalisation deliberately updates affected EF86/EL84 baseline entries; see decisions.md for numerical effects.
 
 After pruning, historical numerical, plotting and shared-designer baseline suites load the exact catalogue source block from model-catalogue-archive.md using tests/support/archived-catalogue.cjs. The active catalogue is tested separately by catalogue.cjs: 15 exact retained definitions, 38 finite default circuit/model calculations and 10 explicit known failure cases. Frozen fixtures are unchanged by pruning.
+
+Unified catalogue checks also compare every existing coefficient/static point/display setting against catalogue-before-consolidation.json, validate image references and sole model.mu ownership, load every fit without normalisation, and check model JSON projection round trips. The old fitting seeds are loaded from fitting-template-archive.md solely for frozen historical snapshots.

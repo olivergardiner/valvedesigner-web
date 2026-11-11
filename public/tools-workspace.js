@@ -25,6 +25,45 @@ function toolChartConfig(definition, datasets) {
 	return config;
 }
 
+const toolDisplayParameters = [
+	['vaMax', 'Max anode voltage', 'V'], ['iaMax', 'Max anode current', 'mA'],
+	['vg1Max', 'Grid stop magnitude', 'V'], ['vg1Step', 'Grid step', 'V'],
+	['paMax', 'Anode dissipation limit', 'W'], ['vg2Max', 'Screen voltage', 'V']
+];
+
+/** Fitting axes belong to the adapter; catalogue display settings belong to the export. */
+function toolModelDefinition(definition, display, fitting = {}, category) {
+	return {
+		name: definition.name,
+		category: category || (definition.model.device === 'triode' ? 'smallSignalTriodes' : 'smallSignalPentodes'),
+		model: structuredClone(definition.model),
+		display: Object.fromEntries(toolDisplayParameters.filter(([key]) => key !== 'vg2Max' || definition.model.device === 'pentode').map(([key]) => [key, Number(display[key])])),
+		fitting: {...structuredClone(fitting), vaMax: definition.vaMax, iaMax: definition.iaMax, vg1Max: definition.vg1Max, vg1Step: definition.vg1Step},
+		static: structuredClone(definition.static)
+	};
+}
+
+/** Loading a saved fit must preserve its coefficients until the user edits it. */
+function toolLoadFittingDevice(adapter, entry) {
+	const updateModel = adapter.updateModel;
+	adapter.updateModel = () => {};
+	try { adapter.loadDevice([valveFittingDefinition(entry)], 0); }
+	finally { adapter.updateModel = updateModel; }
+	adapter.parameters.field[0].value = entry.fitting.vg1Start;
+	$('#field1').val(entry.fitting.vg1Start);
+	if (entry.model.device === 'pentode') {
+		adapter.parameters.field[6].value = entry.fitting.vg2;
+		$('#field7').val(entry.fitting.vg2);
+	}
+	adapter.showPlots();
+}
+
+function toolDisplayIssue(display) {
+	if (Object.values(display).some(value => String(value).trim() === '' || !Number.isFinite(Number(value)) || Number(value) <= 0)) return 'Display parameters must be positive numbers.';
+	if (Number(display.vg1Max) / Number(display.vg1Step) > 200) return 'Display grid step must produce no more than 201 curves.';
+	return null;
+}
+
 class ToolsWorkspace {
 	constructor() {
 		this.fitting = document.body.dataset.tool === 'fitting';
@@ -41,15 +80,16 @@ class ToolsWorkspace {
 		this.element('tubeSelect').addEventListener('change', () => this.loadTemplate());
 		this.element('reset-tool').addEventListener('click', () => this.loadTemplate());
 		this.element('tool-controls').addEventListener('change', event => {
-			if (event.target.matches('input')) this.update();
+			if (event.target.matches('[id^="display-"]')) { this.update(false); this.sync(); }
+			else if (event.target.matches('input')) this.update();
 		});
 		this.element('sliders').addEventListener('input', () => {
 			if (this.update(false)) { this.adapter.updateSliders(); this.sync(); }
 		});
 		this.element('download-tool').addEventListener('click', () => {
-			if (!this.update()) return;
+			if (!this.update(false)) return;
 			if (!this.fitting) return this.adapter.downloadJSON();
-			const url = URL.createObjectURL(new Blob([JSON.stringify(this.adapter.device.definition, null, '\t')], {type: 'application/json'}));
+			const url = URL.createObjectURL(new Blob([JSON.stringify(this.exportDefinition(), null, '\t')], {type: 'application/json'}));
 			const link = document.createElement('a');
 			link.href = url;
 			link.download = (this.adapter.device.definition.name.replace(/[^a-z0-9_-]/gi, '_') || 'valve') + '.json';
@@ -91,7 +131,7 @@ class ToolsWorkspace {
 		this.buildFields();
 		this.adapter.setBackgroundSize = () => {}; // Overlay follows Chart.js chartArea, including resize.
 		this.adapter.drawChart = () => this.drawCharts();
-		this.catalogue = mode === 'triode' ? triodes : mode === 'pentode' ? pentodes : smallSignalTriodes.concat(smallSignalPentodes, powerPentodes);
+		this.catalogue = this.fitting ? valveFittingCatalogue(mode) : smallSignalTriodes.concat(smallSignalPentodes, powerPentodes);
 		this.element('tubeSelect').replaceChildren(...this.catalogue.map((tube, index) => new Option(tube.name, index)));
 		if (!this.sessions.has(mode)) {
 			this.sessions.set(mode, {adapter: this.adapter, index: 0, background: null, opacity: 0.55});
@@ -133,13 +173,32 @@ class ToolsWorkspace {
 		const sliders = this.mode === 'triode' ? [['vct', 'Contact voltage'], ['kvb', 'Kvb'], ['kvb1', 'Kvb1'], ['kp', 'Kp'], ['x', 'Exponent']] : [['alpha', 'Alpha'], ['beta', 'Beta'], ['gamma', 'Gamma'], ['kp', 'Kp'], ['a', 'A']];
 		this.element('sliders').innerHTML = this.fitting ? sliders.map(([id, label]) => '<div class="field"><label for="' + id + '">' + label + '</label><input id="' + id + '" type="range" min="0" max="200" value="50"></div>').join('') : '';
 		this.element('coefficients').innerHTML = parameters.value.map((name, index) => '<div><dt id="vLabel' + (index + 1) + '">' + name + '</dt><dd id="value' + (index + 1) + '"></dd></div>').join('');
+		if (this.fitting) {
+			// Mu is a model coefficient. The legacy adapter's numbered control is only a UI bridge.
+			const mu = this.element('field' + (this.mode === 'triode' ? 12 : 14)).closest('.field');
+			mu.querySelector('label').textContent = 'Mu';
+			this.element('model-fields').replaceChildren(mu);
+			this.element('display-fields').innerHTML = toolDisplayParameters.filter(([key]) => key !== 'vg2Max' || this.mode === 'pentode').map(([key, label, unit]) =>
+				'<div class="field"><label for="display-' + key + '">' + label + '</label><div class="input-with-unit"><input id="display-' + key + '" type="number" step="any"><span>' + unit + '</span></div></div>').join('');
+			// Power and maximum screen voltage describe the device, rather than the traced sweep.
+			this.element('field6').closest('.field').hidden = true;
+			if (this.mode === 'pentode') this.element('field8').closest('.field').hidden = true;
+		}
 	}
 
 	loadTemplate() {
 		this.session.index = Number(this.element('tubeSelect').value);
 		this.adapter.configureParameters();
-		this.adapter.loadDevice(this.catalogue, this.session.index);
+		if (this.fitting) toolLoadFittingDevice(this.adapter, this.catalogue[this.session.index]);
+		else this.adapter.loadDevice(this.catalogue, this.session.index);
 		this.element('deviceName').value = this.adapter.device.definition.name;
+		if (this.fitting) {
+			const defaults = this.catalogue[this.session.index].display;
+			for (const [key] of toolDisplayParameters) {
+				const input = this.element('display-' + key);
+				if (input) input.value = defaults[key];
+			}
+		}
 		this.element('error').hidden = true;
 		this.element('download-tool').disabled = false;
 		this.sync();
@@ -151,21 +210,37 @@ class ToolsWorkspace {
 		// Triodes have no screen supply in the viewer.
 		if (!this.fitting && this.adapter.device.definition.model.device === 'triode') fields[4] = '1';
 		const reference = (parameters.field2 || []).map((_, index) => this.element('field' + (index + 9)).value);
-		const issue = toolParameterIssue(fields, reference);
+		const issue = toolParameterIssue(fields, reference) || (this.fitting ? toolDisplayIssue(this.displayValues()) : null);
 		this.element('error').textContent = issue || '';
 		this.element('error').hidden = !issue;
 		this.element('download-tool').disabled = !!issue;
 		if (issue) return false;
-		if (apply) { this.adapter.updateParameters(); this.sync(); }
+		if (apply) {
+			// Update the coefficient before the legacy adapter derives mu-dependent slider scales.
+			if (this.fitting) this.adapter.device.definition.model.mu = Number(reference[reference.length - 1]);
+			this.adapter.updateParameters();
+			this.sync();
+		}
 		return true;
 	}
 
 	sync() {
 		const definition = this.adapter.device.definition;
 		this.element('chart-device').textContent = definition.name + ' · ' + definition.model.type;
-		this.element('chart-title').textContent = definition.model.device === 'pentode' && !this.fitting ? 'Screen tied to anode' : 'Anode characteristics';
+		this.element('chart-title').textContent = definition.model.device === 'pentode' && !this.fitting ? 'Triode-strapped' : 'Anode characteristics';
 		this.element('field5')?.closest('.field').toggleAttribute('hidden', !this.fitting && definition.model.device === 'triode');
-		this.element('textA').value = JSON.stringify(definition, null, '\t');
+		this.element('textA').value = JSON.stringify(this.fitting ? this.exportDefinition() : definition, null, '\t');
+	}
+
+	displayValues() {
+		return Object.fromEntries(toolDisplayParameters.filter(([key]) => this.element('display-' + key)).map(([key]) => [key, this.element('display-' + key).value]));
+	}
+
+	exportDefinition() {
+		const source = this.catalogue[this.session.index];
+		const fitting = {...source.fitting, vg1Start: this.adapter.parameters.field[0].value};
+		if (this.mode === 'pentode') fitting.vg2 = this.adapter.parameters.field[6].value;
+		return toolModelDefinition(this.adapter.device.definition, this.displayValues(), fitting, source.category);
 	}
 
 	drawCharts() {

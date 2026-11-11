@@ -29,3 +29,5 @@ input[type=file] { max-width: 100%; font: inherit; font-size: 14px; }
 	.tool-chart { height: 460px; }
 }
 @media (max-width: 480px) { .tool-fields, #sliders { grid-template-columns: 1fr; } #coefficients { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tool-chart { height: 400px; } }
+
+#reference-panel .panel-heading { border-top: 1px solid var(--border); padding-top: 20px; margin-top: 20px; }

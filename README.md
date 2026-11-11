@@ -7,7 +7,7 @@ Open `public/designer.html` in a modern browser, or serve this repository with a
 
 The shared designer hosts all eight calculators. Choose a circuit in the selector, or browse `designer.html#circuits`. Each circuit retains its own selected valve and edits while switching within the page. Original calculator URLs redirect to their matching `designer.html#<circuit>` route.
 
-The active catalogue contains 15 representative datasheet models, named by device. The [archived catalogue](docs/design/model-catalogue-archive.md) preserves all 25 previous definitions, including coefficients and static reference points. Fitting templates remain separate.
+The active catalogue contains 15 representative datasheet models, named by device. The [archived catalogue](docs/design/model-catalogue-archive.md) preserves all 25 previous definitions, including coefficients and static reference points. The designer, viewer and modeller share this catalogue, with separate model, display, fitting and static sections. Loading remains synchronous through tubes.js.
 
 Eight circuit calculators are implemented: triode and pentode common cathode, AC and DC coupled cathode followers, single-ended and push-pull output stages, and ultralinear versions of both output stages. Phase splitters remain placeholders. Small-signal stages derive operating points from component values; output stages accept a target anode bias current.
 

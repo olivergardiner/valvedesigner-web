@@ -1,3 +1,8 @@
+# Archived fitting templates — 11 November 2026
+
+Exact source snapshot before consolidating the catalogue and fitting defaults. Retained for historical plotting regression inputs; these are not active application templates. The unified catalogue preserves the current live model coefficients and static points; only fitting axes are taken from these seeds where available.
+
+```javascript
 let triodes = [
 	{
 		"name": "12AX7",
@@ -163,3 +168,4 @@ let pentodes = [
 		}
 	}
 ];
+```

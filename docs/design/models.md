@@ -56,7 +56,7 @@ Ayumi uses ramped voltage expressions, an internal grid-current branch and an an
 
 ## Data contract
 
-tubes.js defines smallSignalTriodes, smallSignalPentodes, empty powerTriodes and powerPentodes. templates.js separately defines modeller seeds. Definitions contain name; chart extents vaMax and iaMax; grid sweep vg1Max and vg1Step; dissipation paMax; pentode vg2Max; and the model object. An optional static object provides va, positive bias magnitude vg1, ia and pentode vg2/ig2. Modellers require static data; ordinary calculator entries need not include it.
+tubes.js owns one versioned valveCatalogue object. Each device has name/category and nested model, display, fitting and static sections. The existing smallSignalTriodes/smallSignalPentodes/powerTriodes/powerPentodes arrays are derived flat display views for the solvers. The modeller uses the same entries with fitting views. Mu belongs only to model; static contains reference voltages/currents. See [catalogue.md](catalogue.md) for fields and export.
 
 Plot maxima are not a complete validated set of ratings. Multiple definitions for the same valve can reflect different models or provenance and should remain distinct. Fitter JSON is a device definition, not a Valve Workbench project.
 
@@ -76,10 +76,12 @@ The archived variants of the same named device share vaMax, vg1Max, vg1Step, vg2
 | EF37A | First entry | 500 | 4 / 0.5 | 550 | 10 | 1 |
 | EL84 | Gardiner | 500 | 20 / 2 | 300 | 200 | 12 |
 
-Model coefficients, fitted static references and DS provenance remain individual to each model. Modeller templates in templates.js retain their datasheet-image fitting ranges, independently of the comparison catalogue. Run `node tests/catalogue.cjs` to detect range mismatches.
+Model coefficients, fitted static references and DS provenance remain individual to each model. The former templates are archived; their image-fitting axes now live in each unified entry’s fitting section, independently of display ranges. Run `node tests/catalogue.cjs` to detect range mismatches.
 
 ## Active datasheet catalogue
 
 The active tubes.js now contains six triodes (12AX7, 12AY7, 12AT7, 12AU7, 6SL7, 6SN7), two small-signal pentodes (EF86, EF37A), and seven power pentodes (EL84, 6F6, EL34, 6L6GC, 6550, KT88, GU50). Names contain no model-family or DS suffix. Triodes retain Cohen–Helie coefficients; pentodes retain simple-model coefficients, with EF86 and EF37A selected from Simple V2. The 6SN7 is retained based on the matching traced plot and fitter-compatible definition. These selections and all originals are recorded in [the archive](model-catalogue-archive.md). No fitted coefficients, static references or normalised ranges changed in pruning.
 
 The archived source block is also the fixed input catalogue for historical regression tests. Active catalogue tests verify exact retained definitions apart from names, uniqueness, ranges and every applicable circuit/device pairing. Current default-setting limitations are recorded explicitly: 12AT7 fails the inverse-voltage solver in all three triode circuits; some EL34, KT88 and GU50 output-stage combinations do not have a sampled power-limit intersection with the default component/bias settings. The existing workspace error handling presents these failures. This catalogue cleanup does not fix inverse-search or intersection algorithms.
+
+After archival, the owner normalised EF37A ranges to EF86 (300 V anode, subsequently 100 V screen, 7 mA, 5 V grid magnitude in 0.5 V steps, 1 W), and updated its simple fit and reference screen current to 0.8 mA. The live definition is authoritative; the archive remains unchanged.

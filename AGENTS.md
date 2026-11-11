@@ -10,7 +10,7 @@ Valve Designer is a static JavaScript suite for triode and pentode audio circuit
 - `public/calculatedcircuit.js`: common result-to-UI adapter and transformer-stage presentation metadata.
 - `public/circuit-definitions.js`: metadata for all eight calculators and the generated circuit directory. `public/designer-workspace.js`/`.css`: new workspace/session and isolated responsive styles.
 - `docs/design/model-catalogue-archive.md`: immutable 25-model source snapshot used by historical numerical tests. `tests/support/archived-catalogue.cjs` reads its source block.
-- `public/tubes.js`: active 15-model datasheet catalogue with plain device names; `public/templates.js`: separate modeller templates.
+- `public/tubes.js`: unified versioned JSON-compatible valveCatalogue data plus derived flat display views for existing solvers. Each entry has name, category, model, display, fitting and static; model.mu is the only persisted mu. No separate live templates. See docs/design/catalogue.md.
 - Circuit `public/<id>.html` files redirect to the shared workspace. The old calculator adapter scripts remain only for frozen regression checks. Characteristics and modelling.html use tools-workspace.js/.css; both original modeller HTML URLs redirect to modelling.html. Existing tool adapters retain numerical and export ownership.
 - `public/menu.js`, `public/designer.css`: navigation and shared presentation.
 - `svg/`: circuit drawing sources; corresponding displayed PNGs are in `public/`.
@@ -25,7 +25,7 @@ Valve Designer is a static JavaScript suite for triode and pentode audio circuit
 - Model current methods return A; inverse solver current arguments, plot currents and static characteristic currents use mA. Voltages are cathode-relative. UI grid sweeps and static.vg1 normally store positive negative-bias magnitudes; model calls use signed voltages.
 - Coefficients belong to specific equations and scaling conventions. Do not silently retune valves or copy raw SPICE coefficients without checking their meaning.
 - `loadDevice` clones catalogue data and the model references the selected definition's model object. Preserve that relationship for live fitting. `loadSingleDevice` does not clone.
-- Add models through Device dispatch. Document parameters and deliberately update the applicable catalogue/template; these are separate datasets.
+- Add models through Device dispatch. Document parameters and deliberately update the unified catalogue entry. Model coefficients, display axes, fitting axes and static references have separate ownership.
 - New shared calculators need a calculation function, circuit definition with an applicable valve list, labelled units/ranges, result paths, schematic/help and documentation. Directory and selector entries are generated from definitions.
 - Existing unchecked intersection failures are limitations, not a reliable error API. Numerical work should handle failure explicitly.
 - Update design documentation when changing units, equations, formats or calculation assumptions. Record significant decisions in docs/design/decisions.md.
@@ -45,3 +45,5 @@ Run `node tests/circuit-calculations.cjs` for twenty circuit baselines, direct c
 Run `node tests/designer-workspace.cjs` for shared-workspace changes. All eight workspace definitions are checked against frozen numerical fixtures; retain the retired adapter checks as independent regression references. Do not regenerate fixtures when changing presentation. Workspace resistance inputs display kΩ and convert explicitly to ohms before calculation.
 
 Ultralinear screen taps display 0–100% with scale 0.01 into the solver’s 0–1 fraction. Preserve inclusive endpoints. Chart series/legends must be circuit-specific, including both DC follower markers.
+
+The old six fitting seeds are preserved in docs/design/fitting-template-archive.md for historical tests only. ToolsWorkspace uses the live catalogue for every fit. Loading a saved model must not renormalise coefficients; normalisation occurs after deliberate fitting edits. Export the nested entry shape, including fitting axes, with no mu under static/fitting.
